@@ -178,7 +178,7 @@ Lets fire off `pspy64`:
 
 ![priv-esc-23](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/ConvertMyVideo/img/priv-esc-23.png)
 
-We have UID 0 running a script from out user's home directory, Lets check the permissions: 
+We have UID 0 running a script from our user's home directory, Lets check the permissions: 
 
 ![perms-24](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/ConvertMyVideo/img/perms-24.png)
 
