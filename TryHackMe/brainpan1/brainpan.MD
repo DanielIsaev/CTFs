@@ -88,8 +88,7 @@ commands, or a help manual. So lets see if we can overflow this input parameter.
 We need to design a spiking script for `generic_send_tcp`. Here is what i came up with: 
 
 ```bash
-cat brain.spk
-s_readline()l
+s_readline();
 s_readline("0");
 ```
 
