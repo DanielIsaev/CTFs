@@ -466,7 +466,7 @@ When we list our home directory's contents we can see the following:
 ![home-dir35](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/home-dir35.png)
 
 
-The checksrv.sh script stands out, but its not the way forward. In short, it checks if the 
+The `checksrv.sh` script stands out, but its not the way forward. In short, it checks if the 
 brainpan service is alive, and restarts it (using wine) if its not. Same for the Python server.
 
 Nothing super interesting at the moment, lets check our SUDO privileges, `sudo -l`:
