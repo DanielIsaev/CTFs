@@ -349,7 +349,7 @@ This gives us the memory address for the instruction:
 ![mona-find28](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/mona-find28.png)
 
 
-Instructionis at 311712F3. This is where we will point the EIP register.  
+Instruction is at 311712F3. This is where we will point the EIP register.  
 
 
 ### Testing the Opcode
