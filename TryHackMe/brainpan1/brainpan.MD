@@ -3,7 +3,7 @@
 
 ## Buffer Overflow machine from THM. 
 ![brainpan1](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/thm-page1.png)
-
+[machine](https://tryhackme.com/room/brainpan)
 
 ### Recon
 
