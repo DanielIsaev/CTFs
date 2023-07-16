@@ -5,7 +5,8 @@
 
 ### Recon
 
-Lets kick off our enumeration stage with `nmap`:
+Lets kick off our enumeration stage with `nmap`.
+
 `nmap -sC -sV -p -A 10.10.79.56 -oN nmap.result`
 
 ![nmap-result-02](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/ConvertMyVideo/img/nmap-02.png)
