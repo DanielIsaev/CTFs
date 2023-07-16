@@ -34,7 +34,7 @@ Lets open our browser and navigate to the following URL `http://10.10.112.138:10
 
 
 This is a simple HTML page, nothing to interact with. Must be hidden content somewhere, 
-lets perfrom directory busting. For this task lets use `fwuzz`
+lets perfrom directory busting. For this task lets use `wfuzz`
 
 ```bash
 wfuzz --hc 400,404 -c -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/
