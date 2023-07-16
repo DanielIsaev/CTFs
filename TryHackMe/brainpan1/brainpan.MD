@@ -1,10 +1,9 @@
 # Brainpane
 
 
-## Buffer Overflow machine from THM. 
-https://tryhackme.com/room/brainpan
+## Buffer Overflow machine from [THM](https://tryhackme.com/room/brainpan). 
 ![brainpan1](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/thm-page1.png)
-https://tryhackme.com/room/brainpan
+
 
 ### Recon
 
