@@ -474,7 +474,7 @@ Nothing super interesting at the moment, lets check our SUDO privileges, `sudo -
 ![sudo36](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/sudo36.png)
 
 
-We can run this /home/anansi/bin/anansi_util program, but we have no permissions at all 
+We can run this `/home/anansi/bin/anansi_util` program, but we have no permissions at all 
 towards this program:
 
 ![sudo-perm36](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/sudo-perm36.png)
