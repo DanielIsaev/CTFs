@@ -315,7 +315,7 @@ In order to examine program libraries we need to add an extension to Immnity Deb
 Based on the github page, we need to download the mona.py file, and place it in the
 following path: `This PC\Local Disk(C:)\Program Files (x86)\Immunity Inc\Immunity Debugger\PyCommands`
 
-Once we have the plugin, we can start the debugger, attach the service, and type the following in command bar: 
+Once we have the plugin, we can start the debugger, attach the service, and type the following in the command bar: 
 `!mona modules`
 
 ![mona-modules26](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/mona-modules26.png)
