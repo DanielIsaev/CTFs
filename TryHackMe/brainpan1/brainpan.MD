@@ -130,7 +130,7 @@ while True:
 		sys.exit()
 ```
 
-This will send 100 â€˜Aâ€™ characters to the server's buffer, incrementing it by 100 every iteration 
+This will send 100 'A' characters to the server's buffer, incrementing it by 100 every iteration 
 to see at which point approximately the server crashes. 
 
 Lets give it a go. After several times, the server repeatedly kept crashing at around 600 bytes to the buffer:
