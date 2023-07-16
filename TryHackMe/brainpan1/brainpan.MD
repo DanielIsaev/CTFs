@@ -485,8 +485,8 @@ If we run the program:
 ![run-sudo37](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/run-sudo37.png)
 
 
-We have three options, each runs a diffrent command on the system. â€œnetworkâ€ runs `ifconfig`, 
-â€œproclistâ€ runs `top`, and â€œmanualâ€ runs `man`. 
+We have three options, each runs a diffrent command on the system. "network" runs `ifconfig`, 
+"proclist" runs `top`, and "manual" runs `man`. 
 
 If we can run `man` as root, we can escalate our priovleges easily, as `man` supports command execution: 
 [source](https://gtfobins.github.io/gtfobins/man/)
