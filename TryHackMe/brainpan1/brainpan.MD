@@ -232,7 +232,7 @@ Great! Our calculation were correct.  Now its time to find the bad characters.
 
 ### Finding Bad Characters
 
-We need to identify any characters that may cause any issues to our target program,
+We need to identify any characters that may cause issues to our target program runtime,
 using these characters in our final shellcode will break it. 
 
 
