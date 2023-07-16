@@ -52,7 +52,7 @@ It looks like a basic authintication scheme.
 ![burp-pass-07](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/ConvertMyVideo/img/burp-pass-07.png)
 
 Yes is it is.  HTTP Basic authentication is the simplest technique for 
-enforcing access controls to web resources because it doesnâ€™t require cookies, session 
+enforcing access controls to web resources because it doesn't require cookies, session 
 identifiers, or login pages; rather, HTTP Basic authentication uses standard fields in the 
 HTTP header, obviating the need for handshakes.
 
