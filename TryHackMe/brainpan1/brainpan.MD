@@ -182,7 +182,7 @@ alias pattern_offset=/usr/share/metasploit-framework/tools/exploit/pattern_offse
 ```
 
 We need to supply the size of the previously generated pattern, and the value in the EIP
-register and we should get the exact location of the offset: 
+register and we should get the exact size of the offset: 
 
 `pattern_offset -l 600 -q 35724134`
 
