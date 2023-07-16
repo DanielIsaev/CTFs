@@ -309,7 +309,7 @@ The instruction is `JMP ESP`, which instructs the program to jump to a memory lo
 choocing, essentially hijacking the memory. The hex representation for this instruction is 
 called an opcode. 
 
-To go over program libraries we need to add an extension to Immnity Debugger called 
+In order to examine program libraries we need to add an extension to Immnity Debugger called 
 â€œmona-modulesâ€,  you can find it [here](https://github.com/corelan/mona). 
 
 Based on the github page, we need to download the mona.py file, and place it in the
