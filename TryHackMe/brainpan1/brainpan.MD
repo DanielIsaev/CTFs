@@ -321,7 +321,7 @@ Once we have the plugin, we can start the debugger, attach the service, and type
 ![mona-modules26](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/mona-modules26.png)
 
 A new screen will appear. In it, we get a table of the different libraries being used by the target.  													
-We can see one entry that has â€œFalseâ€ across the board in terms of memory protections, 
+We can see one entry that has `False` across the board in terms of memory protections, 
 and its the brainpan service itself `brainpan.exe` :
 
 ![brain-module27](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/brain-module27.png)
