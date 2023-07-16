@@ -1,2 +1,5 @@
-# Machines
-Here you can find write-ups for all the machines I've solved! 
+# CTFs :triangular_flag_on_post:
+Write ups of diffrent machines from Hackthebox and TryHackme walkthroughs! 
+
+Table of contents 
+
