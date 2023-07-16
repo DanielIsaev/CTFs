@@ -488,7 +488,7 @@ If we run the program:
 We have three options, each runs a diffrent command on the system. "network" runs `ifconfig`, 
 "proclist" runs `top`, and "manual" runs `man`. 
 
-If we can run `man` as root, we can escalate our priovleges easily, as `man` supports command execution: 
+If we can run `man` as root, we can escalate our privileges easily, as `man` supports command execution: 
 [source](https://gtfobins.github.io/gtfobins/man/)
 
 ![gtfo-bins38](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/brainpan1/img/gtfo-bins38.png)
