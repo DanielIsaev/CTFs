@@ -198,7 +198,7 @@ Now that we know the location of the EIP, we can start overwriting it.
 We need to send 524 bytes to get to the EIP, then the EIP itself is 4 bytes long. 
 We should validate that.
 
-Lets send 524 â€˜Aâ€™ characters exactly, than 4 â€˜Bâ€™ characters.  If our calculation are correect, 
+Lets send 524 'A' characters exactly, than 4 'B' characters. If our calculation are correect, 
 the EIP should have a value of 42424242 (The 4 B's in hex).
 
 
