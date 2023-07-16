@@ -3,5 +3,5 @@ Walkthroughs of diffrent machines from HTB and TryHackme!
 
 Table of contents 
 
-- [TryHackMe](https://github.com/DanielIsaev/CTFs/tree/main/TryHackMe)
-- [HackTheBox](https://github.com/DanielIsaev/CTFs/tree/main/HackTheBox)
+- [Try Hack Me](https://github.com/DanielIsaev/CTFs/tree/main/TryHackMe)
+- [Hack the Box](https://github.com/DanielIsaev/CTFs/tree/main/HackTheBox)
