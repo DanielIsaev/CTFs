@@ -116,7 +116,7 @@ then we can run the exploit-suggester as such:
 
 Iv'e highlighted `ms10-059`, this vulnerability lays in the `Tracing for Services` feature on
 Windows systems. This happens because the feature incorrectly places ACL's on registry keys,
-which allows attackers to execute code with elevated privileges. While also unsafly memory allocation when processing craftred long strings.    
+which allows attackers to execute code with elevated privileges. While also unsafly allocating memory when processing craftred long strings.    
 
 You can find the exploit [here](https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS10-059) save the `MS10-059.exe` file to your attack machine.
 
