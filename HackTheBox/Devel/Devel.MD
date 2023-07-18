@@ -12,7 +12,7 @@ Lets kick off our enumeration stage with `nmap`.
 ![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/nmap-res-02.png)
 
 
-We have got:
+We have the following:
 
 + FTP server with anonymous logins on port 21.
 + An IIS web server on port 80.
