@@ -14,7 +14,7 @@ Lets kick off our enumeration stage with `nmap`.
 
 We have the following:
 
-+ FTP server with anonymous logins on port 21.
++ An FTP server with anonymous logins on port 21.
 + An IIS web server on port 80.
 
 Lets start by connecting to the FTP and see if we can write files, or find anything interesting. 
