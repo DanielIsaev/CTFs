@@ -85,6 +85,8 @@ We get a shell! Lets move to privilege escalation.
 ## Privilege Escalation
 
 In order to run winpeas we need a .NET version of 4.5.2 or higher, which we dont have:
+
+
 `reg query "HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP"`
 
 ![net-ver-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/net-ver-09.png)
