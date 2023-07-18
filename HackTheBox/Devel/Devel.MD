@@ -101,6 +101,7 @@ Trying to load a powershell session stalls indefinitely:
 
 
 So we cant run winpeas and we cant run powershell. lets try running [Windows Exploit Suggester](https://github.com/AonCyberLabs/Windows-Exploit-Suggester). 
+
 (make sure you install xlrd with `pip2 install xlrd==1.2.0`)
 
 First we need to save the output of `systeminfo` from the target to a file on our attack machine. 
