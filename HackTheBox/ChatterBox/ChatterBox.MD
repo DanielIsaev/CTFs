@@ -81,7 +81,7 @@ a quick goolge search i came to find out i was worng. Apparently its an open-sou
 application, and it has a [github](https://github.com/0301yasiru/aChat).
 
 
-A quick goolge search also leads to [this](https://tenaka.gitbook.io/pentesting/boxes/achat) page.
+A quick google search also leads to [this](https://tenaka.gitbook.io/pentesting/boxes/achat) page.
 Apparently, Achat is vulnerable to a buffer-overflow attack, and we have the exploit ready on 
 our Kali machine in `/usr/share/exploitdb/exploits/windows/remote/36025.py`. 
 
