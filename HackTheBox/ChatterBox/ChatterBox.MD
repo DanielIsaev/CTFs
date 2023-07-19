@@ -131,7 +131,7 @@ If we list out our open ports on the machine with `netstat -ano` we can see the 
 
 
 We have all these ports running on the localhost. nmap did manage to detect them for some 
-reason. Now that we have credetials however, we could try to get access to them. But since they 
+reason. Now that we have credentials however, we could try to get access to them. But since they 
 are running on the localhost, we need to setup port forwarding to our attack machine. 
 
 For this we need [plink](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html),
