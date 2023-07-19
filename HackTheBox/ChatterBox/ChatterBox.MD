@@ -20,7 +20,7 @@ We get the following ports:
 + SMB on port  445.
 + NetBIOS on port 139.
 + HTTP on port 9255.
-+ Custom RCP service on port 9256.
++ Custom TCP service on port 9256.
 + Other RPC endpoint on 49152-49157.
 
 
