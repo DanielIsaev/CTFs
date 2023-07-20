@@ -13,7 +13,7 @@ Lets enumerate the machine with `nmap`:
 ![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ChatterBox/img/nmap-res-02.png)
 
 
-We
+
 We get the following ports:
 
 + RPC endpoint-mapper on port 135.
