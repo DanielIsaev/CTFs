@@ -84,7 +84,7 @@ If we examine the file with `file access_control.zip` (i renamed it):
 
 
 We can see it's an AES encrypted ZIP archive. You can try to use `zip2john`, then crack it with 
-john`, wont work, we have the credetilas for this archive. 
+`john` but that wont work. we have the credentials for this archive. 
 
 Use `7za` to decompress the arachive: 
 
