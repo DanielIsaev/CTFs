@@ -17,7 +17,7 @@ we have the following services:
 + SMB on port 445.
 + RDP V6.3 on port 3389.
 + An HTTPAPI on ports 5985 and 47001.
-+ AN HTTP File server on port 8080.
++ An HTTP File server on port 8080.
 
 Trying to interact with the RDP fails on an authorization error:
 
