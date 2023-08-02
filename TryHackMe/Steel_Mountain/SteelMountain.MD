@@ -1,5 +1,5 @@
 # SteelMountain [THM](https://tryhackme.com/room/steelmountain)
-![steel-mountain-01]()
+![steel-mountain-01](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/steel-mountain-01.png)
 
 ## recon 
 
@@ -7,7 +7,7 @@ Lets kick off enumeration with `nmap`:
 
 `nmap -T4 -p- -A -Pn 10.10.80.108`
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/nmap-res-02.png)
 
 we have the following services:
 
@@ -34,12 +34,12 @@ Then well take a look at the web server and the various API's.
 
 If we try to login anonymously with `smbclient` we get kicked out:
 
-![smbclinet-fail-03]()
+![smbclinet-fail-03](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/smbclient-fail-03.png)
 
 
 If we try `crackmapexec` this fails as well:
 
-![crackmapexec-fail-04]()
+![crackmapexec-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/crackmapexec-fail-04.png)
 
 
 Looks like a dead end, we need creds. Lets check the HTTP server. 
@@ -50,13 +50,13 @@ Looks like a dead end, we need creds. Lets check the HTTP server.
 
 Navigating towards the site's URL `http://10.10.80.108`
 
-![site-05]()
+![site-05](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/site-05.png)
 
 
 Look empty. I've tried directory busting, it only leads to an `img` directory with noting interesting. 
 Source code looks empty as well:
 
-![site-source-06]()
+![site-source-06](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/site-source-06.png)
 
 Lets take a look at the file server.
 
@@ -66,20 +66,20 @@ Lets take a look at the file server.
 
 If we navigate towards the target URL `http://10.10.80.108:8080`
 
-![file-server-07]()
+![file-server-07](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/file-server-07.png)
 
 
 We have a search feature, and a login form, but we dont need to log in to search stuff. 
 Searching yields nothing, but if we check for known vulnerabilities online we find something juicy:
 
-![exploitdb-08]()
+![exploitdb-08](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/exploitdb-08.png)
 
 [Source](https://www.exploit-db.com/exploits/39161)
 
 
 Looks like Python 2, appears to be abusing the search feature:
 
-![exploit-analyze-09]()
+![exploit-analyze-09](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/exploit-analyze-09.png)
 
 
 Looks promising. Worth a shot. 
@@ -91,14 +91,14 @@ Here is the exploitation breakdown:
 
 1) Download the exploit to your kali, and make sure to update your IP and port:
 
-![update-exploit-10]()
+![update-exploit-10](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/update-exploit-10.png)
 
 
 2) Place a copy of `nc.exe` in a directory of your choosing and fire off an HTTP server on port 80
 
 `python3 -m http.server 80` 
 
-![http-server-11]()
+![http-server-11](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/http-server-11.png)
 
 
 3) Start the listener with `nc -lvnp 8044`
@@ -109,7 +109,7 @@ Here is the exploitation breakdown:
 
 5) Get a shell:
 
-![shell-12]()
+![shell-12](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/shell-12.png)
 
 
 Lets get system!
@@ -120,7 +120,7 @@ Lets get system!
 
 If we run `systeminfo`:
 
-![sysinfo-13]()
+![sysinfo-13](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/sysinfo-13.png)
 
 
 We are dealing with a MS server 2012 R2. Lets try searching for stored credentials.   
@@ -138,7 +138,7 @@ Download the tool, transfer to the clinet via python web server and `certutil`.
 
 I tried running `vault::cred`
 
-![mimikatz-14]()
+![mimikatz-14](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/mimikatz-14.png)
 
 Looks like a password. I tried connecting via the RDP, same error of:
 
@@ -159,20 +159,20 @@ Decided to shift gears and try [winpeas](https://github.com/carlospolop/PEASS-ng
 
 3) Execute `winpeas.exe`
 
-![winpeas-15]()
+![winpeas-15](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/winpeas-15.png)
 
 We have an unquoted service with spaces, we can potentially hijack this with our own custom binary. 
 Our user also has full write permission to this directory. 
 
 Lets examine this process. First lets run `net start` to list all running processes:
 
-![net-start-16]()
+![net-start-16](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/net-start-16.png)
 
 Lets check its properties, primarly, under which user it runs. We can do this with:
 
 `sc qc AdvancedSystemCareService9`
 
-![sc-16]()
+![sc-16](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/sc-16.png)
 
 It runs as the system. We can abuse this to gain system access. 
 
@@ -203,4 +203,4 @@ It runs as the system. We can abuse this to gain system access.
 
 6) Get system:
 
-![root-17]()
+![root-17](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Steel_Mountain/img/root-17.png)
