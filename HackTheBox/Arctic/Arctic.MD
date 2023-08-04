@@ -45,7 +45,7 @@ ColdFusion Markup Language is an interpreted language utilizing a Java backend. 
 access to Java via its cfscript tags, while simultaneously offering a simple web wrapper. 
 It is vulnerable to a variety of attacks, but mainly Local File Disclosure (LFD) and SQL injection. 
 
-If we search ColdFUsion 8 on google, we can quickly find a [public exploit](https://www.exploit-db.com/exploits/50057): 
+If we search ColdFusion 8 on google, we can quickly find a [public exploit](https://www.exploit-db.com/exploits/50057): 
 
 ![exploit-db-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arctic/img/exploit-db-07.png)
 
