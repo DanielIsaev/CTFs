@@ -99,7 +99,7 @@ So i decided to look at our user's privileges with `whoami  /priv`:
 ![privs-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arctic/img/privs-12.png)
 
 
-Looks like we have `SeImpersonatePrivilege` enabled. We might be able to expoit this with a [potato attack](https://github.com/ohpe/juicy-potato). 
+Looks like we have `SeImpersonatePrivilege` enabled. We might be able to expoit this with a [potato attack](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/). 
 
 + Download the exploit from [here](https://github.com/ohpe/juicy-potato/releases).
 
