@@ -24,7 +24,7 @@ We have the following:
 Lets go check the site. 
 
 
-### JRun on port 8500
+### HTTP 8500
 
 
 If we open our browser and navigate towards `http://arctic.htb:8500`:
