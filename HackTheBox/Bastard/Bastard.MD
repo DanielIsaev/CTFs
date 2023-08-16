@@ -71,7 +71,7 @@ We dont, but if we go to `http://bastard.htb/rest`:
 
 ![endpoint-success-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastard/img/endpoint-success-10.png)
 
-Now we found the rest endpoint location, which means we can probably wxploit this. We just need to update the directory name in the exploit:
+Now we found the rest endpoint location, which means we can probably exploit this. We just need to update the directory name in the exploit:
 
 ![update-exploit-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastard/img/update-exploit-11.png)
 
