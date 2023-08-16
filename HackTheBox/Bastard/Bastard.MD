@@ -21,7 +21,8 @@ Now we can scan the target with:
 We have the following:
 
 + An IIS v7.5 server on port 80.
-  Seems like the robots.txt has some interesting directories. 
+  
+Seems like the `robots.txt` has some interesting directories. 
 
 + RPC on ports 135, 49154. 
 
