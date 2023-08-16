@@ -41,7 +41,7 @@ If we take a look at the `robots.txt` file nmap found:
 ![robots-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastard/img/robots-05.png)
 
 
-This `CHANGELOG.txt` file must be containing version numbers. 
+This `CHANGELOG.txt` file must contain version numbers. 
 
 ![changelog-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastard/img/changelog-06.png)
 
