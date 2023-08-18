@@ -93,7 +93,7 @@ Now all we need to do to read this file is use `samdump2`:
 
 ![samdump-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastion/img/samdump-10.png)
 
-I've tried to use `psexec` to get a shell with the NTLM hash, but that failed. I also tried other tools from the `impacker` suite, but nothing worked. So i decided to decrypt the NTLM hash locally and try to log in to the SSH. 
+I've tried to use `psexec` to get a shell with the NTLM hash, but that failed. I also tried other tools from the `impacket` suite, but nothing worked. So i decided to decrypt the NTLM hash locally and try to log in to the SSH. 
 
 First, save the NTLM portion of the hash to a file: 
 
