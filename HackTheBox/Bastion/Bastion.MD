@@ -43,7 +43,7 @@ to a share as well. lets try the the `Backups` share:
 
 ![backups-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastion/img/backups-05.png)
 
-We can see we have a `WindowsImageBackup` folder, a `.tmp` file, and a `note.txt`
+We can see we have a `WindowsImageBackup` folder, a `.tmp` file, and a `note.txt`.
 The note simply tells us not to copy the eniter Backups share through the VPN:
 
 ![note-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastion/img/note-06.png)
