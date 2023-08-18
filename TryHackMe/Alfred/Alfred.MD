@@ -88,7 +88,7 @@ Execute the code in the script console:
 
 ![execute-09](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Alfred/img/execute-09.png)
 
-This should give us a shell access to the system: 
+This should give us shell access to the system: 
 
 ![shell-10](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Alfred/img/shell-10.png)
 
