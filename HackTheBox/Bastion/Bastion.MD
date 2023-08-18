@@ -78,7 +78,7 @@ Only one partition, Lets mount it with:
 
 `guestmount -a 9b9cfbc4-369e-11e9-a17c-806e6f6e6963.vhd -m /dev/sda1 --ro /mnt/bastion`
 
-If you pay close attention, youll notice this is the Windows OS installation folder (the C drive).
+If you have a look around the partition, youll notice this is the Windows OS installation folder (the C drive).
 This means that the SAM file is in here. If we cd into:
 
 `Windows/System32/config`
