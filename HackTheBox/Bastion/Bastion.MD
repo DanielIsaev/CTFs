@@ -116,7 +116,7 @@ If we take a look at our user's `AppData/Roaming` folder we can see an interesti
 
 ![remoteng-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bastion/img/remoteng-13.png)
 
-mRemoteNG is a fork of mRemote: an open source, tabbed, multi-protocol, remote connections manager for Windows. Remote connection means passwords.
+mRemoteNG is a fork of mRemote: an open source, tabbed, multi-protocol, remote connections manager for Windows. Remote connections means passwords.
 
 
 If we cd into this folder we can find the config file that stroes the accounts:
