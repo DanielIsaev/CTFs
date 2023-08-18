@@ -61,7 +61,7 @@ Lets try to log in with `admin : admin`
 
 Were in! Lets go to the script console: 
 
-`http://10.10.62.32/script`
+`http://10.10.62.32:8080/script`
 
 
 ![script-08](https://github.com/DanielIsaev/CTFs/blob/main/TryHackMe/Alfred/img/script-08.png)
