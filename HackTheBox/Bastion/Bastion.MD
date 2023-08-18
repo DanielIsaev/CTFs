@@ -130,7 +130,7 @@ If we open this file we can see the following:
 The admin probably used this software to connect to the Domain Controller. Now we need to decrypt the 
 password. 
 
-If we search google we can find the following [Github](https://github.com/gquere/mRemoteNG_password_decrypt) This tool should help us decrypt the password. All we nned is to transfer the `confCons.xml` file to our kali machine. 
+If we search google we can find the following [Github](https://github.com/gquere/mRemoteNG_password_decrypt). This tool should help us decrypt the password. All we need is to transfer the `confCons.xml` file to our kali machine. 
 
 To do that i start an FTP server with:
 
