@@ -62,7 +62,7 @@ VHD (Virtual Hard Disk) files are disk image formats that store a computer's ent
 
 The first disk is the boot sector, ive had a look around it, not much there. The second disk is what we want. 
 
-Once we download the disk to your kali machine, we can examine the `.vhd` files with a 
+Once we download the disk to our kali machine, we can examine the `.vhd` files with a 
 suite of tools called `libguestfs-tools`, you may need to install this on your system with:
 
 `apt install libguestfs-tools`.
