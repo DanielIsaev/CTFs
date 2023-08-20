@@ -39,7 +39,7 @@ A null session is accepted, ideally this should not happen. Lets try to connect 
 
 ![smb-connect-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/smb-connect-05.png)
 
-We can see the share hosts a single `.xlsm` file, this is a microsoft Excel file. 
+We can see the share hosts a single `.xlsm` file, this is a Microsoft Excel file. 
 I use the following code to open the file on Linux:
 
 ```python
