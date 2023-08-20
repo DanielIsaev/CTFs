@@ -24,7 +24,7 @@ We have the following:
 + Other RPC related ports. 
 
 
-The services that jump out the most to me are the SQL and SMB servers. Lets start by taking a look at the SMB though, maybe its misconfigured and we can access information we shouldnt. After that we'll take a look at the SQL server. 
+The services that jump out the most to me are the SQL and SMB servers. Lets start by taking a look at the SMB though, maybe its misconfigured and we can access information we shouldn't. After that we'll take a look at the SQL server. 
 
 
 ## SMB port 445
