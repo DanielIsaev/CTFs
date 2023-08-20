@@ -1,18 +1,18 @@
 # Querier [htb](https://app.hackthebox.com/machines/Querier)
-![querier-01]()
+![querier-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/querier-01.png)
 
 
 ## Recon 
 
 Lets start by adding the target to our `/etc/hosts` file:
 
-![hosts-02]()
+![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/hosts-02.png)
 
 With that out of the way, we can enumerating:
 
 `nmap -sC -sV -p- -A querier.htb -oN nmap.result`
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/nmap-res-03.png)
 
 We have the following:
 
@@ -33,11 +33,11 @@ Lets try to list out the SMB shares with a null session:
 
 `smbclient -N -L \\\\querier.htb\\`
 
-![shares-04]()
+![shares-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/shares-04.png)
 
 A null session is accepted, ideally this should not happen. Lets try to connect to the `Reports` share:
 
-![smb-connect-05]()
+![smb-connect-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/smb-connect-05.png)
 
 We can see the share hosts a single `.xlsm` file, this is a microsoft Excel file. 
 I use the following code to open the file on Linux:
@@ -60,21 +60,21 @@ for k,v in df.items():
 
 However the file is empty: 
 
-![empty-06]()
+![empty-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/empty-06.png)
 
 If we open the file through a Windows machine and click on `File`:
 
-![button-07]()
+![button-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/button-07.png)
 
 
 We can see the following:
 
-![luis-08]()
+![luis-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/luis-08.png)
 
 At first i thought `Luis` is a username, and tried brute-forcing my way into the SQL server. This failed. 
 So i decided to inspect the file by clicking the highlighted button which resulted in:
 
-![inspect-09]()
+![inspect-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/inspect-09.png)
 
 It says that the file has Maros configured. A macro is an action or a set of actions that can be recorded, named, saved and executed as many times as required and whenever desired. In other words its code. 
 
@@ -86,7 +86,7 @@ Once we have it installed we can extract the Macro code with:
 
 `olevba 'Currency Volume Report.xlsm'`
 
-![olevba-10]()
+![olevba-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/olevba-10.png)
 
 
 This is an [SQL connection string](https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection.connectionstring?view=dotnet-plat-ext-7.0), the `Uid` is a username, and the `Pwd` is the password. 
@@ -95,7 +95,7 @@ Lets try to login to the SQL server with:
 
 `impacket-mssqlclient reporting@querier.htb -windows-auth`
 
-![sql-login-11]()
+![sql-login-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/sql-login-11.png)
 
 Were in! I tried enumerataing the database, as well as trying to pull off RCE, nothing worked for me. [source](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server).
 
@@ -118,14 +118,14 @@ Once `responder` is running, on the SQL server execute the following:
 
 Now check responder: 
 
-![responder-12]()
+![responder-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/responder-12.png)
 
 Lets crack it. 
 
 
 First save it to a file:
 
-![hash-13]()
+![hash-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/hash-13.png)
 
 
 Now we can use `hashcat` to crack NTLMv2 hashes as such:
@@ -135,7 +135,7 @@ Now we can use `hashcat` to crack NTLMv2 hashes as such:
 
 The hash gets cracked rather quickly:
 
-![cracked-14]()
+![cracked-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/cracked-14.png)
 
 Lets log back in to the SQL server with the new account, now we should be able to pull of an RCE. 
 
@@ -173,7 +173,7 @@ Now we are ready to execute, on the SQL server run:
 
 Get a shell:
 
-![shell-15]()
+![shell-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/shell-15.png)
 
 
 ## Privilege Escalation
@@ -200,7 +200,7 @@ powershell -ep bypass
 Invoke-AllChecks
 ```
 
-![admin-pass-16]()
+![admin-pass-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/admin-pass-16.png)
 
 There are a lot of leads we can take from the PowerUp output, but i think this is the easiest. 
 
