@@ -212,4 +212,4 @@ All we need to do is use `psexec`:
 
 `impacket-psexec QUERIER/Administrator:'MyUnclesAreMarioAndLuigi!!1!'@querier.htb`
 
-![root-17]()
+![root-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/root-17.png)
