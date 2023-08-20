@@ -8,7 +8,7 @@ Lets start by adding the target to our `/etc/hosts` file:
 
 ![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Querier/img/hosts-02.png)
 
-With that out of the way, we can enumerating:
+With that out of the way, we can start enumerating:
 
 `nmap -sC -sV -p- -A querier.htb -oN nmap.result`
 
