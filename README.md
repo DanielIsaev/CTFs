@@ -1,5 +1,5 @@
 # CTFs :triangular_flag_on_post:
-Walkthroughs of diffrent machines from HTB and TryHackme! 
+Walkthroughs of different machines from HTB and TryHackme! 
 
 Table of contents 
 
