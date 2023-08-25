@@ -35,7 +35,7 @@ Lets open our browser and navigate towards `http://shocker.htb`
 Not much to see or do here, lets try directory busting:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/common.txti:FUZZ  -u http://shocker.htb/FUZZ
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/common.txt:FUZZ  -u http://shocker.htb/FUZZ
 ```
 
 ![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/ffuf-05.png)
