@@ -2,6 +2,7 @@
 
 ![shocker-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/shocker-01.png)
 
+## Recon
 
 Lets add the target to our `/etc/hosts` file:
 
