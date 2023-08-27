@@ -128,7 +128,7 @@ We have a python script, owned by our user, and a `test.txt` file owned by root.
 
 ![py-script-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bashed/img/py-script-16.png)
 
-The script simply creates a file called `test.txt` and writes `testing 123!` to it. This is the file owned by root we saw before in our current directory. The fact taht the file is owned by root tells me there is a task running in the background periodically as the root user, executing this `test.py` script. 
+The script simply creates a file called `test.txt` and writes `testing 123!` to it. This is the file owned by root we saw previously. The fact that this file is owned by root tells me there is a task running periodically in the background as root, executing this `test.py` script. 
 
 We can verify this with [pspy64](https://github.com/DominicBreuker/pspy):
 
