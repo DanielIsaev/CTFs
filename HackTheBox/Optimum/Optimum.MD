@@ -106,7 +106,7 @@ So i decided to generate `systeminfo` output and run [windows exploit suggester]
 ![sysinfo-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/sysinfo-08.png)
 
 
-We are up againts an X64 Windows 2012 R2 server. The exploit suggester returned quite a lot of potential 
+We are up againts an x64 Windows 2012 R2 server. The exploit suggester returned quite a lot of potential 
 kernel exploits. I tried a few, but they didnt work for me. 
 
 
