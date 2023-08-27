@@ -52,8 +52,7 @@ so this `phpbash` should be somewhere on the server, lets try and find it.
 I use `ffuf` for directory busting:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.[67/1995$
- -u http://bashed.htb/FUZZ
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-bin.txt -u http://bashed.htb/FUZZ
 ```
 
 ![dev-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bashed/img/dev-07.png)
