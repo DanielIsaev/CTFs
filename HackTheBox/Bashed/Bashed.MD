@@ -12,7 +12,7 @@ Then i fire off `nmap` to scan it:
 nmap -sC -sV -A -p- bashed.htb -oN nmap.result
 ```
 
-![nmap-res-02(https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bashed/img/nmap-res-02.png)
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bashed/img/nmap-res-02.png)
 
 
 We have the following:
