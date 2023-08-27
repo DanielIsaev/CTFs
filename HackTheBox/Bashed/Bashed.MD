@@ -4,7 +4,7 @@
 
 ## Recon
 
-I start by adding the target to my `/etc/hosts` file. Then i use `nmap` to scan the target:
+I start by adding the target to my `/etc/hosts` file. Then i use `nmap` to start scanning:
 
 ```bash
 nmap -sC -sV -A -p- bashed.htb -oN nmap.result
