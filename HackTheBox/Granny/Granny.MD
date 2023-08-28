@@ -59,7 +59,7 @@ The file upload failed, that's one exploit vector, But the `WebDAV` connection s
 can try the buffer-overflow exploit we found earlier for IIS 6.0. 
 
 I've tried the python script from exploit-DB, the issue is with the shellcode, which opens `calc.exe`, 
-instead of esteblishing a reverse shell. So i found another exploit on [Github](https://github.com/danigargu/explodingcan/tree/master). This one specifies that the shellcode must be alphanumerically encoded, Iv'e tried it, didnt work for me. I tried a combination of different shellcodes and exploits, nothing worked for me. 
+instead of esteblishing a reverse shell. So i found another exploit on [Github](https://github.com/danigargu/explodingcan/tree/master). This one specifies that the shellcode must be alphanumerically encoded, I tried it, didnt work for me. I tried a combination of different shellcodes and exploits, nothing worked for me. 
 
 
 So instead i decided to go for the Metasploit implemantation of the exploit. 
