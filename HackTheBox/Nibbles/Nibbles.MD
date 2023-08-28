@@ -69,8 +69,7 @@ I run the attack and i get Blacklisted after 5 attempts:
 So i take a step back and decide to enumerate further with a directory busting scan:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.
-txt -u http://nibbles.htb/nibbleblog/FUZZ
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://nibbles.htb/nibbleblog/FUZZ
 ``` 
 
 The two most interesting results are:
