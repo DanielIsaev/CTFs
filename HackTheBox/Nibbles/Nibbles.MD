@@ -75,7 +75,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 The two most interesting results are:
 
 
-![ffuf-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nibbles/img/blocked-12.png)
+![ffuf-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nibbles/img/content-13.png)
 
 ![ffuf-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nibbles/img/ffuf-14.png)
 
