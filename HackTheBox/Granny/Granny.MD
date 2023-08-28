@@ -38,8 +38,7 @@ The `WebDAV` interface could be on the server root directory, or it could be on 
 It says the service is unavailable, maybe its disabled? Lets try directory busting to be sure:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt -u http://gra
-nny.htb/FUZZ
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/IIS.fuzz.txt -u http://granny.htb/FUZZ
 ``` 
 
 ![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/ffuf-05.png)
