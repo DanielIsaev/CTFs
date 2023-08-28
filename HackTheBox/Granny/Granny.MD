@@ -1,5 +1,5 @@
 # Granny [HTB](https://app.hackthebox.com/machines/Granny)
-![granny-01]()
+![granny-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/granny-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding the target to our `/etc/hosts` file, we can start scanning it with:
 nmap -sC -sV -A -p- granny.htb -oN nmap.results
 ```
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/nmap-res-02.png)
 
 We have the following:
 
@@ -25,7 +25,7 @@ I'm thinking public exploits.
 
 With a quick Goolge search, we can find a public exploit for IIS V6.0 on [Exploit-DB](https://www.exploit-db.com/exploits/41738): 
 
-![payload-03]()
+![payload-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/payload-03.png)
 
 This is a python 2 script, exploiting a buffer overflow vulnerability that lays in the `ScStoragePathFromUrl` function of the `WebDAV` Microsoft standard. 
 
@@ -35,7 +35,7 @@ This is not enabled by default, when you install the IIS server role, you need t
 
 The `WebDAV` interface could be on the server root directory, or it could be on a dedicated directory,  It depends on the config file. However, a common location is `/webdav` lets give it a shot:
 
-![find-04]()
+![find-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/find-04.png)
 
 It says the service is unavailable, maybe its disabled? Lets try directory busting to be sure:
 
@@ -44,11 +44,11 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/IIS.
 nny.htb/FUZZ
 ``` 
 
-![ffuf-05]()
+![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/ffuf-05.png)
 
 Lets open this directory:
 
-![vti-06]()
+![vti-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/vti-06.png)
 
 Looks interesting, but were not sure if its WebDAV enabled. We can verify this with:
 
@@ -56,7 +56,7 @@ Looks interesting, but were not sure if its WebDAV enabled. We can verify this w
 davtest -url http://granny.htb/_vti_bin
 ```
 
-![davtest-07]()
+![davtest-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/davtest-07.png)
 
 The file upload failed, that's one exploit vector, But the `WebDAV` connection succeeded, which means we 
 can try the buffer-overflow exploit we found earlier for IIS 6.0. 
@@ -75,11 +75,11 @@ set LPORT 443
 set TARGETURI /_vti_bin
 ```
 
-![options-08]()
+![options-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/options-08.png)
 
 From here we can run `exploit`:
 
-![root-09]()
+![root-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Granny/img/root-09.png)
 
 
 Not only do we get a shell, we get full system access. However do note, this is in fact a 2003 Windows 
