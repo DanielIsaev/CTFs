@@ -29,8 +29,7 @@ With a quick Goolge search, we can find a public exploit for IIS V6.0 on [Exploi
 
 This is a python 2 script, exploiting a buffer overflow vulnerability that lays in the `ScStoragePathFromUrl` function of the `WebDAV` Microsoft standard. 
 
-`WebDAV` is an Internet-based open standard that enables editing Web sites over HTTP and HTTPS connections, which also supports file uploads to the server.  
-This is not enabled by default, when you install the IIS server role, you need to check a box to enable `WebDAV`, [source](https://learn.microsoft.com/en-us/iis/configuration/system.webserver/webdav/)
+`WebDAV` is an Internet-based open standard that enables editing Web sites over HTTP and HTTPS connections, which also supports file uploads to the server. This is not enabled by default, when you install the IIS server role, you need to check a box to enable `WebDAV`, [source](https://learn.microsoft.com/en-us/iis/configuration/system.webserver/webdav/)
 
 The `WebDAV` interface could be on the server root directory, or it could be on a dedicated directory,  It depends on the config file. However, a common location is `/webdav` lets give it a shot:
 
