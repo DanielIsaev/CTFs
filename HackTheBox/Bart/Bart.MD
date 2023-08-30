@@ -32,7 +32,7 @@ Looks legit. If we scroll down a bit we can see some employee information disclo
 
 ![employees-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bart/img/employees-05.png)
 
-One of these employee's user account could be a potential an entry point. Lets keep looking. We can check the backend tech 
+One of these employee's user account could be a potential entry point. Lets keep looking. We can check the backend tech 
 with `Wappalyzer`: 
 
 ![wappalyzer-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bart/img/wappalyzer-06.png)
