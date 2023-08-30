@@ -133,7 +133,7 @@ Lets take a look at the source code for `register.php`:
 ![source-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bart/img/source-19.png)
 
 Looks like the code is looking for the username and password fields to be passed in a `POST` request. 
-So a regitration request should look like this:
+So a registration request should look like this:
 
 ![reg-req-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bart/img/reg-req-20.png)
 
