@@ -82,7 +82,7 @@ valid usernames on the system. I found that `daniel` is a valid username, but i 
 
 I've tried enumerating further with `gospider`, didnt help. I found a [github](https://github.com/phpservermon/phpservermon) that has all of the backend. I used this git page as a sitemap and looked in every file to find something interesting, but without success. 
 
-At this point i spent a few hours on this box, and i had no leads on how to proceed. So decided to 
+At this point i spent a few hours on this box, and i had no leads on how to proceed. So i decided to 
 go back to the original site, `forum.bart.htb`. Here, i tried enumerating with different tools, but 
 without success. So i decided to take a look at the source code:
 
