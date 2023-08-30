@@ -126,7 +126,7 @@ request and the response we will see the following:
 ![intercept-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bart/img/intercept-18.png)
 
 The server accepted our request, and redirected us to `register_form.php`, once the redirect is done, 
-we get the server error. We can conclude from this that the `register.php` is present on the server. 
+we get the server error. We can conclude from this that the `register.php` file is present on the server. 
 
 Lets take a look at the source code for `register.php`:
 
