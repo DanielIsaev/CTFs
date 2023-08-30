@@ -258,7 +258,7 @@ whoami /priv
 
 We have the `Impersonate` privilege enabled, this means we can try a [potato attack](https://github.com/ohpe/juicy-potato). 
 
-Download the potato attaack and grab a copy of `/usr/share/windows-resources/binaries/nc.exe` to you current directory.
+Download the potato attack and grab a copy of `/usr/share/windows-resources/binaries/nc.exe` to you current directory.
 Then host a pyhton web server with:
 
 ```bash
