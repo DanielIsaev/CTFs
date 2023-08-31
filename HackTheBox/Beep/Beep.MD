@@ -111,8 +111,8 @@ python2 exploit.py
 ## Privilege Escalation
 
 
-So we have a very limited shell, i treid to upgrade it with various means, didnt work for me, we can work
-with this. Lets check for quick wins with `sudo -l`:
+We have a very limited shell, i tried upgrading it by various means, didnt work for me, we can work with this. 
+Lets check for quick wins with `sudo -l`:
 
 ![sudo-privs-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/sudo-privs-10.png)
 
