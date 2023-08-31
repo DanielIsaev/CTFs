@@ -1,5 +1,5 @@
 # Beep [htb](https://app.hackthebox.com/machines/5)
-![beep-01]()
+![beep-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/beep-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ AFter adding the target to our `/etc/hosts` file we can start scanning with `nma
 nmap -sC -sV -A -p- beep.htb -oN nmap.result
 ```
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/nmap-res-02.png)
 
 We have the following:
 
@@ -37,7 +37,7 @@ start with port 80 and see what kind of information we can gather from there. Th
 
 Lets start by navigating to the target site at `http://beep.htb:80`
 
-![site-03]()
+![site-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/site-03.png)
 
 If you notice, the site redirected us to an https connection. 
 
@@ -61,7 +61,7 @@ server and the `Asterisk` call manager. It all ties together.
 
 While reading on this tech, i found an interesting exploit on [Github](https://github.com/infosecjunky/FreePBX-2.10.0---Elastix-2.2.0---Remote-Code-Execution/blob/master/exploit.py):
 
-![exploit-04]()
+![exploit-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/exploit-04.png)
 
 This looks like Python 2, it appears that the exploit is targeting a vulnerable `callme_page.php` script.
 With a special crafted URL payload to land a reverse shell. This is supposed to be an unauthenticated RCE
@@ -69,17 +69,17 @@ attack. Lets see if we can find this `callme_page.php` on our target:
 
 `https://beep.htb/recordings/misc/`
 
-![callme-05]()
+![callme-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/callme-05.png)
 
 So far so good, lets try to open the file directly and intercept the `HTTP` traffic with Burp:
 
-![burp-06]()
+![burp-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/burp-06.png)
 
 Looks good, i think its safe to try the exploit. 
 
 After downloading it to your attack machine, make sure to update you `rhost`, `lhost`, 'lport' info:
 
-![info-07]()
+![info-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/info-07.png)
 
 Now we need to make a couple of changes to our `/etc/ssl/openssl.cnf` file becasue the SSL version on 
 our target is pretty old. First back up the file with:
@@ -90,7 +90,7 @@ cp /etc/ssl/openssl.cnf /etc/ssl/openssl.cnf.bak
 
 Then at the buttom set the following options: 
 
-![ssl-cnf-08]()
+![ssl-cnf-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/ssl-cnf-08.png)
 
 
 Lets start the listener:
@@ -105,7 +105,7 @@ Now we can exploit with:
 python2 exploit.py
 ```
 
-![shell-09]()
+![shell-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/shell-09.png)
 
 
 ## Privilege Escalation
@@ -114,11 +114,11 @@ python2 exploit.py
 So we have a very limited shell, i treid to upgrade it with various means, didnt work for me, we can work
 with this. Lets check for quick wins with `sudo -l`:
 
-![sudo-privs-10]()
+![sudo-privs-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/sudo-privs-10.png)
 
 We have quite a lot of programs we can work with, but `nmap` is particlarly interesting because with versions `2.02 - 5.21` we can spwan an interactive shell. Lets check our target's `nmap` version:
 
-[nmap-ver-11]()
+[nmap-ver-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/nmap-ver-11.png)
 
 
 This should be vulnerable. Lets exploit by running:
@@ -128,4 +128,4 @@ sudo nmap --interactive
 nmap> !sh
 ```
 
-![root-13]()
+![root-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/root-12.png)
