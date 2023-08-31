@@ -29,8 +29,8 @@ We have the following:
 + Other unknown ports at 942, 4190, 4445, 4559.
 
 
-So we have a very large attack surface here, there are many different things to test. I think its best to
-start with port 80 and see what kind of information we can gather from there. Then we can check the emailservers, and the custom applications. 
+We have a very large attack surface here, there are many different things to test. I think its best to
+start with port 80 and see what kind of information we can gather from there. Then we can check the email servers, and custom applications. 
 
 
 ### Apache Port 80
