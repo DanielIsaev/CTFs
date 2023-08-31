@@ -4,7 +4,7 @@
 
 ## Recon
 
-AFter adding the target to our `/etc/hosts` file we can start scanning with `nmap`:
+After adding the target to our `/etc/hosts` file we can start scanning with `nmap`:
 
 ```bash
 nmap -sC -sV -A -p- beep.htb -oN nmap.result
