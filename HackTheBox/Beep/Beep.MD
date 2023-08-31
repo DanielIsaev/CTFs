@@ -117,9 +117,9 @@ Lets check for quick wins with `sudo -l`:
 
 ![sudo-privs-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/sudo-privs-10.png)
 
-We have quite a lot of programs we can work with, but `nmap` is particlarly interesting because with versions `2.02 - 5.21` we can spwan an interactive shell. Lets check our target's `nmap` version:
+We have quite a lot of programs we can work with, but `nmap` is particularly interesting because with versions `2.02 - 5.21` we can spwan an interactive shell. Lets check our target's `nmap` version:
 
-[nmap-ver-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/nmap-ver-11.png)
+![nmap-ver-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/nmap-ver-11.png)
 
 
 This should be vulnerable. Lets exploit by running:
