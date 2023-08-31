@@ -42,7 +42,7 @@ Lets start by navigating to the target site at `http://beep.htb:80`
 If you notice, the site redirected us to an https connection. 
 
 I tried to run directory busting on the web server on both ports 80 and 443, nothing came up. 
-I also tested for subdomains, couldnt find any. 
+I also tested for subdomains, could'nt find any. 
 
 So i decided to move on to the mail servers, we can connect to all servers via telnet, But there isn't 
 much to do there without credentials. 
