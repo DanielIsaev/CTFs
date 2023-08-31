@@ -77,7 +77,7 @@ So far so good, lets try to open the file directly and intercept the `HTTP` traf
 
 Looks good, i think its safe to try the exploit. 
 
-After downloading it to your attack machine, make sure to update you `rhost`, `lhost`, 'lport' info:
+After downloading it to your attack machine, make sure to update you `rhost`, `lhost`, `lport` info:
 
 ![info-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/info-07.png)
 
