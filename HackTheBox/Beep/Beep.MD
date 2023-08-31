@@ -64,7 +64,7 @@ While reading on this tech, i found an interesting exploit on [Github](https://g
 ![exploit-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Beep/img/exploit-04.png)
 
 This looks like Python 2, it appears that the exploit is targeting a vulnerable `callme_page.php` script.
-With a special crafted URL payload to land a reverse shell. This is supposed to be an unauthenticated RCE
+With a specially crafted URL payload to land a reverse shell. This is supposed to be an unauthenticated RCE
 attack. Lets see if we can find this `callme_page.php` on our target:
 
 `https://beep.htb/recordings/misc/`
