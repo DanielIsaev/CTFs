@@ -1,4 +1,4 @@
-Bounty [HTB](https://app.hackthebox.com/machines/Bounty)
+#Bounty [HTB](https://app.hackthebox.com/machines/Bounty)
 ![bounty-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bounty/img/bounty-01.png)
 
 ## Recon 
