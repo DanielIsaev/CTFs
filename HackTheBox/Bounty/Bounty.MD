@@ -27,8 +27,7 @@ Lets start by navigating towards the site at `http://bounty.htb`
 Not much to see here, lets try a directory and file scan using `ffuf`:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium
-.txt -u http://bounty.htb/FUZZ -e .cgi,.php,.aspx,.asp
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://bounty.htb/FUZZ -e .cgi,.php,.aspx,.asp
 ```
 
 ![ffuf-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bounty/img/ffuf-04.png)
