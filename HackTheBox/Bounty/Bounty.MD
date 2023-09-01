@@ -68,7 +68,7 @@ server we can try a copule of things. We can try to upload an `.aspx` reverse sh
 in this case. The file upload validator checks the file extension. I've tried different tricks to 
 bypass this but nothing worked for me. 
 
-But we can also inject a code inside a `web.config` file, which in this case, is accepted:
+But we can also inject code inside a `web.config` file, which in this case, is accepted:
 
 ![config-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bounty/img/config-12.png)
 
