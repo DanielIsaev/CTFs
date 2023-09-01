@@ -123,7 +123,7 @@ whoami /priv
 
 ![privs-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bounty/img/privs-18.png)
 
-We can see we have the `Impersonate` privileged enabled. We can potentially exploit this with a [potato attack](https://github.com/ohpe/juicy-potato), downlaod from [here](https://github.com/ohpe/juicy-potato/releases).
+We can see we have the `Impersonate` privileged enabled. We can potentially exploit this with a [potato attack](https://github.com/ohpe/juicy-potato), download from [here](https://github.com/ohpe/juicy-potato/releases).
 
 
 Once you have the `JuicyPotato.exe` binary in your working directory, grab a copy of `/usr/share/windows-resources/binaries/nc.exe` as well. Then start a Python server with:
