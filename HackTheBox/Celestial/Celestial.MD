@@ -154,7 +154,7 @@ chmod +x pspy64
 ```
 ![task-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/task-18.png)
 
-Here it is. We have root (UID 0), spwaning `/bin/sh` to run a python script found in our user's `~/Documents` directory. The output from the script is saved to the `output.txt` file we saw erlier. 
+Here it is. We have root (UID 0), spwaning `/bin/sh` to run a python script found in our user's `~/Documents` directory. The output from the script is saved to the `output.txt` file we saw earlier. 
 
 If pay close attention to the task, we can see a few different commands here are being executed, 
 but we only really care about the first one, if we can inject code into this file we can pop a reverse 
