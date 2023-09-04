@@ -61,7 +61,7 @@ We can see the response has changed. We can conclude from this that the server i
 from the cookie to render the web page. And since we can easily control what goes in the cookie, we can 
 possibly temper with the server's backend. 
 
-Now the question is, how we can levrage this to get access to the system? 
+Now the question is, how we can leverage this to get access to the system? 
 
 So i started to play around with different payloads, like `"num": "id"`. Which lead me to an interesting error:
 
