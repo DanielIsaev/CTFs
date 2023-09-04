@@ -156,7 +156,7 @@ chmod +x pspy64
 
 Here it is. We have root (UID 0), spwaning `/bin/sh` to run a python script found in our user's `~/Documents` directory. The output from the script is saved to the `output.txt` file we saw earlier. 
 
-In the task, we can see a few different commands here are being executed, but we only really care about the first one, if we can inject code into this file we can pop a reverse shell as root. Everything after the first command will be halted due to the reverse shell connection.
+In the task, we can see a few different commands being executed, but we only really care about the first one, if we can inject code into this file we can pop a reverse shell as root. Everything after the first command will be halted due to the reverse shell connection.
 
 What i ended up doing, is creating a pyhton reverse shell script in my Kali machine:
 
