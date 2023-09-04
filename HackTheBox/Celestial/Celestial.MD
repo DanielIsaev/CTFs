@@ -125,8 +125,8 @@ python -c 'import pty;pty.spawn("/bin/bash")'
 
 ![upgrade-shell-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/upgrade-shell-16.png)
 
-Now it's a bit more intuitive. Then i tried to snatch quick wins by running `history`, `sudo -l`, as well
-as `find / -perm -4000 2>/dev/null` but with no luck. 
+Now it's a bit more intuitive. 
+Then i tried to snatch quick wins by running `history`, `sudo -l`, as well as `find / -perm -4000 2>/dev/null` but with no luck. 
 
 If we take a look at our user's group membership with `id` we can see that our user is a part of the `sudo` and `adm` groups, but in order to use `sudo` we need our user's password which i wasnt able to find. 
 
