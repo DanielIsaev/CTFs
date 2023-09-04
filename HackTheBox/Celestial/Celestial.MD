@@ -33,7 +33,7 @@ our client requests the same root directory, but this time adds the cookie and n
 
 So the cookie is being used here for something. 
 
-When I initially researched `Node.js` cookies, I found [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/nodejs-express)'s page, that describes a tool to decrypt the cookies. But then i nocited that the cookie format is different from whats been given to us be the target. So this tool will not help us. 
+When I initially researched `Node.js` cookies, I found [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/nodejs-express)'s page, that describes a tool to decrypt the cookies. But then i nocited that the cookie format is different from whats been given to us be the target. So this tool wont help us. 
 
 Then i took a closer look at the cookie itself, at first i thought it was encrypted with a strong 
 encryption algorithm, but still I decided to check it againts [hash-identifier](https://hashes.com/en/tools/hash_identifier):
