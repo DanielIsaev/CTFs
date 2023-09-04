@@ -77,8 +77,7 @@ So i tried to to send a reverse shell with the different payloads. None worked f
 ![unserialize-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Celestial/img/unserialize-11.png)
 
 
-While googeling this error, i came across an interesting [artical](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/). Apperantly, in some 
-versions of the `node-sirialize` module, we can execute arbitrary code by declaring a serialized functionpassed inside a cookie and immediatly invoke it with a function expression. 
+While googeling this error, i came across an interesting [artical](https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/). Apperantly, in some versions of the `node-sirialize` module, we can execute arbitrary code by declaring a serialized function passed inside a cookie and immediatly invoke it with a function expression. 
 
 I've tried to find a working payload for quite some time, I tried a few different exploits from `ExploitDB`, but they did not work for me. So i decided to use [nodejsshell.py](https://github.com/ajinabraham/Node.Js-Security-Course/blob/master/nodejsshell.py) script to generate a JavaScript reverse shell payload.
 
