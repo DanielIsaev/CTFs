@@ -55,7 +55,7 @@ Seems like anonymous logins are disabled, running tools like `enum4linux`, `crac
 
 ## Apache Port 80
 
-When we open the site we are greeted with a login page:
+When we open the site at `http://love.htb` we are greeted with a login page:
 
 ![site-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/site-05.png)
 
@@ -63,8 +63,7 @@ We dont have credentials at this point, so lets keep looking. I had a look at th
 not much there, lets run a directory and file scan:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium
-.txt -u http://love.htb/FUZZ -e .cgi,.php,.txt,.ps1,.exe,.bak,.sql
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://love.htb/FUZZ -e .cgi,.php,.txt,.ps1,.exe,.bak,.sql
 ```
 
 ![ffuf-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/ffuf-06.png)
