@@ -155,7 +155,7 @@ We can try this by sending the target to `http://localhost:5000`
 
 And we get the page, which hosts the admin credentials for the voting system panel. What just happened
 is a `Server-Side Request Forgery` or ssrf attack. This attack happens when unsanitized user input is 
-used to make requests to other resources. Typically the resoucres are internal servers, or API endpoints, but in this case, we used the server to fetch inforamtion from itself to bypass any access control checks.
+used to make requests to other resources. Typically the resoucres are internal servers, or API endpoints, but in this case, we used the server to fetch information from itself, bypassing any access control checks in the process.
 
 Now we can log in to the admin panel:
 
