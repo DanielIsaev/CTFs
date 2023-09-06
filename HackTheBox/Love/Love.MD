@@ -68,7 +68,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 ![ffuf-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/ffuf-06.png)
 
-The scan brought some interesting results, the most of which is the `admin` directory, lets check it out:
+The scan brought some interesting results, the most of which being the `admin` directory, lets check it out:
 
 ![admin-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/admin-07.png)
 
