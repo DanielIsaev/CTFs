@@ -135,7 +135,7 @@ If we click on the `Demo` link, we get redirected to a file scanning feature:
 
 ![demo-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/demo-16.png)
 
-We can see it asks for a file to scan via URL. At first i tought about a php reverse shell. So i found 
+We can see it asks for a file to scan via URL. At first i thought about a php reverse shell. So i found 
 one on [Github](https://github.com/Dhayalanb/windows-php-reverse-shell/blob/master/Reverse%20Shell.php)
 Modified my IP and port info and sent it to the target.
 
