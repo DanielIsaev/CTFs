@@ -144,7 +144,7 @@ code of the page:
 
 ![source-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/source-17.png)
 
-We have the content of the file as plain text inside the HTML code. THe php code gets flaged as an error, because the HTML render engine doesnt recognaize `<?php` as a valid HTML tag. 
+We have the content of the file as plain text inside the HTML code. The php code gets flaged as an error, because the HTML render engine doesnt recognaize `<?php` as a valid HTML tag. 
 
 
 We can conclude from this taht, the file scanning feature fetches the contents of remote files, and returns them as plain text in the HTML. 
