@@ -172,7 +172,7 @@ Looks like the exploit is taking advantage of an image upload feature to uplaod 
 ![vote-url-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/vote-url-21.png)
 
 The file upload feature is present when you send the form to add a voter to the system. But we dont 
-have this `votesystem` directory, in our scnario, the target runs the votesystem from the root of the web server. So we need to modify it. Then we can invoke the php reverse shell by navigating to `/images/shell.php`, lets give it a shot.
+have this `votesystem` directory, in our scenario, the target runs the votesystem from the root of the web server. So we need to modify it. Then we can invoke the php reverse shell by navigating to `/images/shell.php`, lets give it a shot.
 
 
 After downloading the expoit make sure to update it:
