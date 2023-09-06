@@ -149,7 +149,7 @@ We have the content of the file as plain text inside the HTML code. The php code
 What if instead of fetching remote files, we can fetch a local file? If you recall from the `nmap` scan, we have a third HTTP service running on port `5000`. And from the `nmap` scan, the title of the page is `403 Forbidden`
 
 What if we sent this file scanning feature to fetch the page from port 5000 for us instead? 
-we try this by sending the target to `http://localhost:5000`
+We can try this by sending the target to `http://localhost:5000`
 
 ![ssrf-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/ssrf-18.png)
 
