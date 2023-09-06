@@ -1,5 +1,5 @@
 Love [HTB](https://app.hackthebox.com/machines/344)
-![love-01]()
+![love-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/love-01.png)
 
 
 ## Recon
@@ -10,9 +10,9 @@ After adding the target to my `/etc/hosts` file, I fire off an `nmap` scan:
 nmap -sC -sV -A -p- love.htb -oN nmap.result
 ```
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/nmap-res-02.png)
 
-![namp-res-03]()
+![namp-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/nmap-res-03.png)
 
 We have the following:
 
@@ -48,7 +48,7 @@ Trying the rpc anonymously fails as well:
 rpcclient -U "" -N love.htb
 ```
 
-![smb-fail-04]()
+![smb-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/smb-fail-04.png)
 
 Seems like anonymous logins are disabled, running tools like `enum4linux`, `crackmapexec` or `smbmap` wont bring us much at this point. Lets move on to the web servers. 
 
@@ -57,7 +57,7 @@ Seems like anonymous logins are disabled, running tools like `enum4linux`, `crac
 
 When we open the site we are greeted with a login page:
 
-![site-05]()
+![site-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/site-05.png)
 
 We dont have credentials at this point, so lets keep looking. I had a look at the source code, 
 not much there, lets run a directory and file scan:
@@ -67,21 +67,21 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 .txt -u http://love.htb/FUZZ -e .cgi,.php,.txt,.ps1,.exe,.bak,.sql
 ```
 
-![ffuf-06]()
+![ffuf-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/ffuf-06.png)
 
 The scan brought some interesting results, the most of which is the `admin` directory, lets check it out:
 
-![admin-07]()
+![admin-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/admin-07.png)
 
 We are prompted with yet another login page, this time requesting a username instead of a voter-ID. 
 If we try the good old `admin:admin` combo, we can see that we also have username information disclosure:
 
-![info-disc-08]()
+![info-disc-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/info-disc-08.png)
 
 This makes it much easier to brute-force, but before we brute force, lets try to test for SQL injection.
 I open `Burp` and i capture a login request. Then i chooce to copy the request to a file:
 
-![login-req-09]()
+![login-req-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/login-req-09.png)
 
 Then i use `sqlmap` as such:
 
@@ -91,16 +91,16 @@ sqlmap -r login.req --batch --tables
 
 Which finds a blind SQL injection vulnerability:
 
-![sqli-10]()
+![sqli-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/sqli-10.png)
 
 Let's wait for `sqlmap` to enumerate the databases for us:
 
-![databases-11]()
+![databases-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/databases-11.png)
 
 We have 6 databases, the most interesting one to me is the `votesystem` database. Lets wait for the 
 table enumeration to see whats inside:
 
-![tables-12]()
+![tables-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/tables-12.png)
 
 We have a few interesting tables, the most important i think is the `admin` table which will probably 
 help us get into the admin panel. Lets dump everything from that table:
@@ -109,11 +109,11 @@ help us get into the admin panel. Lets dump everything from that table:
 sqlmap -r login.req -D votesystem -T admin --dump --batch
 ```
 
-![admin-table-13]
+![admin-table-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/admin-table-13.png)
 
 We have the first and last names, along with a password hash. If we [identify the hash](https://hashes.com/en/tools/hash_identifier) we can see its a `Blowfish` algorithm:
 
-![blowfish-14]()
+![blowfish-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/blowfish-14.png)
 
 We can use `hashcat` to crack the hash as such:
 
@@ -130,11 +130,11 @@ Unfortenatly, i wasnt able to crack it, I tried multiple wordlists. So i decided
 If you recall from the `nmap` scan, the ssl-cert for the HTTPS connection has indicated a subdomain 
 of `staging.love.htb`. If we add this subdomain to our `/etc/hosts` file and visit the site we get the following: 
 
-![staging-15]()
+![staging-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/staging-15.png)
 
 If we click on the `Demo` link, we get redirected to a file scanning feature:
 
-![demo-16]()
+![demo-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/demo-16.png)
 
 We can see it asks for a file to scan via URL. At first i tought about a php reverse shell. So i found 
 one on [Github](https://github.com/Dhayalanb/windows-php-reverse-shell/blob/master/Reverse%20Shell.php)
@@ -143,7 +143,7 @@ Modified my IP and port info and sent it to the target.
 But nothing happened, No indication of succsess or faliure. So i decided to take a look at the source
 code of the page:
 
-![source-17]()
+![source-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/source-17.png)
 
 We have the content of the file as plain text inside the HTML code. THe php code gets flaged as an error, because the HTML render engine doesnt recognaize `<?php` as a valid HTML tag. 
 
@@ -155,7 +155,7 @@ What if instead of fetching remote files, we can fetch a local file? If you reca
 What if we sent this file scanning feature to fetch the page from port 5000 for us instead? 
 we try this by sending the target to `http://localhost:5000`
 
-![ssrf-18]()
+![ssrf-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/ssrf-18.png)
 
 And we get the page, which hosts the admin credentials for the voting system panel. What just happened
 is a `Server-Side Request Forgery` or ssrf attack. This attack happens when unsanitized user input is 
@@ -163,17 +163,17 @@ used to make requests to other resources. Typically the resoucres are internal s
 
 Now we can log in to the admin panel:
 
-![admin-panel-19]()
+![admin-panel-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/admin-panel-19.png)
 
 If we look at the buttom, we can see this voting system is run by `SourceCodeSter`, if we search Google
 for exploits we find this one from [ExploitDB](https://www.exploit-db.com/exploits/49445):
 
-![exploit-20]()
+![exploit-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/exploit-20.png)
 
 
 Looks like the exploit is taking advantage of an image upload feature to uplaod a php reverse shell.
 
-![vote-url-21]()
+![vote-url-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/vote-url-21.png)
 
 The file upload feature is present when you send the form to add a voter to the system. But we dont 
 have this `votesystem` directory, in our scnario, the target runs the votesystem from the root of the web server. So we need to modify it. Then we can invoke the php reverse shell by navigating to `/images/shell.php`, lets give it a shot.
@@ -181,7 +181,7 @@ have this `votesystem` directory, in our scnario, the target runs the votesystem
 
 After downloading the expoit make sure to update it:
 
-![update-exploit-22]()
+![update-exploit-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/update-exploit-22.png)
 
 Start the listener:
 
@@ -197,7 +197,7 @@ python3 exploit.py
 
 This should give you a shell:
 
-![shell-23]()
+![shell-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/shell-23.png)
 
 
 ## Privilege Escalation
@@ -224,7 +224,7 @@ reg query HKCU\Software\Policies\Microsoft\Windows\Installer
 
 We can see that both entries are enabled:
 
-![policy-24]()
+![policy-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/policy-24.png)
 
 
 This means that anytime we run an `.msi` installer it runs as the `LocalSystem`. 
@@ -260,4 +260,4 @@ msiexec /quiet /qn /i shell.msi
 
 This should give you system access to the target:
 
-![root-25]
+![root-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Love/img/root-25.png)
