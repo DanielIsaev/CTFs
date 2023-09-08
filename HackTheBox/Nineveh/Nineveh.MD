@@ -228,7 +228,7 @@ If we open one of these files we can see:
 
 ![file-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/file-34.png)
 
-This looks like output from the [chrootkit](http://www.chkrootkit.org/) program, its probably running in a background task. Lets check for exploits:
+This looks like output from the [chkrootkit](http://www.chkrootkit.org/) program, its probably running in a background task. Lets check for exploits:
 
 ```bash
 searchsploit chkrootkit
