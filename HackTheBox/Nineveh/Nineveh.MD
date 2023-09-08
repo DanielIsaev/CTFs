@@ -23,17 +23,17 @@ If we open the site at `http://noneveh.htb/` we see the following:
 Not much to see here, lets run a directory and file scan with:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-mediu
-m.txt -u http://nineveh.htb/FUZZ -e .cgi,.php,.txt,.bak,.sql,.pl,.sh,.py
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://nineveh.htb/FUZZ -e .cgi,.php,.txt,.bak,.sql,.pl,.sh,.py
 ```
 
 ![ffuf-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/ffuf-04.png)
 
-We have two interestig results. The first is php info output, it is possible to exploit this if `file_uploads = on`, and we have LFI. More info [here](https://insomniasec.com/downloads/publications/LFI%20With%20PHPInfo%20Assistance.pdf), however the second folder is a login page:
+We have two interestig results. The first is a php info page, it is possible to exploit this if `file_uploads = on`, and we have LFI. More info [here](https://insomniasec.com/downloads/publications/LFI%20With%20PHPInfo%20Assistance.pdf), however the second folder is a login page:
 
 ![dept-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/dept-05.png)
 
-The good old `admin:admin` combo gives away some username information disclosure, this makes brute forcing easier so lets try it! To do that i setup `hydra` as such:
+The good old `admin:admin` combo gives away some username information disclosure, this makes brute forcing easier so lets try it! 
+To do that i setup `hydra` as such:
 
 ```bash
 hydra -l admin -P /usr/share/wordlists/rockyou.txt nineveh.htb http-post-form "/department/login.php:username=^USER^&password=^PASS^:Invalid Password\!"
@@ -49,25 +49,23 @@ Not much to see here, lets check this `Notes` link:
 
 ![notes-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/notes-08.png)
 
-This note references a login page, definitely not this one since it mentions only having a password 
-field. It's probably reffering to the site running on port 443, before we check it out, I've noticed
-something interesting in the URL:
+This note references a login page, definitely not this one since it mentions only having a password field. It's probably reffering to the site running on
+port 443. But before we check it out, I've noticed something interesting in the URL:
 
 ![lfi-08.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/lfi-08.5.png)
 
-Looks like the URL is fetching a file, I'm thinking LFI, lets poke around. At first i sent the following payload `files/ninevehNotes.txt/../../../../../etc/passwd`
+Looks like the URL is fetching a file, I'm thinking LFI, let's poke around. At first i sent the following payload `files/ninevehNotes.txt/../../../../../etc/passwd`
 
 ![erro-08.6](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/err-08.6.png)
 
 This does raise an error. Then i tried `files/../../../../etc/passwd` which didnt raise an error. 
-Maybe we need `ninevehNotes` to be in the path? perhaps if we remove the `.txt` extension:
+Maybe we need `ninevehNotes` to be in the path? perhaps if we remove the `.txt` extension instead:
 
 `file/ninevehNotes/../../../../../../../etc/passwd`
 
 ![passwd-08.7](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/passwd-08.7.png)
 
-There it is. However at this point we can't really do much with this. We can try to guess filenames on
-the system through this LFI, but it will take a very long time, and possibly wont lead to us getting shell access. Lets leave it for now and check the site on port 443.
+There it is. However at this point we can't really do much with it. We can try to guess filenames on the system through this LFI, but it will take a very long time, and possibly wont lead us to getting a shell. Lets leave it for now and check the site on port 443.
 
 
 ### Apache Port 443
@@ -79,8 +77,7 @@ If we open the site at `https://nineveh.htb`, we see the following:
 Lets run a directory and file scan with:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-mediu
-m.txt -u https://nineveh.htb/FUZZ -e .cgi,.php,.txt,.bak,.sql,.sh,.py,.pl
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u https://nineveh.htb/FUZZ -e .cgi,.php,.txt,.bak,.sql,.sh,.py,.pl
 ```
 ![ffuf-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/ffuf-10.png)
 
@@ -98,15 +95,12 @@ hydra -l admin -P  /usr/share/wordlists/rockyou.txt nineveh.htb https-post-form 
 
 ![hydra-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/hydra-12.png)
 
-
 Lets login:
 
 ![php-admin-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/php-admin-13.png)
 
-
-Now we can try to pull of the RCE attack by creating a new database with a `.php` extension. Then, 
-we need to create a table, and add a text field with `php` code for RCE inside the table.   
-Then we can use the LFI vulnerability to render our database, which will trigger the RCE. 
+Now we can try to pull of the RCE attack by creating a new database with a `.php` extension. Then, we need to create a table, and add a text field 
+with `php` code for RCE inside the table. Then we can use the LFI vulnerability to render our database, which will trigger the RCE. 
 
 First, we need to create a new database with a `.php` extension:
 
