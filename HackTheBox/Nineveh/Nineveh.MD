@@ -33,6 +33,8 @@ We have two interestig results. The first is a php info page, it is possible to 
 ![dept-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Nineveh/img/dept-05.png)
 
 The good old `admin:admin` combo gives away some username information disclosure, this makes brute forcing easier so lets try it! 
+
+
 To do that i setup `hydra` as such:
 
 ```bash
