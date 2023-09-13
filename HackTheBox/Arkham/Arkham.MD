@@ -157,7 +157,7 @@ In short, an unauthenticated attacker can send specially crafted AJP packets to 
 
 Next, i turned to the `web.xml.bak` file, and this is where things started to get interesting. 
 
-![faces-15]https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/faces-15.png()
+![faces-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/faces-15.png)
 
 This configuration line establishes a new servlet class for the `*.faces` url pattern. So i decided to look around the site to find instances
 of this pattern, until i found the `Subscribe` page:
