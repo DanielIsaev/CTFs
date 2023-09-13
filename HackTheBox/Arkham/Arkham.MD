@@ -86,6 +86,7 @@ dd if=backup.img of=header.luks bs=512 count=4097
 ![dd-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/dd-09.png)
 
 This will create a 2MB file which includes all the data `hashcat` needs to crack the master key. 
+
 Now we can run a dictionary attack againts this file with:
 
 ```bash
