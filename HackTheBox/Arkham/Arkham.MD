@@ -173,7 +173,9 @@ I wasn't sure exactly what these `.faces` files mean, so i decided to do a bit o
 In short, since `HTTP` is a stateless protocol, certian web servers implement a state management mechanisim in their application stack. With the objective of storing and restoring results of users actions that impacted the user interface of a web page, (The thank you page genereted based on our email input).
 
 The Apache Tomcat is a pure Java server, and Java has `JavaServer Faces (JSF)` as its state management feature, This is where the `.faces` pages come in.
-In pages where state managment is implemented, there will be a hidden field in the page named `javax.faces.ViewState`. If we refresh our request to the subscribe feature on our target and capture the request in `Burp` we can see the view state:
+In pages where state managment is implemented, there will be a hidden field in the page named `javax.faces.ViewState`. 
+
+If we refresh our request to the subscribe feature on our target and capture the request in `Burp` we can see the view state:
 
 ![viewstate-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/viewstate-18.png)
 
