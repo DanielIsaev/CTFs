@@ -127,7 +127,7 @@ Looks like the Apache server's configuration directory.
 
 At first, i checked `tomcat-users.xml`, as it is possible to gain RCE via the [Tomcat Web Application Manager](https://tomcat.apache.org/tomcat-7.0-doc/html-manager-howto.html). The manager is an administrative featrue, designed to give administrators the ability to remotly manage the server, by adding/removing/modifying content, etc. 
 
-If we have proper credentials of a user with admin roles that are configured in `tomcat-users.xml`, we can upload a `war` reverse shell with this command:
+If we have proper credentials of a user with admin roles which is configured in `tomcat-users.xml`, we can upload a `war` reverse shell with this command:
 
 ```bash
 curl --upload-file monshell.war -u 'tomcat:password' "http://localhost:8080/manager/text/deploy?path=/monshell"
