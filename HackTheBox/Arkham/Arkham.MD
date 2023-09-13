@@ -45,7 +45,7 @@ smbclient -N  \\\\arkham.htb\\BatShare
 
 Yes we can connect anonymously.
 
-We have a single zip archive here, lets get it to our attack machine and examine it. 
+We have a single `zip` archive here, lets transfer it over to our attack machine and examine it. 
 
 ```bash
 unzip appserver.zip
