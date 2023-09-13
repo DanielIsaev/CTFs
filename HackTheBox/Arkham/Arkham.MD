@@ -22,6 +22,7 @@ We have the following:
 + RPC related ports in 49666 & 49667.
 
 Lets start by taking a quick look at the SMB server, maybe it allows unauthenticated access to system resources. 
+
 After that we'll take a look at the HTTP servers. 
 
 ## SMB Port 445
