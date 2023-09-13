@@ -43,7 +43,9 @@ smbclient -N  \\\\arkham.htb\\BatShare
 
 ![batshare-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/batshare-04.png)
 
-Yes we can connect anonymously. We have a single zip archive here, lets get it to our attack machine and examine it. 
+Yes we can connect anonymously.
+
+We have a single zip archive here, lets get it to our attack machine and examine it. 
 
 ```bash
 unzip appserver.zip
