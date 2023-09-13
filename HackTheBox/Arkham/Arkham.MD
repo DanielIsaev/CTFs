@@ -337,7 +337,7 @@ Now we can move on to the final stage were we contruct our payload, here is the 
 java -jar ysoserial-all.jar BeanShell1 'ping 10.10.14.61' > payload.bin
 ```
 
-+ Open `payload.bin` from our Python script, and pad it with 8 bytes so we can encrypt the contents nicly with DES.
++ Open `payload.bin` from our Python script, and pad it with 8 bytes so we can encrypt the contents nicely with DES.
 
 + Compute the `SHA1` digest and add that to the end of the message.
 + Base64 encode it the object. 
