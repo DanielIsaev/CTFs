@@ -622,7 +622,7 @@ Now lets enter the session with `sessions -i 1` and load powershell:
 
 ![full-53](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Arkham/img/full-53.png)
 
-The first time i did this the session died on me, but this spwned a seconed session and this time it worked. 
+The first time i did this the session died on me, but this spawned a seconed session and this time it worked. 
 
 Now we want to migrate to an interactive and a x64 process, `explorer.exe` is an easy choice:
 
