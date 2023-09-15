@@ -66,7 +66,7 @@ I've tried to look for this file in the root of the site, wasnt able to find it.
 
 The last link on the main site redirected me to `Laravel`'s Github page where we can find the source code. This is nice, and i read through it a bit, but it seems that the directory structure is different on our target. I tried to use directory treversal tricks to find juicy files but without much success.
 
-So i decided to look online for some hacking tricks on `Laravel`, i found a few interesting articals like [this](https://labs.withsecure.com/publications/laravel-cookie-forgery-decryption-and-rce) one and [this](https://www.ambionics.io/blog/laravel-debug-rce) one, that describe more advanced attacks againts the EAS CBC chiper mode, and some serialized attacks againts PHP. 
+So i decided to look online for some hacking tricks on `Laravel`, i found a few interesting articals like [this](https://labs.withsecure.com/publications/laravel-cookie-forgery-decryption-and-rce) one and [this](https://www.ambionics.io/blog/laravel-debug-rce) one, that describe more advanced attacks againts the AES CBC chiper mode, and some serialized attacks againts PHP. 
 
 Before delving into these sorts of attacks i decided to take a look at the `admin.cronos.htb` subdomain.
 
