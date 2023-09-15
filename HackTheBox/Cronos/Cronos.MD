@@ -20,7 +20,7 @@ We have the following:
 
 Let's start with the DNS server to see if we can query some useful information, then we can take a look at the Apache server.
 
-### DNS port 53
+### DNS Port 53
 
 Lets try to query for all the entries that the server is willing to disclose:
 
