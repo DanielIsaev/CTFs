@@ -16,7 +16,7 @@ We have the following:
 
 + An SSH server on port 22.
 + A DNS server on port 53. 
-+ A Apache server on port 80.
++ An Apache server on port 80.
 
 Let's start with the DNS server to see if we can query some useful information, then we can take a look at the Apache server.
 
