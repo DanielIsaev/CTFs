@@ -352,7 +352,7 @@ So instead I decided to run the local scripts. This works, and they produced `cs
 
 An `Incompatible Collector` error. I did a bit of research and found the [following git issue](https://github.com/BloodHoundAD/BloodHound/issues/516) from the offical BloodHound team. In short, BloodHound is devided into two parts, the data `Collectors` (A.K.A Ingestors), and the BloodHound visualizer which utilizes `neo4j` to render the information in graphs and enables us to perfrom queries. 
 
-If the difference in versions between the collector and the visualizer are too big we might encounter this `Incompatible Collector` issue. The same post suggests that the output from the `SharpHound.exe` collctor should be acceepted by newer versions of the Visualizer, but we have an issue on our target with the AppLocker blocking it's execution. 
+If the difference in versions between the collector and the visualizer are too big we might encounter this `Incompatible Collector` issue. The same post suggests that the output from the `SharpHound.exe` collector should be acceepted by newer versions of the Visualizer, but we have an issue on our target with the AppLocker blocking it's execution. 
 
 I've tried to bypass the Applocker, I found [this](https://juggernaut-sec.com/applocker-bypass/) post, as well as [this](https://github.com/api0cradle/UltimateAppLockerByPassList) page, that detail how we can try to bypass the Applocker. I've tested a few different techinques but none of them worked for me. And nothing really guarantees that the ouptut from the exe collector will actually be accepted by the visualizer. 
 
