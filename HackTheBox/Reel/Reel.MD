@@ -197,7 +197,7 @@ We can see an embedded java script code to load powershell, download the real re
 
 If you pay attention youl'l find that there are two definitions of the `server_thread()` function, one after the definition of the `exploitation_rtf()` function, and the other is defined after the definition of the `exploitation_ppsx()` fucntion. 
 
-Each `server_thread()` definition is similar in stucture to the other, but has slight variations in it's responses and command injection syntax. I believe that the author defined each variation to be used by a different exploitaion function, but this is not the case. When the Python compiler transforms the source code into machine code, the last definition of the `server_thread()` will overwrite the first one. 
+Each `server_thread()` definition is similar in structure to the other, but has slight variations in it's responses and command injection syntax. I believe that the author defined each variation to be used by a different exploitaion function, but this is not the case. When the Python compiler transforms the source code into machine code, the last definition of the `server_thread()` will overwrite the first one. 
 
 We can see each `server_thread()` function being invoked at the end of each exploitation function with `thread.start_new_thread(server_thread, (conn, client_addr))`. What we can do is change the name of each `server_thread()` function to something unique, and call each one using it's distinct name. 
 
