@@ -105,7 +105,7 @@ The `rtf` vulnerability we found earlier looks solid, we just need to find an em
 
 After reading through the `docx` files on the terminal, I decided to take a look at the SMB server, but I wasn't able to connect, or gather any information. 
 
-So I moved on to the SMTP server, and tried to enumerate usernames via the `VRFY` and `EXPN` methods. This didn't work, as the server refuses both methods. I then tried to enumerate usernames via the `RCPT TO` method, but the server accepted every username provided, so this didn't help me either. 
+So I moved on to the SMTP server, and tried to enumerate usernames via the `VRFY` and `EXPN` methods. This didn't work, as the server refuses both methods. I then tried to enumerate usernames via the `RCPT TO` method, but the server accepted every username provided with a `@reel.htb` suffix, so this didn't help me either. 
 
 I took a step back, and thought, "maybe there is hidden information in the `docx` files?". So I transferred the files over to a Windows machine and inspected the documents.
 
