@@ -249,11 +249,7 @@ reg query HKLM\Software\Policies\Microsoft\Windows\Installer
 reg query HKCU\Software\Policies\Microsoft\Windows\Installer
 ```
 
-But this comes out empty as well. I decided to list all the users on this machine:
-
-```cmd
-net user
-```
+But this comes out empty as well. I decided to list all the users on this machine with `net users`:
 
 ![users-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Reel/img/users-24.png)
 
