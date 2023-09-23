@@ -57,7 +57,7 @@ Lets start with the `txt` file:
 
 The note is refering to [Rich Text Format](https://en.wikipedia.org/wiki/Rich_Text_Format), which is a proprietary document file format developed by Microsoft from 1987 until 2008 for cross-platform document interchange with Microsoft products.
 
-The note also says that if we send an `rtf` file via email it will be converted and saved here. I presume that by "here" they ment the FTP server, therefore i'm guessing that the two `Word` documents here, are examples of `rtf` files that have been converted to `Word` documents.
+The note also says that if we send an `rtf` file via email it will be converted and saved here. I presume that by "here" they meant the FTP server, therefore i'm guessing that the two `Word` documents here, are examples of `rtf` files that have been converted to `Word` documents.
 
 Two question arise, 
 
