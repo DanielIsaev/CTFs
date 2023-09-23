@@ -122,11 +122,7 @@ Anyway, lets try to pull off the exploit.
 
 ## Exploit
 
-I did a bit of research as to why exactly the vulnerability happens, I found [this](https://www.mdsec.co.uk/2017/04/exploiting-cve-2017-0199-hta-handler-vulnerability/#:~:text=FireEye%20recently%20documented%20attacks%20of,the%20April%202017%20Microsoft%20Update.) artical that gave a nice little overview. 
-
-In short, `CVE-2017-0199` was originally a 0-day vulnerability in the Windows HTA handler being exploited using Office RTF documents. The issue occurs when using an OLE2 embedded link object, if the user clicks the embedded link, the handler then retrives the file at the link, possibly executing it. Therefore, if we link to a reverse shell payload on our attack machine, and embed that link into the `rtf` file, when it's processed, we should get a shell to the target system.
-
-In terms of the exploit we found earlier, I found [this](https://www.hackingarticles.in/exploit-windows-10-pc-microsoft-rtf-file-cve-2017-0199/) and [this](https://packetstormsecurity.com/files/142211/Microsoft-RTF-Remote-Code-Execution.html) articals that describe how to use it. 
+I did a bit of research as to hwo we can pull this exploit off. I found [this](https://www.hackingarticles.in/exploit-windows-10-pc-microsoft-rtf-file-cve-2017-0199/) and [this](https://packetstormsecurity.com/files/142211/Microsoft-RTF-Remote-Code-Execution.html) articals that describe how to use it. 
 
 This is a two stage exploit, In the first stage we create the malicious `rtf` file, and embed a link to an arbitrary URL we control. In the second stage, we link the arbirary URL to an actual reverse shell payload we control, and start a web server. When the target requests the arbitrary URL, we use command injection in the HTML response code to point it towards the actual reverse shell, download and execute it.  
 
