@@ -69,7 +69,7 @@ Let's start with the latter question.
 
 If we search online for `rtf exploit` we find quite a large sample of results, but what stood out the most to me was [this](https://github.com/bhdresh/CVE-2017-0199) RCE exploit.
 
-This is a Python 2 exploit for a known vulnerability, [CVE-2017-0199](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0199). This script generates an `rtf` file with an embedded link inside it. This file then has to be delivered to a victim user which needs to click the embedded link. When they do, the `rtf` parser will fetch the file and execute it. So we need to generate the malicious `rtf` and host a reverse shell as the embedded link.
+This is a Python 2 exploit for a known vulnerability, [CVE-2017-0199](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0199). This script generates an `rtf` file with an embedded link inside it. This file then has to be delivered to a victim user which needs to click the embedded link. When they do, the `rtf` parser will fetch the file and execute it. So we need to generate a malicious `rtf` file and host a reverse shell as the embedded link.
 
 There were also two `docx` files we got from the FTP. We can convert these file to text file on linux with `docx2txt`, i.e: `docx2text <in_file.docx> <out_file.txt>`
 
