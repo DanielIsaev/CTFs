@@ -122,7 +122,7 @@ Anyway, lets try to pull off the exploit.
 
 ## Exploit
 
-I did a bit of research as to hwo we can pull this exploit off. I found [this](https://www.hackingarticles.in/exploit-windows-10-pc-microsoft-rtf-file-cve-2017-0199/) and [this](https://packetstormsecurity.com/files/142211/Microsoft-RTF-Remote-Code-Execution.html) articals that describe how to use it. 
+I did a bit of research as to how we can pull this exploit off. I found [this](https://www.hackingarticles.in/exploit-windows-10-pc-microsoft-rtf-file-cve-2017-0199/) and [this](https://packetstormsecurity.com/files/142211/Microsoft-RTF-Remote-Code-Execution.html) articals that describe how to use it. 
 
 This is a two stage exploit, In the first stage we create the malicious `rtf` file, and embed a link to an arbitrary URL we control. In the second stage, we link the arbirary URL to an actual reverse shell payload we control, and start a web server. When the target requests the arbitrary URL, we use command injection in the HTML response code to point it towards the actual reverse shell, download and execute it.  
 
