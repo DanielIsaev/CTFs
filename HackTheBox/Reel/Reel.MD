@@ -296,7 +296,7 @@ I found [this](https://systemweakness.com/powershell-credentials-for-pentesters-
 
 To do this we need an active powershell session, luckily we have SSH enabled on this machine, and we can use the credentials we found earlier to get access. Once we are connected via the SSH we need to start a powershell session with `powershell -exec bypass`. 
 
-ION the powershell session, we can run the following commands to reproduce the password:
+In the powershell session, we can run the following commands to reproduce the password:
 
 1) Create two variables for the username and password. The password we need to convert to a `Secure String`:
 
