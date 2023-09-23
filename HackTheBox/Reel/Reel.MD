@@ -301,7 +301,7 @@ In the powershell session, we can run the following commands to reproduce the pa
 1) Create two variables for the username and password. The password we need to convert to a `Secure String`:
 
 ```powershell
-PS> $user = "batman@gotham.com" 
+PS> $user = "nico@htb.local" 
 PS> $pass = "<pass>" | ConvertTo-SecureString
 ```
 
