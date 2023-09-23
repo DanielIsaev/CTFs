@@ -438,7 +438,7 @@ We have `WriteOwner` access over Claire's account. If we click on the `Help` but
 
 I want to go for the account take over using the password reset. We can do this with the `Set-DomainUserPassword` function of `PowerView.ps1`. 
 
-To do this we need to load `PowerView.ps1` into a powershell session and tun the following:
+To do this we need to load `PowerView.ps1` into a powershell session and run the following:
 
 ```powershell
 ### Set tom as the owner of claire’s ACL 
