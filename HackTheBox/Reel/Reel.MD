@@ -115,6 +115,8 @@ I started with the `'Windows Event Forwarding.docx'` file:
 
 Looks like our target email address. I had a similier situation once with a different machine which had clear text credentials inside a Macro of an `Excel` file. It's important to inspect Microsoft files on a Windows system as well as a Linux system, as there is often metadata left over on them.  
 
+We could have used `exiftool` on the word documents to extract the metadata on a Linux system as well. 
+
 Anyway, lets try to pull off the exploit. 
 
 
