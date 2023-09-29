@@ -1,5 +1,5 @@
 # Sense [HTB](https://app.hackthebox.com/machines/111)
-![sense-01]()
+![sense-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/sense-01.png)
 
 ## Recon 
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file, I fire off an `nmap` scan:
 nmap -sC -sV -A -p- sense.htb -oN nmap.result
 ```
 
-![nmap-res-02]()
+![nmap-res-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/nmap-res-02.png)
 
 We have the following:
 
@@ -22,7 +22,7 @@ The target runs a single HTTP service with a lighthttpd server. Port 80 immediat
 
 I open up my browser and type `https://senhse.htb`, my browser warns me about the validity of the certificate of this site, I accept the risks and ask to load the page anyway:
 
-![site-03]()
+![site-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/site-03.png)
 
 The site references [DNS rebinding attacks](https://en.wikipedia.org/wiki/DNS_rebinding). These attacks usually involve a victim user clicking on a link, or a hidden HTML tag that leads to a domain controlled by the attacker's DNS server. 
 
@@ -30,7 +30,7 @@ The DNS rebinding attack leverages  the control the attacker has over the DNS to
 
 Some examples of attack vectors can be internal network components in an enterprise enviorement, internal resources on the server itself, other sites altogether, like banking sites, etc. Here is the general scheme of the attack:
 
-![dns-rebind-04]()
+![dns-rebind-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/dns-rebind-04.png)
 
 Palo Alto has a nice [artical](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwiVt9rOvsqBAxUkhv0HHUP2AQ4QFnoECBAQAQ&url=https%3A%2F%2Funit42.paloaltonetworks.com%2Fdns-rebinding%2F&usg=AOvVaw1ZW27d0rhTxtJWKsFNLpUl&opi=89978449) about DNS rebinding attacks if you want to read more about it.
 
@@ -39,7 +39,7 @@ To avoid potential DNS rebinding attacks, the server replied with the above erro
 
 I dont see much potential in pulling a DNS rebinding attack againts this target. Let's open the web server through an IP address instead:
 
-![login-req-05]()
+![login-req-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/login-05.png)
 
 This is an admin login portal for the [pfSense](https://www.pfsense.org/) open source firewall. At first I tried default credentials, when that failed I tried to brute force the login page. I wrote a simple script in Python to bypass the anti-csrf and session cookies which did work, but I've noticed that I get blocked after about 15 failed attempts. 
 
@@ -51,17 +51,17 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 This yields quite a lot of results, but the most interesting one to me is this:
 
-![users-06]()
+![users-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/users.png)
 
 If we open this file we can see the following:
 
-![file-07]()
+![file-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/file-07.png)
 
 This gives us a username. The password is set to be "company default", if we search online for default pfSense credenitlas we will find that the default password for most if not all appliances is `pfsesne`. 
 
 After a few failed login attempts I found that the username is misspelled, and the credentials that do work are `rohit : pfsense`. This gets us inside the pfsense admin panel:
 
-![admin-panel-08]()
+![admin-panel-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/admin-panel-08.png)
 
 We can see that the version is 2.1.3 for a 64-bit FreeBSD machine. Let's search for exploits with:
 
@@ -69,11 +69,11 @@ We can see that the version is 2.1.3 for a 64-bit FreeBSD machine. Let's search 
 searchsploit pfsense 2.1.3
 ```
 
-![searchsploit-09]()
+![searchsploit-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/searchsploit-09.png)
 
 Command Injection sounds good. After a bit of searching online I found that there is also a metasploit version available, so I decided to review the source code to try and pull this off manually:
 
-![source-10]()
+![source-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/source-10.png)
 
 Two things are going on here. First the actual payload is encoded to octal values. Next, the actual exploitation is executed via a Get request to the following URL:
 
@@ -101,9 +101,9 @@ print(payload)
 
 Finally, we need to URL encode the `|` characters found in the URL to `%7c`. All in all my final request to the server looks like this:
 
-![req-11]()
+![req-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/req-11.png)
 
 This gets me a shell as root:
 
-![root-12]()
+![root-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/root-12.png)
 
