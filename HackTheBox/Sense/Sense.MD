@@ -51,7 +51,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 This yields quite a lot of results, but the most interesting one to me is this:
 
-![users-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/users.png)
+![users-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/users-.png)
 
 If we open this file we can see the following:
 
