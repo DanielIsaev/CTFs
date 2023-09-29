@@ -20,7 +20,7 @@ The target runs a single HTTP service with a lighthttpd server. Port 80 immediat
 
 ## HTTP Port 443
 
-I open up my browser and type `https://senhse.htb`, my browser warns me about the validity of the certificate of this site, I accept the risks and ask to load the page anyway:
+I open up my browser and type `https://sense.htb`, my browser warns me about the validity of the certificate of this site, I accept the risks and ask to load the page anyway:
 
 ![site-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/site-03.png)
 
