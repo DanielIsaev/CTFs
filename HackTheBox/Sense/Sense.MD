@@ -46,7 +46,7 @@ This is an admin login portal for the [pfSense](https://www.pfsense.org/) open s
 So instead, I decided to run a directory and file scan using `ffuf`:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-big.txt -u https://10.129.103.206/FUZZ -e .php,.cgi,.js,.html,.txt,.json,.xml
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-big.txt -u https://10.129.103.157/FUZZ -e .php,.cgi,.js,.html,.txt,.json,.xml
 ```
 
 This yields quite a lot of results, but the most interesting one to me is this:
