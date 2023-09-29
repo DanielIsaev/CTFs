@@ -75,7 +75,7 @@ Command Injection sounds good. After a bit of searching online I found that ther
 
 ![source-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/source-10.png)
 
-Two things are going on here. First the actual payload is encoded to octal values. Next, the actual exploitation is executed via a Get request to the following URL:
+Two things are going on here. First the payload is encoded to octal values. Next, the actual exploitation is executed via a `GET` request to the following URL:
 
 ```bash
 /status_rrd_graph_img.php?database=-throughput.rrd&graph=file|printf%20%27<PAYLOAD>%27|sh|echo
