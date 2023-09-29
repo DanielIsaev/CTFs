@@ -57,7 +57,7 @@ If we open this file we can see the following:
 
 ![file-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sense/img/file-07.png)
 
-This gives us a username. The password is set to be "company default", if we search online for default pfSense credenitlas we will find that the default password for most if not all appliances is `pfsesne`. 
+This gives us a username. The password is set to be "company default", if we search online for default `pfSense` credentials we will find that the default password for most if not all appliances is `pfsesne`. 
 
 After a few failed login attempts I found that the username is misspelled, and the credentials that do work are `rohit : pfsense`. This gets us inside the pfsense admin panel:
 
