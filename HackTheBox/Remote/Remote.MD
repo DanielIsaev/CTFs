@@ -176,7 +176,7 @@ systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 
 ![os-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Remote/img/os-17.png)
 
-So `JuicyPotato` wont work here. Instead we can use [RoguePotato](https://github.com/antonioCoco/RoguePotato) which can download a compiled version [here](https://github.com/k4sth4/Rogue-Potato/blob/main/RoguePotato.exe). 
+So `JuicyPotato` wont work here. Instead we can use [RoguePotato](https://github.com/antonioCoco/RoguePotato) which can be download [here](https://github.com/k4sth4/Rogue-Potato/blob/main/RoguePotato.exe). 
 
 Once we have Rogue-Potato on our Kali, we need to transfer it over to the target using a python server:
 
