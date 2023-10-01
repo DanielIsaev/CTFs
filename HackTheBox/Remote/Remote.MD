@@ -115,7 +115,7 @@ This sounds interesting and it also gave us a redirect. Lets see where this lead
 
 ![login-page-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Remote/img/login-page-12.png)
 
-It redirected us to `http://remote.htb/umbraco/#/login`. At first I tried authenticating with `admin : `baconandcheese` but this failed. I tried different usernames until I found that `admin@htb.local` works:
+It redirected us to `http://remote.htb/umbraco/#/login`. At first I tried authenticating with `admin : baconandcheese` but this failed. I tried different usernames until I found that `admin@htb.local` works:
 
 ![admin-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Remote/img/admin-13.png)
 
