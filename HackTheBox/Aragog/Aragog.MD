@@ -224,7 +224,7 @@ Looks like `cliff` is running `wp-login.py` via a task. I wasnt sure what this s
 
 ![source-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/source-24.png)
 
-Looks like its automating the login process to the WordPress admin panel. We can see some credentials are stored in a dictionary, and used to login, but none of them matches the username we saw in the database, so I presume `cliff` edited this file with the correct credentials. The path to the login script is also different on our target. We dont have `wp-admin/wp-login.php`, we have `wp-login.php`. 
+Looks like its automating the login process to the WordPress admin panel. We can see some credentials are stored in a dictionary, and used to login, but none of them matches the username we saw in the database, so I presume `cliff` edited this file with the correct credentials. 
 
 We can see that the login request is a `POST` request with the parameters: `log` for the username, and `pwd` for the password. 
 
