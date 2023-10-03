@@ -11,7 +11,7 @@ nmap -p- --min-rate 10000 aragog.htb
 
 ![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/ports-02.png)
 
-Now we can perfrom an extensive query of these services with:
+Now we can perfrom an extensive query of these ports with:
 
 ```bash
 nmap -p 21,22,80 -sCV aragog.htb -oN nmap.result
