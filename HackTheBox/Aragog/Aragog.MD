@@ -39,7 +39,7 @@ Now we can read the file:
 
 ![test-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/test-05.png)
 
-This looks like a possible XML file because the tag names are custom, meanining they are XML entitie, not HTML tags. A subnet of /26 being is saved as the data. At the moment I'm not really sure what this subnet represents or how it comes into play here. I tried running `binwalk` and `exiftool` againts this file to see if maybe there is hidden content but there isn't. 
+This looks like a possible XML file because the tag names are custom, meanining they are XML entities, not HTML tags. A subnet of /26 being is saved as the data. At the moment I'm not really sure what this subnet represents or how it comes into play here. I tried running `binwalk` and `exiftool` againts this file to see if maybe there is hidden content but there isn't. 
 
 Let's move on to the Apache server. 
 
