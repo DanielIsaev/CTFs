@@ -184,7 +184,7 @@ Enter password: <paste pass>
 
 ![welcome-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/welcome-19.png)
 
-the `wp_wiki` is the database we want. 
+`wp_wiki` is the database we want. 
 
 ```sql
 select wp_wiki;
@@ -193,7 +193,7 @@ show TABELS;
 
 ![tables-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/tables-20.png)
 
-The `wp_users` looks juicy. Let's retrieve everything form this table:
+The `wp_users` table looks juicy. Let's retrieve everything form this table:
 
 ```sql
 select * from wp_users;
