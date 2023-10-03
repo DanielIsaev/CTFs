@@ -29,7 +29,7 @@ We have the following:
 It appears that the FTP server is allowing anonymous logins, and `nmap` has found a text file of `test.txt`. The Apache web server is appeard to be serving a default page. Let's start with the FTP server, and see what we can gather, after that we'll take a look at that Apache server. 
 
 
-## FTP port 21
+## FTP Port 21
 
 Let's log in anonymously with `anonymous : anything` and get the text file:
 
