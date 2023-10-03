@@ -1,5 +1,5 @@
 # Aragog [HTB](https://app.hackthebox.com/machines/126)
-![aragog-01]()
+![aragog-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/aragog-01.png)
 
 ## Recon 
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file, I start scanning for open ports
 nmap -p- --min-rate 10000 aragog.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/ports-02.png)
 
 Now we can perfrom an extensive query of these services with:
 
@@ -17,7 +17,7 @@ Now we can perfrom an extensive query of these services with:
 nmap -p 21,22,80 -sCV aragog.htb -oN nmap.result
 ```
 
-![namp-res-03]()
+![namp-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/nmap-res-03.png)
 
 We have the following:
 
@@ -33,11 +33,11 @@ It appears that the FTP server is allowing anonymous logins, and `nmap` has foun
 
 Let's log in anonymously with `anonymous : anything` and get the text file:
 
-![ftp-04]()
+![ftp-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/ftp-04.png)
 
 Now we can read the file:
 
-![test-05]()
+![test-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/test-05.png)
 
 This looks like a possible XML file because the tag names are custom, meanining they are XML entitie, not HTML tags. A subnet of /26 being is saved as the data. At the moment I'm not really sure what this subnet represents or how it comes into play here. I tried running `binwalk` and `exiftool` againts this file to see if maybe there is hidden content but there isn't. 
 
@@ -48,7 +48,7 @@ Let's move on to the Apache server.
 
 If we open the site at `http://aragog.htb` we can see the default Apache page:
 
-![site-06]()
+![site-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/site-06.png)
 
 Not much to do or see here, let's run a directory and file scan using:
 
@@ -58,19 +58,19 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 Which revealed the following file:
 
-![hosts-07]()
+![hosts-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/hosts-07.png)
 
 If we open this file in our browser we get the following:
 
-![result-08]()
+![result-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/result-08.png)
 
 Could this be referencing the number of hosts per subnet? Let's take a look at our request and response in Burp:
 
-![burp-09]()
+![burp-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/burp-09.png)
 
 Looks rather simple, doesnt seem like we are uploading anything to the server, how does it come up with this answer then? can we try to upload something? Lets try the file we downloaded from the FTP, it had a subnet inside it.
 
-![upload-10]()
+![upload-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/upload-10.png)
 
 We can see the file upload was sucssesful, the file we found from the FTP is what this php script is looking for. It waits for XML files with an `<subnet_mask>` entity to prase and calculate the number of hosts per the subnet value.
 
@@ -86,7 +86,7 @@ At first I tried the following payload:
 </details>
 ```
 
-![success-11]()
+![success-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/success-11.png)
 
 This gives us `/etc/passwd`. Next I tried to execute a command using the following payload:
 
@@ -112,7 +112,7 @@ I created a simple text file with `echo "pwned" > myfile.txt` and hosted it via 
 </details>
 ```
 
-![fetch-12]()
+![fetch-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/fetch-12.png)
 
 We can see that not only the target fetched the file, it opend it , and used it's contents to render the response. So I decided to retrive the source code for the `hosts.php` file to see how we can break it's logic. I used the following payload:
 
@@ -130,18 +130,18 @@ We can see that not only the target fetched the file, it opend it , and used it'
 
 This returns the file in base64, after decoding it it looks like this:
 
-![source-13]()
+![source-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/source-13.png)
 
 I tired to break out of the `echo` statement with payloads like `" . system('ls') //`, etc, but nothing worked. It appears that we can only read files form the target, this could be enough though, since we know SSH is anbled on this server, maybe we can find SSH keys? 
 
 Based on the content of `/etc/passwd` we know that we have two valid user accounts on the target:
 
-![users-14]()
+![users-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/users-14.png)
 
 We have `florian` and `cliff`, let's dig inside their home folders and see if we can fetch something.
 Let's start with the first user account `florian`. The private SSH key is usually stored at `~/.ssh/id_rsa`:
 
-![key-15]()
+![key-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/key-15.png)
 
 Looks good, I highlighted the key and saved it to a file locally. I tried to get `cliff`'s private key as well but that didnt work. 
  
@@ -157,7 +157,7 @@ Otherwise we will get an error. Then we can connect using:
 ssh -i florian_key florian@aragog.htb
 ```
 
-![shell-16]()
+![shell-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/shell-16.png)
 
 
 ## Privilege Escalation
@@ -166,14 +166,14 @@ After having a look around our user's home directory I decided to run [linpeas.s
 
 Running it brought some interesting results:
 
-![linpeas-17]()
+![linpeas-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/linpeas-17.png)
 
 Looks like we have `WordPress` on the Apache server, this directory didnt came up in my directory scan.
 I know from `HackTricks`'s [page](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/wordpress) that `WordPress` has a sensetive file at `wp-config.php` which may disclose credentials to the `WordPress` database.
 
 If we `cat` this file:
 
-![db-18]()
+![db-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/db-18.png)
 
 We see the creds. We can try to log in with the following syntax:
 
@@ -182,7 +182,7 @@ mysql -uroot -p
 Enter password: <paste pass>
 ```
 
-![welcome-19]()
+![welcome-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/welcome-19.png)
 
 the `wp_wiki` is the database we want. 
 
@@ -191,7 +191,7 @@ select wp_wiki;
 show TABELS;
 ```
 
-![tables-20]
+![tables-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/tables-20.png)
 
 The `wp_users` looks juicy. Let's retrieve everything form this table:
 
@@ -199,12 +199,12 @@ The `wp_users` looks juicy. Let's retrieve everything form this table:
 select * from wp_users;
 ```
 
-![users-21]()
+![users-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/users-21.png)
 
 
 We get the admin's password hash. Lets's [idenetify the hash](https://hashes.com/en/tools/hash_identifier):
 
-![hash-22]()
+![hash-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/hash-22.png)
 
 This gives a potential for a few different hash types. I found that the hash fits the format of the `phpass` hashing algorithm. I tried to crack it with `hashcat` using:
 
@@ -218,11 +218,11 @@ At this point I got rather stuck, I wasnt sure exactly how to proceed, I started
 
 At some point I decided to list out the running processes on the system with `ps auxww` :
 
-![ps-auxww-23]()
+![ps-auxww-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/ps-auxww-23.png)
 
 Looks like `cliff` is running `wp-login.py` via a task. I wasnt sure what this script does, but we dont have permissions to view it's contents. So I decided to search online, and I manged to find the [source code](https://gist.github.com/GreeeenApple/5a322bb44eae37ec9727):
 
-![source-24]()
+![source-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/source-24.png)
 
 Looks like its automating the login process to the WordPress admin panel. We can see some credentials are stored in a dictionary, and used to login, but none of them matches the username we saw in the database, so I presume `cliff` edited this file with the correct credentials. The path to the login script is also different on our target. We dont have `wp-admin/wp-login.php`, we have `wp-login.php`. 
 
@@ -230,7 +230,7 @@ We can see that the login request is a `POST` request with the parameters: `log`
 
 If we can edit the `wp-login.php` file, we might be able to capture the login creds when `cliff` makes a request. Let's see if we can edit the file:
 
-![perms-25]()
+![perms-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/perms-25.png)
 
 Yes we can, Let's try to catch the creds. At first I came up with something like this:
 
@@ -264,18 +264,18 @@ fclose($path);
 
 This worked, and data was written to the file:
 
-![partial-26]()
+![partial-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/partial-26.png)
 
 The password was missing. I wasn't sure what's the issue. After a while I tried to change the file mode to append to the file, instead of overwriting it. I used `$path = fopen('/tmp/data.txt', "a")`
 
 This worked to retrive the password:
 
-![pass-27]()
+![pass-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/pass-27.png)
 
 So I guess that the login process is sent in two parts? Lets try to switch user to `cliff`:
 
-![failed-28]()
+![failed-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/failed-28.png)
 
 That's weird, I was sure the password will be reused by `cliff`. It wasn't, instead, It's used by root:
 
-![root-29]()
+![root-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/root-29.png)
