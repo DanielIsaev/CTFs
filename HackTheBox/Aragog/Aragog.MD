@@ -72,7 +72,7 @@ Looks rather simple, doesnt seem like we are uploading anything to the server, h
 
 ![upload-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/upload-10.png)
 
-We can see the file upload was sucssesful, the file we found from the FTP is what this php script is looking for. It waits for XML files with a `<subnet_mask>` entity to prase and calculate the number of hosts per the subnet value.
+We can see the file upload was sucssesful, the file we found from the FTP is what this php script is looking for. It waits for XML files with a `<subnet_mask>` entity to parse and calculate the number of hosts per the subnet value.
 
 I'm thinking [XXE](https://portswigger.net/web-security/xxe), `HackTricks` has a nice [cheat-sheet overview](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity) with different payloads to try.
 
