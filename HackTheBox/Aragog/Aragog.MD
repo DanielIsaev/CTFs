@@ -132,7 +132,7 @@ This returns the file in base64, after decoding it it looks like this:
 
 ![source-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Aragog/img/source-13.png)
 
-I tired to break out of the `echo` statement with payloads like `" . system('ls') //`, etc, but nothing worked. It appears that we can only read files form the target, this could be enough though, since we know SSH is anbled on this server, maybe we can find SSH keys? 
+I tired to break out of the `echo` statement with payloads like `" . system('ls') //`, etc, but nothing worked. It appears that we can only read files form the target, this could be enough though, since we know SSH is enabled on this server, maybe we can find SSH keys? 
 
 Based on the content of `/etc/passwd` we know that we have two valid user accounts on the target:
 
