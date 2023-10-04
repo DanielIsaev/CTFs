@@ -184,7 +184,7 @@ This is owned by root, but everyone has read and execute permisions. I decided t
 
 ![emergency-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bank/img/emergency-29.png)
 
-This is a very simple Python script. It defines two function, `close()` to exit the program, and the other, `getroot()` runs the `/var/htb/bin/emergency` binary. THe script also mentioned popping a root shell. We cant take a look at a binary, but we can at least check it's permissions:
+This is a very simple Python script. It defines two function, `close()` to exit the program, and the other, `getroot()` runs the `/var/htb/bin/emergency` binary. The script also mentioned popping a root shell. We cant take a look at a binary, but we can at least check it's permissions:
 
 ![perms-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bank/img/perms-30.png)
 
