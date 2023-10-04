@@ -192,7 +192,7 @@ we can see that this binary has the SUID bit set, meaning it will run as root. A
 
 ![root-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bank/img/root-31.png)
 
-We can see that the shell prompt has changed to `#` indicating a root shell. But when we run `id` we can see that our UID remained the same, but my effective ID (euid) is now that of root's. 
+We can see that the shell prompt has changed to `#` indicating a root shell. But when we run `id` we can see that our UID remained the same, but our effective ID (euid) is now that of root's. 
 
 And this is enough to get the root flag:
 
