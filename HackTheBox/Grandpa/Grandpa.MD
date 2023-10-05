@@ -138,7 +138,7 @@ This is where I encountered another issue:
 
 ![no-ps-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/no-ps-14.png)
 
-I tried searching for `C:\\Windows\System32\WindowsPowerShell`, there is none. Powershell was intoruced with Windows server 2008, but it was addedd to Windoes server 2003, just not this one I guess. 
+I tried searching for `C:\\Windows\System32\WindowsPowerShell`, there is none. Powershell was intoruced with Windows server 2008, but it was addedd to Windows server 2003, just not this one I guess. 
 
 Instead let's setup an SMB server on my attack machine using `impacket`:
 
