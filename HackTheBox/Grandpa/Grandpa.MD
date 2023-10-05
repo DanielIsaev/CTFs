@@ -124,7 +124,7 @@ systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 ![sysinfo-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/sysinfo-15.png)
 
 
-So instead let's try [Churrasco](https://github.com/Re4son/Churrasco/). To pull this off we need to transfer the `Churrasco` binary over to the target along with `nc.exe`. This, I typically achive with a python server on my attack machine, and `certutil` to downlaod the files over to the target. 
+So instead let's try [Churrasco](https://github.com/Re4son/Churrasco/). To pull this off we need to transfer the `Churrasco` binary over to the target along with `nc.exe`. This, I typically achive with a python server on my attack machine, and `certutil` to download the files over to the target. 
 
 However on this machine, there is an issue:
 
