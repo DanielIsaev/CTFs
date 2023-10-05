@@ -3,7 +3,7 @@
 
 ## Recon
 
-After adding the target to my `/etc/hosts`, I start scanning for open ports:
+After adding the target to `/etc/hosts`, I start scanning for open ports:
 
 ```bash
 nmap -p- --min-rate 10000 grandpa.htb
