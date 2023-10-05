@@ -21,9 +21,9 @@ nmap -p 80 -sCV grandpa.htb -oN nmap.result
 
 We can see that `nmap` has identified that [WebDAV](https://en.wikipedia.org/wiki/WebDAV) is enabled on this server. In short, `WebDAV` are extensions to the HTTP protocol that allows authorized users to create, change and move documents on the server. Thus, allowing the server to be viewed as a modifiable, collaborative medium instead of a read-only medium. 
 
-In terms of a pentest, we want to try and leverage the `WebDAV` to uplaod and execute files on the server. Usually, to connect to the `WebDAV`server we need valid credentials, so if we dont have any we might need to [brute force](https://book.hacktricks.xyz/generic-methodologies-and-resources/brute-force#http-basic-auth). Other then that, we need to determine which methods are supported by the server, and which file extensions can be uploaded, etc. 
+In terms of a pentest, we want to try and leverage the WebDAV to upload and execute files on the server. Usually, to connect to the WebDAV server we need valid credentials, so if we dont have any we might need to [brute force](https://book.hacktricks.xyz/generic-methodologies-and-resources/brute-force#http-basic-auth). Other then that, we need to determine which methods are supported by the server, and which file extensions can be uploaded, etc. 
 
-We can run tools like `davtest` and `curl` to enumerate the `WebDAV` server further. `HackTricks` has a nice [overview](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/put-method-webdav) we can follow.
+We can run tools like `davtest` and `curl` to enumerate the WebDAV server further. `HackTricks` has a nice [overview](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/put-method-webdav) we can follow.
 
 Based on the `nmap` scan we can also see that the web server is an IIS 6.0. This is relevant, because there is a buffer-overflow [exploit](https://www.exploit-db.com/exploits/41738) for IIS 6.0 servers with `WebDAV`, however I want to try and go the manual route first.
 
@@ -45,7 +45,7 @@ Which brings the following result:
 
 ![private-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/private-06.png)
 
-Trying to open the `images` directory eventually ends up with a `403` forbidden code after a couple of redirects. The `_private` directory looks more interesting though, typically `WebDAV` directories are prefixed with an underscore to try and hide them. 
+Trying to open the `images` directory eventually ends up with a `403` forbidden code after a couple of redirects. The `_private` directory looks more interesting though, typically WebDAV directories are prefixed with an underscore to try and hide them. 
 
 Let's try to upload a file, We can do this with:
 
@@ -67,7 +67,7 @@ davtest -url http://grandpa.htb/_private
 Trying different directories does at least connect, but we cant upload or do anything on them 
 ![davtest-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/davtest-08.png)
 
-I think it's safe to conclude that we cant manually exploit the `WebDAV` itself. Let's go for the buffer-overfow expliot.
+I think it's safe to conclude that we cant manually exploit the WebDAV itself. Let's go for the buffer-overfow expliot.
 
 ### Buffer-Overflow
 
