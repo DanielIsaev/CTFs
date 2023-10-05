@@ -11,7 +11,7 @@ nmap -p- --min-rate 10000 grandpa.htb
 
 ![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/ports-02.png)
 
-A single HTTP port. Let's perfrom service and version detection:
+A single HTTP port. Let's perform service and version detection:
 
 ```bash
 nmap -p 80 -sCV grandpa.htb -oN nmap.result
