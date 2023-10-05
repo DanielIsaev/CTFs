@@ -140,7 +140,7 @@ This is where I encountered another issue:
 
 I tried searching for `C:\\Windows\System32\WindowsPowerShell`, there is none. Powershell was intoruced with Windows server 2008, but it was addedd to Windows server 2003, just not this one I guess. 
 
-Instead let's setup an SMB server on my attack machine using `impacket`:
+Instead I setup an SMB server on my attack machine using `impacket`:
 
 ```bash
 impacket-smbserver -smb2support grandpa .
