@@ -132,7 +132,7 @@ However on this machine, there is an issue:
 
 I know my syntax is correct, as it works on virtually any other Windows machine, but here it doens't. Searching this error online, I came to find that we have an issue with the Certificate Revocation List (CRL) being expired. Thus causing applications that need to check the revocation status of certificates issued by this CA to fail.
 
-I tried to find a way to craete a new CRL using `certutil -CRL`, didnt work. I tried to create a new certificate database with `certutil -N -d .`, didnt work. After a few dozen minutes googling I decided to give up on the idea and try powershell instead.
+I tried to find a way to create a new CRL using `certutil -CRL`, didnt work. I tried to create a new certificate database with `certutil -N -d .`, didnt work. After a few dozen minutes googling I decided to give up on the idea and try powershell instead.
 
 This is where I encountered another issue:
 
