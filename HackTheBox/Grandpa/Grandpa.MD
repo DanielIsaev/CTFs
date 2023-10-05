@@ -1,4 +1,4 @@
-# Grandpa [htb](https://app.hackthebox.com/machines/13)
+# Grandpa [HTB](https://app.hackthebox.com/machines/13)
 ![grandpa-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/grasndpa-01.png)
 
 ## Recon
