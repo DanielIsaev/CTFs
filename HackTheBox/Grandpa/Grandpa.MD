@@ -61,7 +61,7 @@ I decided to run `davtest` to see if it can cover something I missed:
 davtest -url http://grandpa.htb/_private
 ```
 
-![davtest-07}(https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/davtest-07.png)
+![davtest-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/davtest-07.png)
 
 
 Trying different directories does at least connect, but we cant upload or do anything on them 
