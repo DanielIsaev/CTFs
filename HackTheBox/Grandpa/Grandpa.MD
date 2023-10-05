@@ -67,7 +67,7 @@ davtest -url http://grandpa.htb/_private
 Trying different directories does at least connect, but we cant upload or do anything on them 
 ![davtest-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Grandpa/img/davtest-08.png)
 
-I think it's safe to conclude that we cant manually exploit the WebDAV itself. Let's go for the buffer-overfow expliot.
+I think it's safe to conclude that we cant manually exploit the WebDAV itself. Let's go for the buffer-overflow expliot.
 
 ### Buffer-Overflow
 
