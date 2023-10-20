@@ -177,8 +177,8 @@ python2 rce.py http://swagshop.htb/index.php/admin "id"
 
 Where:
 
-+ http://swagshop.htb/index.php/admin is the target url to the admin login form. 
-+ "id" is the command to execute. 
++ `http://swagshop.htb/index.php/admin` is the target url to the admin login form. 
++ `"id"` is the command to execute in quotes. 
 
 ![fail-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SwagShop/img/fail-23.png)
 
