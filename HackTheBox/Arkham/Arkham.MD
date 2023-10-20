@@ -4,7 +4,7 @@
 
 ## Recon
 
-After adding the target to my `/etc/hosts` file i fire off an `nmap` scan:
+After adding the target to my `/etc/hosts` file, I run an `nmap` scan:
 
 ```bash
 nmap -sC -sV -A -p- arkham.htb -oN nmap.result
