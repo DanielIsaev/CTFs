@@ -191,7 +191,7 @@ However before I implemented this solution I went over the exploit source code o
 ![line-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/SwagShop/img/line-24.png)
 
 
-This highlighted line jumped to my mind. We can see the author added a comment saying that we had to add manaul control for the username field. I dont know why this was added, but I decided to comment this line out since we have an issue with the `username` field in our form. Maybe this is what's causing the issue? 
+This highlighted line jumped to my mind. We can see the author added a comment saying that he had to add manaul control for the username field. I dont know why this was added, but I decided to comment this line out since we have an issue with the `username` field in our form. Maybe this is what's causing the issue? 
 
 After that I ran the exploit again and this time it worked:
 
