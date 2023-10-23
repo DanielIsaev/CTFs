@@ -44,7 +44,7 @@ The Oracle TNS-listener is not something you see in most CTF's.
 
 Based on the [following document](https://www.integrigy.com/files/Integrigy_Oracle_Listener_TNS_Security.pdf) from Intergrity, The Oracle Database Listener is the database server software component that manages the network traffic between the Oracle Database and the client. The Oracle Database Listener listens on a specific network port (default 1521) and forwards network connections to the Database. The Listener is comprised of two binaries –(1) `tnslsnr` which is the Listener itself and (2) the Listener Control Utility `lsnrctl` which is used to administer the Listener on the server or remotely. 
 
-The rest of the document explains the importance of securing this the TNS listener. To me this sounds very interesting, so I found two more articals outlining how we can pentest the TNS listener. One artical is from [HackTricks](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener) and the other is from [Medium](https://medium.com/@netscylla/pentesters-guide-to-oracle-hacking-1dcf7068d573). We will use them if and when we go over the Orcale TNS listener. 
+The rest of the document explains the importance of securing the TNS listener. To me this sounds very interesting, so I found two more articals outlining how we can pentest the TNS listener. One artical is from [HackTricks](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener) and the other is from [Medium](https://medium.com/@netscylla/pentesters-guide-to-oracle-hacking-1dcf7068d573). We will use them if and when we go over the Orcale TNS listener. 
 
 
 ### SMB Port 445
