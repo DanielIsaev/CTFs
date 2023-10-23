@@ -11,7 +11,7 @@ nmap -p- --min-rate 10000 silo.htb
 
 ![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Silo/img/ports-02.png)
 
-We get quite a lot of open ports. I'm guessing a lot of them are RPC ports, while other ports are shwon as filtered. 
+We get quite a lot of open ports. I'm guessing a lot of them are RPC ports, while other ports are shown as filtered. 
 
 Let's run a service and version detection scan on the open ports with:
 
