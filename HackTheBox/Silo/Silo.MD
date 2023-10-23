@@ -77,7 +77,7 @@ We can see a default IIS installation page. Let's run a directory and file scan:
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt -u http://silo.htb/FUZZ -e .aspx,.asp,.cgi,.txt,.xml,.html,.conf
 ```
 
-Nothing came from this scan. Lets move to the Oracle TNS listner.
+Nothing came from this scan. Lets move to the Oracle TNS listener.
 
 
 ### Oracle TNS Listener Port 1521
