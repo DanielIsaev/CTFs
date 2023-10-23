@@ -120,7 +120,7 @@ odat sidguesser -s silo.htb
 ![sid-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Silo/img/sid-12.png)
 
 
-Now that we found the database SID, we need to find valid credentials so we can perfrom other actions. To find credentials for a given SID we can run the following:
+Now that we found the database SID, we need to find valid credentials so we can perform other actions. To find credentials for a given SID we can run the following:
 
 ```bash
 odat passwordguesser -s silo.htb -d XE
