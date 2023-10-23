@@ -59,7 +59,7 @@ smbclient -N -L \\\\silo.htb\\
 
 This is a sign that the SMB security is hardened. I tried running tools like `enum4linux`, `rpcclient`, `crackmapexec` but none of them worked. 
 
-But, while running `crackmapexec smb silo.htb --users` I did managed to get the target's OS version and architecture:
+But, while running `crackmapexec smb silo.htb --users` I did manage to get the target's OS version and architecture:
 
 ![crackmap-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Silo/img/crackmap-08.png)
 
