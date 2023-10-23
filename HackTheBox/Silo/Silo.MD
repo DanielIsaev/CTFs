@@ -82,7 +82,7 @@ Nothing came from this scan. Lets move to the Oracle TNS listener.
 
 ### Oracle TNS Listener Port 1521
 
-Based on both articals from [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener) and [medium](https://medium.com/@netscylla/pentesters-guide-to-oracle-hacking-1dcf7068d573), the overall flow of pentesting the TNS listner is as follows:
+Based on both articals from [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener) and [medium](https://medium.com/@netscylla/pentesters-guide-to-oracle-hacking-1dcf7068d573), the overall flow of pentesting the TNS listener is as follows:
 
 1. Enumerate version info (search for known vulns). 
 2. Enumerate/Bruteforce SID names (database names).
