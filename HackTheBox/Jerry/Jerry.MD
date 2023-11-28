@@ -37,7 +37,7 @@ Let's have a look at this server by opening our browser at `http://jerry.htb:808
 
 ![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/site-04.png)
 
-As you can see, we have three main feature on this page: `Server Status`, `Manager App`, and `Host Manager`, the `Manager App` is what we want access to. Each one of these feature controls different aspects of the Coyote server, and to access each feature we need valid credentials. 
+As you can see, we have three main feature on this page: `Server Status`, `Manager App`, and `Host Manager`. The `Manager App` is what we want access to. Each one of these feature controls different aspects of the Coyote server, and to access each feature we need valid credentials. 
 
 For example, clicking on the `Server Status` button brings the following window:
 
