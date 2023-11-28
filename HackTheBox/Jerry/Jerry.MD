@@ -31,15 +31,13 @@ Before we begin let's answer the following question:
 
 From the description of Coyote on the [Tomcat page](https://tomcat.apache.org/tomcat-4.1-doc/config/coyote.html) Coyote is a stand-alone web server that provides servlets to Tomcat applets. That is, it functions like the Apache web server, but for JavaServer Pages (JSP).
 
-It comes with a web interface called the `Manager` which makes it easy to administer and control web applications running in Tomcat using a web browser. Using the Manager, you can deploy a new WAR application and control existing ones without having to restart Tomcat. 
-
-This should be our exploitation strategy. 
+It comes with a web interface called the `Manager` which makes it easy to administer and control web applications running in Tomcat using a web browser. Using the Manager, you can deploy a new WAR application and control existing ones without having to restart Tomcat. This should be our exploitation strategy. 
 
 Let's have a look at this server by opening our browser at `http://jerry.htb:8080` :
 
 ![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/site-04.png)
 
-As you can see, we have three main feature on this page: `Server Status`, `Manager App`, and `host Manager`, the `Manager App` is what we want access to. Each one of these feature controls different aspects of the Coyote server, and to access each feature we need valid credentials. 
+As you can see, we have three main feature on this page: `Server Status`, `Manager App`, and `Host Manager`, the `Manager App` is what we want access to. Each one of these feature controls different aspects of the Coyote server, and to access each feature we need valid credentials. 
 
 For example, clicking on the `Server Status` button brings the following window:
 
