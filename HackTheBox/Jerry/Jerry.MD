@@ -101,6 +101,6 @@ Apperantly, the Tomcat server was running under `NT Authority` on the target. So
 
 If you are after the CTF flags, there is no low level user on this system, only the Administartor user is present. Inside the admin's Desktop page you will find the following directory:
 
-![flags-15]()
+![flags-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/flags-15.png)
 
 There you will find a file that contains both flags. 
