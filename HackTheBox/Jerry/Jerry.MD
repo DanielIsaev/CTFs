@@ -31,7 +31,9 @@ Before we begin let's answer the following question:
 
 From the description of Coyote on the [Tomcat page](https://tomcat.apache.org/tomcat-4.1-doc/config/coyote.html) Coyote is a stand-alone web server that provides servlets to Tomcat applets. That is, it functions like the Apache web server, but for JavaServer Pages (JSP).
 
-It comes with a web interface called the `Manager` which makes it easy to administer and control web applications running in Tomcat using a web browser. Using the Manager, you can deploy a new WAR application and control existing ones without having to restart Tomcat. This should be our exploitation strategy. 
+It comes with a web interface called the `Manager` which makes it easy to administer and control web applications running in Tomcat using a web browser. Using the Manager, you can deploy a new WAR application and control existing ones without having to restart Tomcat. 
+
+This should be our exploitation strategy. 
 
 Let's have a look at this server by opening our browser at `http://jerry.htb:8080` :
 
