@@ -43,7 +43,7 @@ For example, clicking on the `Server Status` button brings the following window:
 
 ![login-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/login-05.png)
 
-After a few failed login attempts the server will lock you out for several minutes and disaply this error page:
+After a few failed login attempts the server will lock you out for several minutes and display this error page:
 
 ![err-page-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/err-page-06.png)
 
