@@ -99,7 +99,7 @@ As you can see this returns an empty page, but on my netcat listener I get a con
 
 Apperantly, the Tomcat server was running under `NT Authority` on the target. So when the reverse shell triggered, we got a shell as the system.
 
-If you are after the CTF flags, there is no low level user on this system, only the Administartor user is present. Inside the admin's Desktop page you will find the following directory:
+If you are after the CTF flags, there is no low level user on this system, only the Administrator user is present. Inside the admin's Desktop page you will find the following directory:
 
 ![flags-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jerry/img/flags-15.png)
 
