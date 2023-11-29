@@ -108,7 +108,9 @@ So I kept looking around the site while taking a look at Burp Suite's target sec
 
 ![users-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/users-13.png)
 
-There is a forth user, and he is an admin! If we request the `/api/users` directory, the server response with all the users available on the system. 
+There is a forth user, and he is an admin!
+
+If we request the `/api/users` directory, the server respondes with all the users available on the system. 
 
 Now we need to recrypt the password as we did with mark's account:
 
