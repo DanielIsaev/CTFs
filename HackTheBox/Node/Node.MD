@@ -74,7 +74,7 @@ Next, I started to look around my target scope in Burp Suite, to see maybe there
 
 ![users-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/users-08.png)
 
-When we request a member's profile page by clicking on their image, the server makes a request to `/profiles/<username>`, which is then mapped to an api call for `/api/users/<username>`, and the response to this request for some reason, returns with it the JavaScript object for that user, including the SHA256 digest of their password, Identified [here](https://hashes.com/en/tools/hash_identifier):
+When we request a member's profile page by clicking on their image, the server makes a request to `/profiles/<username>`, which is then mapped to an api call for `/api/users/<username>`. The response to this request for some reason, returns with it the JavaScript object for that user, including the SHA256 digest of their password, Identified [here](https://hashes.com/en/tools/hash_identifier):
 
 ![hash-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/hash-09.png)
 
