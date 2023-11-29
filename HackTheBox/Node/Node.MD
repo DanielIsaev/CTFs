@@ -249,7 +249,7 @@ First let's check the files permissions:
 ll /var/scheduler/app.js
 ``` 
 
-[ll-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/ll-33.png)
+![ll-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/ll-33.png)
 
 Everyone can read the file, so let's do so:
 
