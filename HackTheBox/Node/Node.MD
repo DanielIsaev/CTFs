@@ -233,7 +233,7 @@ db.users.find().pretty()
 
 Unfortenatly this is not new information, these are the user accounts from the MyPlace site. Back to the drawing board.
 
-Next, I decioded to list out the running processes on the system using:
+Next, I decided to list out the running processes on the system using:
 
 ```bash
 ps auxww
