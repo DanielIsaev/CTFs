@@ -36,7 +36,7 @@ Let's start by taking a look at the website at `http://node.htb:3000/`:
 
 Looks like we have a login page at the top-right side. And there are three member profiles we can visit. 
 
-The `nmap` version detection scan suggested that the underlaying server is Apache, so I wanted to verify this. So I `curl` the page and greped for the `X-Powered-By` header:
+The `nmap` version detection scan suggested that the underlaying server is Apache, and I wanted to verify this. So I `curl` the page and greped for the `X-Powered-By` header:
 
 ```bash
 curl -i http://node.htb:3000/ | grep -i x-powered-by
