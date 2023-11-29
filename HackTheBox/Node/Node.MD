@@ -24,7 +24,7 @@ We have the following:
 + AN SSH server on port 22.
 + A possible HTTP server on port 3000. 
 
-Based on the `nmap` version detection scans it looks like the service running on port 300 might be an HTTP server, this should be our main focus.
+Based on the `nmap` version detection scans it looks like the service running on port 3000 might be an HTTP server, this should be our main focus.
 
 
 ### Node.JS port 3000
