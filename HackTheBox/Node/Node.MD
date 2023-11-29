@@ -64,7 +64,7 @@ This brought a few interesting results, but I wasnt able to load any of them in 
 
 At this point I started searching for Node.js specific exploits, primarly, I focused on [prototype pollution](https://book.hacktricks.xyz/pentesting-web/deserialization/nodejs-proto-prototype-pollution) but I wasn't able to find a vulnerability of this sorts on the target. 
 
-While I was exploring prototype pollution, I also went over all of the source code in the `assets/js/app/controllers/` directory to see if I can find something interesting, and inside the `/assets/js/app/controllers/login.js` file I found the following:
+While I was exploring prototype pollution, I also went over all of the source code in the `/assets/js/app/controllers/` directory to see if I can find something interesting, and inside the `/assets/js/app/controllers/login.js` file I found the following:
 
 ![source-07.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/source-07.5.png)
 
@@ -74,7 +74,7 @@ Next, I started to look around my target scope in Burp Suite, to see maybe there
 
 ![users-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/users-08.png)
 
-When we request a member's profile page by clicking on their image, the server makes a request to `profiles/<username>`, which is then mapped to an api call for `/api/users/<username>`, and the response to this request for some reason, returns with it the JavaScript object for that user, including the SHA256 digest of their password, Identified [here](https://hashes.com/en/tools/hash_identifier):
+When we request a member's profile page by clicking on their image, the server makes a request to `/profiles/<username>`, which is then mapped to an api call for `/api/users/<username>`, and the response to this request for some reason, returns with it the JavaScript object for that user, including the SHA256 digest of their password, Identified [here](https://hashes.com/en/tools/hash_identifier):
 
 ![hash-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/hash-09.png)
 
