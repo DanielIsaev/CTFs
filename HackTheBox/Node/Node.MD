@@ -44,7 +44,7 @@ curl -i http://node.htb:3000/ | grep -i x-powered-by
 
 ![curl-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/curl-05.png)
 
-Looks like the underlaying server is `Node.JS Express`, not Apache. Worth noting as we move forward. 
+Looks like the underlying server is `Node.JS Express`, not Apache. Worth noting as we move forward. 
 
 If we try to login and fail we get the following error message:
 
