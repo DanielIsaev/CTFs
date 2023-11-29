@@ -302,7 +302,7 @@ Here we can see how to use this binary. The `backup_key` variable is defined at 
 
 ![key-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Node/img/key-40.png)
 
-So the binary takes the `-q` swich, the `backup_key` and finally the directory to backup. Still at this point there isnt a clear way to exploit this to get root. After a while researching I came across the [NRPE vulnerability](https://www.exploit-db.com/exploits/32925) that outlines how we can exploit bash bainries that take in arguments from the command line. 
+So the binary takes the `-q` switch, the `backup_key` and finally the directory to backup. Still at this point there isnt a clear way to exploit this to get root. After a while researching I came across the [NRPE vulnerability](https://www.exploit-db.com/exploits/32925) that outlines how we can exploit bash bainries that take in arguments from the command line. 
 
 Here is the a short overview: 
 
