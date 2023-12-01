@@ -57,14 +57,14 @@ Which found some usernames in the domain:
 
 ![accounts-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Forest/img/accounts-06.png)
 
-It's worth saving these usernames into a file, one username per line, and kerberoasting them.
+It's worth saving these usernames into a file, one username per line, and [AS-REP-roasting](https://www.google.com/search?q=AS-REP+Roasting&oq=AS-REP+Roasting&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRg8MgYIAhAuGEDSAQcxOThqMGoxqAIAsAIA&sourceid=chrome&ie=UTF-8) them.
 
 Let's do that! 
 
 
-### Kerberoasting
+### AS-REP-roasting
 
-If we have a list of valid domain usernames, theimpacket- domain name, and the IP of the DC, we can [kerberoast](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast) the accounts and try to pull TGS hashes.
+Tyipcally we would want to [kerberoasting] user accounts, but for that we need credentials. If we dont have credentials, but we have a list of valid domain usernames, the domain name, and the IP of the DC, we can AS-REP Roast the accounts and try to pull `AS-REP` hashes.
 
 To do that we can use `impacket-GetNPUsers` as such:
 
@@ -79,11 +79,7 @@ This resulted in the following:
 
 We got one! 
 
-
-But if we pay close attention, we will see that the hash signiture is `$krb5asrep$23`. Which means this is not a TGS hash, this is [AS-REP](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast) hash. 
-
-
-This means that the `svc-alfresco` user account doesn't have the Kerberos pre-authentication required attribute (DONT_REQ_PREAUTH). As a result when anyone sends an `AS_REQ` request to the DC on behalf of `svc-alfresco`, they will receive an `AS-REP` message back. 
+This means that the `svc-alfresco` user account doesn't have the Kerberos pre-authentication required attribute (DONT_REQ_PREAUTH) set. As a result when anyone sends an `AS_REQ` request to the DC on behalf of `svc-alfresco`, they will receive an [AS-REP](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast)) message back. 
 
 
 This message contains a chunk of data encrypted with the original user key, derived from it's password. This message could be cracked offline. To crack the hash we first need to copy the whole hash into a file.
