@@ -78,7 +78,7 @@ impacket-GetNPUsers htb.local/ -dc-ip forest.htb -request -usersfile users.txt
 We got one! 
 
 This means that the `svc-alfresco` user account doesn't have the Kerberos pre-authentication required attribute (DONT_REQ_PREAUTH) set. 
-As a result, when anyone sends an `AS_REQ` request to the DC on behalf of `svc-alfresco`, they will receive an [AS-REP](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast)) message back. 
+As a result, when anyone sends an `AS_REQ` request to the DC on behalf of `svc-alfresco`, they will receive an [AS-REP](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast) message back. 
 
 
 This message contains a chunk of data encrypted with the original user key, derived from it's password. This message could be cracked offline. To crack the hash we first need to copy the whole hash into a file.
