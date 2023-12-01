@@ -62,7 +62,7 @@ It's worth saving these usernames into a file, one username per line, and [AS-RE
 Let's do that! 
 
 
-### AS-REP-roasting
+### AS-REP-Roasting
 
 Tyipcally we would want to [kerberoasting] user accounts, but for that we need credentials. If we dont have credentials, but we have a list of valid domain usernames, the domain name, and the IP of the DC, we can AS-REP Roast the accounts and try to pull `AS-REP` hashes.
 
