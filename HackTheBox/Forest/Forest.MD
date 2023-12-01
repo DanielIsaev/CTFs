@@ -64,7 +64,7 @@ Let's do that!
 
 ### AS-REP-Roasting
 
-Typically we would want to [kerberoasting] user accounts, but for that we need credentials. If we dont have credentials, but we have a list of valid domain usernames, the domain name, and the IP of the DC, we can AS-REP Roast the accounts and try to pull `AS-REP` hashes.
+Typically, we want to try [kerberoasting](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast) user accounts, but for that we need credentials. If we dont have credentials, but we have a list of valid domain usernames, the domain name, and the IP of the DC, we can AS-REP Roast the accounts and try to pull `AS-REP` hashes.
 
 To do that we can use `impacket-GetNPUsers` as such:
 
