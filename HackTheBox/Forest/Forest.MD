@@ -158,7 +158,7 @@ Now we should have the archive over on our attack machine:
 
 ![ll-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Forest/img/ll-13.png)
 
-The next step is to startup the BloodHound visulizer. To do so, I open two new terminal windows. On the first window I run `neo4j console` , and in the second window I run `bloodhound`.
+The next step is to startup the BloodHound visualizer. To do so, I open two new terminal windows. On the first window I run `neo4j console` , and in the second window I run `bloodhound`.
 
 
 After connecting to the Bloodhound interface, I import the zip archive we collected:
