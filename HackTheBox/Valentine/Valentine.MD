@@ -34,7 +34,7 @@ From the `nmap` scans it appears that the target has an Apache server listening 
 Let's have a closer look at this Apache server. 
 
 
-## Apache Port 80
+## Apache Ports 80 & 443
 
 If open the site at `http://valentine.htb/` we will see the following:
 
