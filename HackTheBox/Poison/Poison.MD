@@ -202,7 +202,7 @@ uchardet secret
 ![encoding-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/encoding-18.png)
 
 
-We can try to convert this string to `utf-8` with:
+Let's convert this string to `utf-8` with:
 
 ```bash
 iconv -f WINDOWS-1252 -t utf-8 secret
