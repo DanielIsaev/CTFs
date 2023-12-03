@@ -245,7 +245,7 @@ Let's try to login via SSH as the user `hype` with the key we found:
 
 
 ```bash
-chmod 400 hype_key 	# Priate SSH keys have to have this permission set.
+chmod 400 hype_key 	# Private SSH keys have to have this permission set.
 ssh -i hype_key hype@valentine.htb
 ```
 
