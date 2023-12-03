@@ -27,8 +27,7 @@ We have the following:
 + An SSH server on port 22.
 + An Apache-2.4.29 server on port 80.
 
-
-Based on the `nmap` scan we can see that the root directory of the website doesn't have a title, and iit seems like the site is powered by PHP ver 5.6.32. Based on the sacn we can also guess that the the target OS is `FreeBSD`.
+Based on the `nmap` scan we can see that the root directory of the website doesn't have a title, and it seems like the site is powered by PHP ver 5.6.32. Based on the sacn we can also guess that the the target OS is `FreeBSD`.
 
 
 Let's take a closer look at the Apache server.
