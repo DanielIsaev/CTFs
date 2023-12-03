@@ -111,7 +111,7 @@ So i sent `../../../../etc/passwd` as the file name:
 ![err-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/err-09.png)
 
 
-So now we know that the `browse.php` is the script that sources the local files. We can also see that the application is hardcoded to use files inside the `/usr/local/www/apache24/data` directory which is defined in the `include_path` variable. 
+So now we know that the `browse.php` is the script that sources the local files via the `include()` function. We can also see that the application is hardcoded to use files inside the `/usr/local/www/apache24/data` directory which is defined in the `include_path` variable. 
 
 
 Therefore, we know that we need to go five levels higher in order to reach the root directory. So I added one more `../` into the file path `../../../../../etc/passwd`:
