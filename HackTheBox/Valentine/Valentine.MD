@@ -283,7 +283,7 @@ From a quick google search we can find that this kernel version is vulnerable to
 Instead I decided to keep enumerating the target, I searched if there are any other user accounts in `/etc/passwd` but there isn't. I also had a look around our user's home folder but I didn't find anything super useful.
 
 
-Do I decided to shift gears and take a look at running processes using `ps auxww`, here I found the following: 
+So I decided to shift gears and take a look at running processes using `ps auxww`, here I found the following: 
 
 ![sess-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/sess-30.png)
 
