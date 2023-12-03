@@ -130,6 +130,8 @@ The username was actually in the password. Let's try to login to the ssh:
 ssh charix@poison.htb
 ```
 
+![ssh-11.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/ssh-11.5.png)
+
 ![shell-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/shell-12.png)
 
 
