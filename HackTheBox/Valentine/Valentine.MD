@@ -325,7 +325,7 @@ In root's home folder we can see two files:
 ![root-home-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/root-home-34.png)
 
 
-The `root.txt` file is the flag for the machne, but the `curl.sh` script was interesting to me so I opend it:
+The `root.txt` file is the flag for the machine, but the `curl.sh` script was interesting to me so I opend it:
 
 ![curl-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/curl-35.png)
 
