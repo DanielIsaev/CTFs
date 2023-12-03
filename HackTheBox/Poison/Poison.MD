@@ -192,7 +192,7 @@ If we `cat` the file we can see the issue:
 ![cat-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/cat-17.png)
 
 
-We can try to guess out the encoding of this file using the `uchardet` program:
+We can try to guess the encoding of this file using the `uchardet` program:
 
 ```bash
 apt install uchardet   # If not installed already
