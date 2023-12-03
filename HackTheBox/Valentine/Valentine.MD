@@ -144,7 +144,7 @@ Here we see reflected XSS. Unfortunately, there isn't much to do with this kind 
 Then I tried different `SSTI` payloads like `{{7*7}}`, `<%= 7*7 %>`, `{{7/0}}`, and more, trying to identify the tameplate enghine, or cause an error, but nothing worked. 
 
 
-After that I started to think about command/code injection into the encode/decode app. I wasn't sure how the backend is operating on my input. Is it using built in PHP functions like `base64_encode` and `base64_decode`, or is it using something like the `system()` fucntion and passing the inputs to bash? 
+After that I started to think about command/code injection into the encode/decode app. I wasn't sure how the backend is operating on my input. Is it using built in PHP functions like `base64_encode` and `base64_decode`, or is it using something like the `system()` function and passing the inputs to bash? 
 
 
 I tried numerous approaches and paylods like `a);id`, `|/bin/ls -al`, `;system('cat%20/etc/passwd')`, and many others, in the hope of causing an error, but to no avail. 
