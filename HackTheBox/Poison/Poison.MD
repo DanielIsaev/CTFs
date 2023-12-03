@@ -211,7 +211,7 @@ iconv -f WINDOWS-1252 -t utf-8 secret
 ![iconv-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/iconv-19.png)
 
 
-Unfortenatly, it's still doesn't make sense. Perhaps it's encrypted? I decided to put this file to side for now and enumerate the target some more. 
+Unfortunately, it's still doesn't make sense. Perhaps it's encrypted? I decided to put this file to side for now and enumerate the target some more. 
 
 
 The next thing I did was to look at running processes with `ps auxww`, and that's where I saw somthing interesting:
