@@ -166,7 +166,17 @@ wget http://poison.htb:8000/secret.zip
 ![wget-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/wget-15.png)
 
 
-Let's try to use the ssh password from before to open it:
+Let's try to crack the password with `john`:
+
+```bash
+zip2john secret.zip > secret.hash
+john --wordlist=/usr/share/wordlists/rockyou.txt secret.hash
+```
+
+![john-15.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/john-15.5.png)
+
+
+No luck. Maybe we can try the ssh password from before to open it:
 
 ![unzip-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/unzip-16.png)
 
