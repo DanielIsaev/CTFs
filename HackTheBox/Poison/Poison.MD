@@ -141,7 +141,7 @@ Let's move to privilege escalation!
 ## Privilege Escalation
 
 
-If we list the content's of our user's home folder we can see the following:
+If we list the contents of our user's home folder we can see the following:
 
 ![list-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/list-13.png)
 
