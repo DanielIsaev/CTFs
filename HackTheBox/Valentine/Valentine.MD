@@ -141,7 +141,7 @@ Let's try to send a simple XSS payload like `<script>alert(1)</script>` :
 Here we see reflected XSS. Unfortunately, there isn't much to do with this kind of vulnerability in our scenario, as the JavaScript runs on our local browser, not the remote server.  
 
 
-Then I tried different `SSTI` payloads like `{{7*7}}`, `<%= 7*7 %>`, `{{7/0}}`, and more, trying to idnetify the tameplate enghine, or cause an error, but nothing worked. 
+Then I tried different `SSTI` payloads like `{{7*7}}`, `<%= 7*7 %>`, `{{7/0}}`, and more, trying to identify the tameplate enghine, or cause an error, but nothing worked. 
 
 
 After that I started to think about command/code injection into the encode/decode app. I wasn't sure how the backend is operating on my input. Is it using built in PHP functions like `base64_encode` and `base64_decode`, or is it using something like the `system()` fucntion and passing the inputs to bash? 
