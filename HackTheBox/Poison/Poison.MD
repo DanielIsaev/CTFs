@@ -231,7 +231,7 @@ sockstat -l	# A FreeBSD way of listing open ports
 ![sockstat-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/sockstat-21.png)
 
 
-There is actually two ports on which the VNC server is running on, but we primarly want to focus on port 5901 because it's owned by root. We can probably guess that the `secret` file we worked on before is the password file for the VNC connection. 
+There is actually two ports on which the VNC server is running on, but we primarly want to focus on port 5901 because it's owned by root. We can probably guess that the `secret` file we worked on before is the password file for the VNC connection (3-DES encryption). 
 
 
 The VNC server is running on the localhost of the target but if we tunnel this traffic to our attack machine we should be able to access it locally. To do that we can use port forwarding as such:
