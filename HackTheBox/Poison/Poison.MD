@@ -71,7 +71,7 @@ If we retrive `pwdbackup.txt` we get the following:
 We have what looks like a few different base64 encoded strings separated by a space character. But the first line of the file says that the password is encoded 13 times. How should we go about decoding this?  
 
 
-At first I tried decoding each line as a seperate base64 string. This didnt work, as the outputs from the decoding started to break down and subsequent docoding attempts failed. 
+At first I tried decoding each line as a seperate base64 string. This didnt work, as the output from the decoding started to break down and subsequent docoding attempts failed. 
 
 
 Instead, I concatenated all of the individual strings into one big base64 string and saved them to a file locally. Then I used the following python script to base64 decode it 13 times:
