@@ -55,7 +55,7 @@ We can see that the file name argument is sent to the server via the `file` para
 The response is a PHP array of the local directory listing. In the listing we see two new files that were not present in the main page, `browse.php` and `pwdbackup.txt`. 
 
 
-If we run `browse.php`, it results in some of form of a memory page-fault, perhaps a buffer-overflow:
+If we run `browse.php`, it results in some form of a memory page-fault, perhaps a buffer-overflow:
 
 ![browse-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/browse-06.png)
 
