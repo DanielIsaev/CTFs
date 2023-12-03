@@ -50,7 +50,9 @@ curl -s -i http://valentine.htb
 ![powered-by-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/powered-by-05.png)
 
 
-Looks like the site is running PHP v5.3.10. Worth keeping this in mind as we move forward. Based on the `curl` response, we see taht the site's main page  simply host's this `omg.jpg` image. Other then that, there isn't much to do or see. Let's run a directory and file scan using:
+Looks like the site is running PHP v5.3.10. Worth keeping this in mind as we move forward. 
+
+Based on the `curl` response, we see that the site's main page simply host's this `omg.jpg` image. Other then that, there isn't much to do or see. Let's run a directory and file scan using:
 
 ```bash
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt -u http://valentine.htb/FUZZ -e .cgi,.txt,.xml,.html,.php
