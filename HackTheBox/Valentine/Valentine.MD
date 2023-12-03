@@ -138,7 +138,7 @@ Let's try to send a simple XSS payload like `<script>alert(1)</script>` :
 ![xss-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/xss-16.png)
 
 
-Here we see reflected XSS. Unfortunately, there isn't much to do with this kind of vulnerability in our scnario, as the JavaScript runs on our local browser, not the remote server.  
+Here we see reflected XSS. Unfortunately, there isn't much to do with this kind of vulnerability in our scenario, as the JavaScript runs on our local browser, not the remote server.  
 
 
 Then I tried different `SSTI` payloads like `{{7*7}}`, `<%= 7*7 %>`, `{{7/0}}`, and more, trying to idnetify the tameplate enghine, or cause an error, but nothing worked. 
