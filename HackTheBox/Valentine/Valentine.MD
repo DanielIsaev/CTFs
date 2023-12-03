@@ -77,7 +77,7 @@ We have two files, a note and a `hype_key` file. Let's start with the note:
 ![note-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/note-10.png)
 
 
-The writer of the note refers to an encoder/decoder feature, this matches our directory scan results from the previous step. The writer also mentions that they want the encoder/decoder feature to run on the client side, so we can guess that at the moment it is running on the server side? COuld this be a hint for command/code injection?
+The writer of the note refers to an encoder/decoder feature, this matches our directory scan results from the previous step. The writer also mentions that they want the encoder/decoder feature to run on the client side, so we can guess that at the moment it is running on the server side? Could this be a hint for command/code injection?
 
 
 Let's take a look at the `hype_key` file:
