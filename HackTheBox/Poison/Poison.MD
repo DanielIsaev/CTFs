@@ -248,7 +248,7 @@ After we supply the user's password, the shell window stalls, which is a good si
 ![ports-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Poison/img/ports-23.png)
 
 
-Nice! If you want a quick and easy cheet sheet for port forwarding cick [here](https://gist.github.com/billautomata/ee0572113e1496a75b03).
+Nice! If you want a quick and easy cheet sheet for port forwarding click [here](https://gist.github.com/billautomata/ee0572113e1496a75b03).
 
 
 Now we should be able to get access to the VNC as the root user with:
