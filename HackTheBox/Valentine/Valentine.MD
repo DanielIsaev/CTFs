@@ -114,7 +114,7 @@ Unfortunately no luck:
 ![john-13.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Valentine/img/john-13.5w.png)
 
 
-Let's keep the encrypted key for later andmove on to test the encoder/decoder application. 
+Let's keep the encrypted key for later and move on to test the encoder/decoder application. 
 
 
 If we open the encoder feature at `http://valentine.htb/encode.php` we can see the following:
