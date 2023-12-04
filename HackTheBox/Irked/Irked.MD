@@ -91,7 +91,8 @@ At this point I ran a directory and file scan using `ffuf` and a sub-domain scan
 
 Let's start by answering the following question: What is `UnrealIRCd`?
 
-+ [UnrealIRCd](https://en.wikipedia.org/wiki/UnrealIRCd#Features) is an open source IRC daemon available for Unix-like operating systems and Windows. [IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat), or Internet Relay Chat is a text-based chat system for instant messaging. So we know we are dealing with some sort of chat server. 
++ [UnrealIRCd](https://en.wikipedia.org/wiki/UnrealIRCd#Features) is an open source IRC daemon available for Unix-like operating systems and Windows.
++ [IRC](https://en.wikipedia.org/wiki/Internet_Relay_Chat), or Internet Relay Chat is a text-based chat system for instant messaging.
 
 
 IRC has two forms of users: operators and ordinary users. To login to the server as an ordinary user we can simply register with a random nickname. But in order to login as an operator we need both a username and a password.  
