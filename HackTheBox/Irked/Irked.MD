@@ -165,7 +165,7 @@ Nice! Let's move to privesc!
 ## Privilege Escalation
 
 
-When we land on the machine, we get access as the user who runs the `UnrealIRCd` program, which in the cse of this box, is a dedicated user `ircd`. There is another user account on the system:
+When we land on the machine, we get access as the user who runs the `UnrealIRCd` program, which in the case of this box, is a dedicated user `ircd`. There is another user account on the system:
 
 ![user-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/user-13.png)
 
