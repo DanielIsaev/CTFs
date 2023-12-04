@@ -312,7 +312,7 @@ And run the program again:
 ![stalls-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/stalls-28.png)
 
 
-It stalls, that's a great sign. Let's check the listner:
+It stalls, that's a great sign. Let's check the listener:
 
 ![root-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/root-29.png)
 
