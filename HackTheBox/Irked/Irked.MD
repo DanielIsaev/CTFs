@@ -83,7 +83,7 @@ If we open the site at `http://irked.htb/` we're greeted with the following:
 The text at the buttom says `IRC is almost working!`, though outside of that there isn't much to see or do in this page. 
 
 
-At this point I ran a directory and file scan using `ffuf`, but nothing meaningul came from it. So I decided to move on to the `UnrealIRCd` service.
+At this point I ran a directory and file scan using `ffuf` and a sub-domain scan with `wfuzz`, but nothing meaningul came from it. So I decided to move on to the `UnrealIRCd` service.
 
 
 
