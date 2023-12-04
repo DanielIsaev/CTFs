@@ -58,13 +58,11 @@ rpcinfo -p irked.htb
 The output is similar to what `nmap` found. Though in this case, we also see a service on 49487/udp, which I guess is the same service that runs on 51499/tcp. 
 
 
-The service is named `status` and if we try to connect to it nothing happens:
+The service is named `status` and if we try to connect to it nothing happens, It just stalls indefinitely:
 
 ```bash
 nc 10.129.172.93 51499
 ```
-
-It just stalls indefinitely. 
 
 ![nc-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/nc-05.png)
 
@@ -75,7 +73,7 @@ At the moment I dont see a clear way of exploting this, we dont have a service l
 Instead, I decided to have a look at the Apache server to see what information it might reveal to us. After that we'll take a look at the `UnrealIRCd` service. 
 
 
-### Apache Port 80
+## Apache Port 80
 
 If we open the site at `http://irked.htb/` we're greeted with the following:
 
