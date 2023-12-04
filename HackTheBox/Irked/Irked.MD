@@ -131,7 +131,7 @@ After connecting to the server the script will send the selected payload using t
 ![send-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/send-10.png)
 
 
-What we dont see in the exploit, is user registration/authentication to the chat server, maybe it's not needed? We also dont see any mechanism of catching the reverse shell, so we'll ahve to do that ourselfes. All in all, the exploit looks good, let's try it out. 
+What we dont see in the exploit, is user registration/authentication to the chat server, maybe it's not needed? We also dont see any mechanism of catching the reverse shell, so we'll have to do that ourselfes. All in all, the exploit looks good, let's try it out. 
 
 
 After downloading the exploit to our attack machine, we need to setup the local ip and port for the reverse shell payload:
