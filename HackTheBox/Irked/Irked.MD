@@ -110,7 +110,7 @@ NICK htb
 ![connect-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Irked/img/connect-07.png)
 
 
-After we succesfully register, the server prints a lengthy banner, but between the lines we can see the version of the UnrealIRCd service which is `3.2.8.1`. I did a quick goolge search for exploits and I found the following [Github](https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor) page. 
+After we succesfully register, the server prints a lengthy banner, but between the lines we can see the version of the UnrealIRCd service which is `3.2.8.1`. I did a quick google search for exploits and I found the following [Github](https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor) page. 
 
 
 If we take a look at the source code we can see its a Python script. The script utilizes the `sockets` module to connect to the server on the specified port and ip values. After that there are three main types of reverse shell payloads being defined:
