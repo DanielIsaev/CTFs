@@ -193,7 +193,7 @@ This looks like the user's password. Lets try to login via the ssh with it:
 No luck. 
 
 
-The first line says `Super elite steg backup pw`, could this be refering to steganography? We know that we had an intersting image in the Apache server, could it be hiding something? 
+The first line says `Super elite steg backup pw`, could this be refering to steganography? We know that we had an interesting image in the Apache server, could it be hiding something? 
 
 
 Let's download it to our attack machine and have a look. 
