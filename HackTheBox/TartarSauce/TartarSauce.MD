@@ -366,7 +366,7 @@ If they are not the same, the script will write the output of the `diff` command
 So we can leverage the 30 second wait period to replace the original archive created by the script with our own variant which has a symbolik link from `/var/www/html/robots.txt` -> `/root/root.txt`.  
 
 
-This will cause the `diff` command to identify the difference (`/root/root.txt` != `/var/www/html/robots.txt`) and output the contnets of the root flag onto the log file at `/var/backups/onuma_backup_error.txt`. Essentially giving us arbitrary read access as root via the script. 
+This will cause the `diff` command to identify the difference (`/root/root.txt` != `/var/www/html/robots.txt`) and output the contents of the root flag onto the log file at `/var/backups/onuma_backup_error.txt`. Essentially giving us arbitrary read access as root via the script. 
 
 
 To exploit this we can use the following bash script:
