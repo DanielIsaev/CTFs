@@ -327,7 +327,7 @@ The main issue with this script is the fact that root is extracting an archive i
 Tar will always strive to preserve the original UID/GID of the files inside an archvie when it's being extracted. 
 
 
-Because low-privilege user's can't change the UID/GID of files that they don't own, when a low-privilege user extract's an archive, tar will modify the file's UID/GID to match thoes of the extracting low-privilge user. But root can change UID/GID at will, therefore, when root extracts an archive, the UID/GID of the original file will be preserved.  
+Because low-privilege users can't change the UID/GID of files that they don't own, when a low-privilege user extract's an archive, tar will modify the file's UID/GID to match thoes of the extracting low-privilge user. But root can change UID/GID at will, therefore, when root extracts an archive, the UID/GID of the original file will be preserved.  
 
 
 This simple concept opens up a big security risk:
