@@ -339,7 +339,7 @@ If we create files on our attack machine as root and place them into an archive,
 Which in essence, *allows us to create files as root on a remote machine through tar archvies*, just as long as root is the one extracting the archive on the remote machine, and we can write to whatever directory is being used for the extraction.
 
 
-So to exploit this machine we need to create a suid C program on our attack machine as root, give it the SUIG bit permission, archive it, and transfer this over to the target machine. Then, in that 30 second sleep window, replace the archive created by the script with our own, and wait for root to extract our own malicious archive, along with the SUID binary, with all of it's permissions and ownership preserved, giving us a suid binary to pop a shell as root on the target. 
+So to exploit this machine we need to create a suid C program on our attack machine as root, give it the SUID bit permission, archive it, and transfer this over to the target machine. Then, in that 30 second sleep window, replace the archive created by the script with our own, and wait for root to extract our own malicious archive, along with the SUID binary, with all of it's permissions and ownership preserved, giving us a suid binary to pop a shell as root on the target. 
 
 
 Why doens't this work? 
