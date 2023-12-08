@@ -138,7 +138,7 @@ Not super relevant for a CTF.
 ![gwolle-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/TartarSauce/img/gwolle-15.png)
 
 
-The `wpscan` scan found that the version of the `gwolle-db` plugin is `4.6.1`, but if we take a look at the `read.txt` file we will see the following:
+The `wpscan` scan found that the version of the `gwolle-db` plugin is `4.6.1`, but if we take a look at the `readme.txt` file we will see the following:
 
 ![readme-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/TartarSauce/img/readme-16w.png)
 
