@@ -321,7 +321,7 @@ This eniter process runs every 5 minutes:
 How do we exploit this to get a shell as root? The short answer is we don't.
 
 
-The main issue with this script is the fact that root is extracting an archive inside a directory that is writable by low-privilege users. This allows for the creation of files on the system on behalf of root. To anderstand why, we need to keep one concept in mind:
+The main issue with this script is the fact that root is extracting an archive inside a directory that is writable by low-privilege users. This allows for the creation of files on the system on behalf of root. To understand why, we need to keep one concept in mind:
 
 
 Tar will always strive to preserve the original UID/GID of the files inside an archvie when it's being extracted. 
