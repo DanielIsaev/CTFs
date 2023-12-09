@@ -322,8 +322,7 @@ I started by trying out the intended use case, I selected a local `jpg` image I 
 I thought perhaps there is a dedicated directory for the uploaded images, so I started a directory and file scan with:
 
 ```bash
-ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium
-.txt -u https://uploads.friendzone.red/FUZZ -e .cgi,.txt,.xml,.html,.php
+ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u https://uploads.friendzone.red/FUZZ -e .cgi,.txt,.xml,.html,.php
 ```
 
 ![ffuf-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ffuf-31.png)
