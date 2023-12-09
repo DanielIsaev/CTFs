@@ -514,7 +514,7 @@ And use the following payload to get a shell:
 
 I just use Burp's Encoder to URL-encode the payload and send it via the following request: 
 
-`https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&pagename=/etc/Development/test&cmd=<payload>
+`https://administrator1.friendzone.red/dashboard.php?image_id=a.jpg&pagename=/etc/Development/test&cmd=<payload>`
 
 
 Which gives me a shell:
