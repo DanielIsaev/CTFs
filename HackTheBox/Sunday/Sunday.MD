@@ -1,5 +1,5 @@
 # Sunday [HTB](https://app.hackthebox.com/machines/136)
-![sunday-01]()
+![sunday-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/sunday-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 sunday.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/ports-02.png)
 
 
 Let's run a version detection scan againt's the found ports:
@@ -19,9 +19,9 @@ Let's run a version detection scan againt's the found ports:
 nmap -p 79,111,515,6787,22022 -sCV sunday.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/nmap-res-03.png)
 
-![nmap-res-04]()
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/nmap-res-04.png)
 
 
 We have the following:
@@ -76,7 +76,7 @@ After downloading the script I run it againts a username wordlist as such:
 erl finger-user-enum.pl -U /usr/share/seclists/SecLists-master/Usernames/Names/names.txt -t 10.129.90.31
 ```
 
-![usernames-06]()
+![usernames-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/usernames-06.png)
 
 
 The result output is a bit messy, and we got quite a lot of usernames, some are service accounts like `ike`, `bin`, while others look like normal user accounts. 
@@ -95,12 +95,12 @@ It's worth to keep this mind as we move forward and try to get access to the sys
 If we open `http://sunday.htb:6787/` we get the following:
 
 
-![err-07]()
+![err-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/err-07.png)
 
 
 The site is asking us to switch over to HTTPS, so I adjust the url to `https://sunday.htb:6787/`, accept the risk regarding the invalid certificate and open the site:
 
-![solaris-08]()
+![solaris-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/solaris-08.png)
 
 
 We get a [Solaris](https://en.wikipedia.org/wiki/Oracle_Solaris) login prompt. First we need to input a username, and then we get prompted for the password. 
@@ -108,12 +108,12 @@ We get a [Solaris](https://en.wikipedia.org/wiki/Oracle_Solaris) login prompt. F
 
 At first I tried to brute force the password for the `sunny` username with Burp's intruder, but to no avail. Then I started guessing passwords, After a couple of tries I found that `sunday` works to get into the webUI:
 
-![web-ui-09]()
+![web-ui-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/web-ui-09.png)
 
 
 Then I tried to reuse the password for the ssh and it worked:
 
-![shell-10]()
+![shell-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/shell-10.png)
 
 
 ## Privilege Escalation
@@ -121,12 +121,12 @@ Then I tried to reuse the password for the ssh and it worked:
 
 After I land on the machine as `sunny` I list he's home directory:
 
-![home-11]()
+![home-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/home-11.png)
 
 
 The first thing that jumps to my mind is that `.bash_history` is not linked to `/dev/null`, so I run the `history` command:
 
-![history-12]()
+![history-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/histroy-12.png)
 
 
 This is the beginning of the history file, the rest of it kind of repeates itself. Let's go over what we see here. 
@@ -137,12 +137,12 @@ The history file starts with `sunny` trying to get a shell as root with `su -`, 
 
 Then we see `sunny` listing running processes with `ps auxww` and greping for the string `overwrite`, if we do the same we see the following:
 
-![ps-aux-13]()
+![ps-aux-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/ps-aux-13.png)
 
 
 We can see root is running this `/lib/svc/method/overwrite` file, unfortunately only root has permissions to this file:
 
-![perms-14]()
+![perms-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/perms-14.png)
 
 
 Not much we can de with this right now.
@@ -150,12 +150,12 @@ Not much we can de with this right now.
 
 Later on in the history file we see `sunny` listing he's sudo permissions and then using them to run `/root/troll`. Here is our sudo permissions:
 
-![sudo-15]()
+![sudo-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/sudo-15.png)
 
 
 We can't examine the `/root/troll` file with the `file` or `ls -l` commands. If we run it we can see the following:
 
-![troll-16]()
+![troll-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/troll-16.png)
 
 
 I tried passing different arguments to the file but it always results in the same output. Not sure exactly how to expoit this, could very well just be a troll. 
@@ -163,12 +163,12 @@ I tried passing different arguments to the file but it always results in the sam
 
 Next in the history file we see `sunny` listing the contents of the `/backup` directory and the `/backup/shadow.backup` file:
 
-![backup-17]()
+![backup-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/backup-17.png)
 
 
 Both files are identical and they read as such:
 
-![shadow-18]()
+![shadow-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/shadow-18.png)
 
 
 After this the history file repeats itself. 
@@ -176,7 +176,7 @@ After this the history file repeats itself.
 
 At this point I decided to have a look around the filesystem and that's where I saw the following:
 
-![home-19]()
+![home-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/home-19.png)
 
 
 We can see that root is the owner of `sammy`'s home directory, this makes him an interesting target. We also have `sammy`'s password hash thanks to the `/backup/shadow.backup` file, let's `unshadow` it. 
@@ -200,7 +200,7 @@ ftp> put shadow.backup
 
 Now we have both files on our attack machine:
 
-![files-20]()
+![files-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/files-20.png)
 
 
 To crack the hashes we can run the following:
@@ -212,12 +212,12 @@ john crack.db
 
 After a couple of seconds we get `sammy`'s password:
 
-![pass-21]()
+![pass-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/pass-21.png)
 
 
 Let's login to the ssh server as `sammy`:
 
-![sammy-22]()
+![sammy-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/sammy-22.png)
 
 
 ### Sammy
@@ -225,7 +225,7 @@ Let's login to the ssh server as `sammy`:
 
 After getting a shell as `sammy` I list sudo permissions:
 
-![sudo-23]()
+![sudo-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/sudo-23.png)
 
 
 We can run `wget` as root without any credentials. If we check [GTObins](https://gtfobins.github.io/gtfobins/wget/#sudo) we can see that we can abuse this to get root shell as such:
@@ -245,7 +245,7 @@ rlwrap nc -lnvp 443
 
 And execute the above commands:
 
-![exec-24]()
+![exec-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/exec-24.png)
 
 
 We can see the shell stalls, this is a great sign. 
@@ -253,14 +253,14 @@ We can see the shell stalls, this is a great sign.
 
 On my listener I receive the connection:
 
-![root-25]()
+![root-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/root-25.png)
 
 
 ## Beyond root
 
 If we examine the `/root/troll` we ran eralier we can see the following:
 
-![troll-26]()
+![troll-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/troll-26.png)
 
 
 This was just a troll, this script simply runs `id` as root and exists. 
@@ -268,7 +268,7 @@ This was just a troll, this script simply runs `id` as root and exists.
 
 In root's home directory we can also see an `overwrite` file:
 
-![overwrite-27]()
+![overwrite-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/overwrite-27.png)
 
 
 This is the process we saw running earlier, it's simply runs an endless loop that copies `/root/troll.original` into `/troll/troll`. Both files are identical. 
