@@ -145,7 +145,7 @@ We can see root is running this `/lib/svc/method/overwrite` file, unfortunately 
 ![perms-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/perms-14.png)
 
 
-Not much we can de with this right now.
+Not much we can do with this right now.
 
 
 Later on in the history file we see `sunny` listing he's sudo permissions and then using them to run `/root/troll`. Here is our sudo permissions:
