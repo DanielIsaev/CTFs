@@ -271,7 +271,7 @@ In root's home directory we can also see an `overwrite` file:
 ![overwrite-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/overwrite-27.png)
 
 
-This is the process we saw running earlier, it's simply runs an endless loop that copies `/root/troll.original` into `/troll/troll`. Both files are identical. 
+This is the process we saw running earlier, it's simply runs an endless loop that copies `/root/troll.original` into `/root/troll`. Both files are identical. 
 
 To exploit this, we can host a reverse shell script on our attack machine, then download the script as root with `sammy`'s sudo permissions and write that into `/root/troll.original` with the -O switch of the wget command. This will modify the overwrite the contents of `/root/troll` with our reverse shell script. Then we can use `sunny`'s sudo privileges to run `/root/troll`  and get a shell as root. 
 
