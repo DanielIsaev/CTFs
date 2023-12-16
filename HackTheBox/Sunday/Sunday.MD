@@ -273,8 +273,11 @@ In root's home directory we can also see an `overwrite` file:
 
 This is the process we saw running earlier, it's simply runs an endless loop that copies `/root/troll.original` into `/troll/troll`. Both files are identical. 
 
+To exploit this, we can host a reverse shell script on our attack machine, then download the script as root with `sammy`'s sudo permissions and write that into `/root/troll.original` with the -O switch of the wget command. This will modify the overwrite the contents of `/root/troll` with our reverse shell script. Then we can use `sunny`'s sudo privileges to run `/root/troll`  and get a shell as root. 
 
-So if you can find a way to write into `/root/troll.original` you can modify `/root/troll` to give you a shell as root from `sunny`'s sudo. 
+
+This can also work with any SUID binary on the system. Another options would be to overwrite the `/etc/shadow` file with a malicious veraint from our attack machinethat has a root user we control.
 
 
-I'm not quite sure how to do that though, as only root has access to this file
+Simply put, one can leverage running wget as root to overwrite any file on the system. 
+
