@@ -215,7 +215,7 @@ We are able to run this `simpler.py` script as the `pepper` user, which is the o
 
 Let's take a look at this script:
 
-```
+```python
 #!/usr/bin/env python3                                                                                   
 from datetime import datetime                                  
 import sys                                                     
