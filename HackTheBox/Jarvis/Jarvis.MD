@@ -38,7 +38,7 @@ If we browse towards `http://jarvis.htb/` we get the following:
 ![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/site-04.png)
 
 
-The site looks nice, there are several buttons on the main page but only a portion of them actually lead somewhwre. Here are the valid links in the main page:
+The site looks nice, there are several buttons on the main page but only a portion of them actually lead somewhere. Here are the valid links in the main page:
 
 ![links-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/links-05.png)
 
