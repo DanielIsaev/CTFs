@@ -98,7 +98,7 @@ While I was checking the different entries I also intercepted traffic in Butp Su
 The server gave us the `IronWAF` header. I tried searching for this type of WAF online but I found nothing. My guess is this it's a custom WAF written by the box creator. 
 
 
-At this point I decided to play around with the `cod` parameter of the `room.php` script, since we know we have a database somewhere in the environment, and as far as I saw, it's the only palce we can supply input besides the phpmyadmin login page. So I decided to run `sqlmap` as such:
+At this point I decided to play around with the `cod` parameter of the `room.php` script, since we know we have a database somewhere in the environment, and as far as I saw, it's the only place we can supply input besides the phpmyadmin login page. So I decided to run `sqlmap` as such:
 
 ```bash
 sqlmap -u http://jarvis.htb/room.php?cod=4 -p cod --dbs --batch --proxy=http://localhost:8080  -A "NONE"
