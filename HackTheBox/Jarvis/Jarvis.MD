@@ -154,7 +154,7 @@ Let's go over the exploit quickly. After the script makes a couple of requests t
 ![exploit-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/exploit-17.png)
 
 
-We can see the script is injecting a simple PHP web shell wrapped inside an SQL query into a database. Then, it executes this php code by retriving said database with what looks like an LFI vulnerability. 
+We can see the script is injecting a simple PHP web shell wrapped inside an SQL query into a database. Then, it executes this php code by retrieving said database with what looks like an LFI vulnerability. 
 
 
 All in all the exploit looks solid, let's try it out:
