@@ -332,7 +332,7 @@ I also checked systemd timers with: `systemctl list-timers --all` and checked th
 At this point I got stuck a bit, I wasn't sure what to do next, and how we can access this `/root/sqli_defender.py` script. 
 
 
-Eventually I decided to shift gears and try to find any SUID bnaries on the system:
+Eventually I decided to shift gears and try to find any SUID binaries on the system:
 
 ```bash
 find / -perm -4000 2>/dev/null
