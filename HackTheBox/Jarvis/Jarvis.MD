@@ -53,7 +53,7 @@ The `Rooms` button leads to `rooms-suites.php` which shows different rooms we ca
 ![book-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/book-07.png)
 
 
-If we hover over the `Book now!` button we will see a link towards `/room.php?cod=1`, if we follow the lin, we will be presented with a page showing only the selected room but there is nothing to do there. 
+If we hover over the `Book now!` button we will see a link towards `/room.php?cod=1`, if we follow the link, we will be presented with a page showing only the selected room but there is nothing to do there. 
 
 
 The interesting thing about the `room.php` script is that it takes an argument via the `cod` parameter. This is a place where we can input data as users which makes it an interesting target, but let's check the rest of the site. 
