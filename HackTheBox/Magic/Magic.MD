@@ -127,7 +127,7 @@ But how can we get the server to treat our uploaded image as a php script if it 
 There is a trick I know from a previous box I solved, that a possible misconfiguration of the Apache server can make it treat files that have the string `php` in thier name as php scripts, regardless of the actual extension. And since I've exhausted every other method out there to bypass the file upload filters, I decided to bet on this. 
 
 
-To exploit this, we need to imbedd some php code inside an actual iamge. I used the image I created earlier and added code for a php web-shell inside of it and named the file `htb.php.png`:
+To exploit this, we need to imbedd some php code inside an actual image. I used the image I created earlier and added code for a php web-shell inside of it and named the file `htb.php.png`:
 
 
 ![imbedd-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/embed-14.png)
