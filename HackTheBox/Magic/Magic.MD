@@ -124,7 +124,7 @@ I spent quite a lot of time on this, testing different filenames, intercepting t
 But how can we get the server to treat our uploaded image as a php script if it ends with an image extension? 
 
 
-There is a trick I know from a previous box I solved, that a possible misconfiguration of the Apache server can make it treat files that have the string `php` in thier name as php scripts, regardless of the actual extension. And since I've exhausted every other method out there to bypass the fileuplad, I decided to bet on this. 
+There is a trick I know from a previous box I solved, that a possible misconfiguration of the Apache server can make it treat files that have the string `php` in thier name as php scripts, regardless of the actual extension. And since I've exhausted every other method out there to bypass the file upload filters, I decided to bet on this. 
 
 
 To exploit this, we need to imbedd some php code inside an actual iamge. I used the image I created earlier and added code for a php web-shell inside of it and named the file `htb.php.png`:
