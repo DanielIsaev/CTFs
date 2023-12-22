@@ -115,7 +115,7 @@ I tried to upload this file to the server while capturing the response in Burp:
 We get a message stating that only JPG, JPEG, and PNG files are allowed, which means there is probably a white-list check. I tested a lot of tricks to bypass the file extension filter but to no avail, so there must be other checks as well. 
 
 
-My guess is there is also a MIME type check, I treid adding PNG MIME type headers to our php script using `hexeditor` but this didn't help. 
+My guess is there is also a MIME type check, I tried adding PNG MIME type headers to our php script using `hexeditor` but this didn't help. 
 
 
 I spent quite a lot of time on this, testing different filenames, intercepting the responses from the server and studying it's behavior. After a while I concluded that the file extension check is pretty solid, we can't upload an image that doens't explicitly end with `.png`, `.jpeg`, or `.jpg`. 
