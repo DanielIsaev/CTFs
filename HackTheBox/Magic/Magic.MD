@@ -226,7 +226,7 @@ mysqldump --user=theseus --password=iamkingtheseus --host=localhost Magic
 ![dump-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/dump-24.png)
 
 
-Here we see credentials, probably for the file uplaod we bypasswd earlier. Now when we run `su` to start a shell as `theseus` we are able to:
+Here we see credentials, probably for the file uplaod we by-passed earlier. Now when we run `su` to start a shell as `theseus` we are able to:
 
 ![theseus-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/theseus-25.png)
 
