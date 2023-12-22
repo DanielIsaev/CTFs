@@ -135,7 +135,7 @@ To exploit this, we need to imbedd some php code inside an actual image. I used 
 
 If we upload this file and check the response we can see it's was a success:
 
-![uploaded-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/itercept-15.png)
+![uploaded-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/uploaded-15.png)
 
 
 After the upload, I searched for the file in the gallery at the main page but I didn't see it. So I tried to accss it directly in `http://magic.htb/images/uploads/htb.php.png` which worked:
