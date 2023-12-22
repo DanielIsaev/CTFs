@@ -121,7 +121,7 @@ My guess is there is also a MIME type check, I tried adding PNG MIME type header
 I spent quite a lot of time on this, testing different filenames, intercepting the responses from the server and studying it's behavior. After a while I concluded that the file extension check is pretty solid, we can't upload an image that doens't explicitly end with `.png`, `.jpeg`, or `.jpg`. 
 
 
-But how can we get the server to treat our uploaded iamge as a php script if it ends with an image extension? 
+But how can we get the server to treat our uploaded image as a php script if it ends with an image extension? 
 
 
 There is a trick I know from a previous box I solved, that a possible misconfiguration of the Apache server can make it treat files that have the string `php` in thier name as php scripts, regardless of the actual extension. And since I've exhausted every other method out there to bypass the fileuplad, I decided to bet on this. 
