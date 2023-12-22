@@ -256,7 +256,7 @@ If we run the file we get quite a long output of system information, though none
 ![ltrace-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/ltrace-28.png)
 
 
-We can see the program is executing the `fdisk` executable without specifiying a full path to the binary. We can create our own malicious variant `fdisk` script, and modify the PATH variable so that our `fdisk` get's executed first. 
+We can see the program is executing the `fdisk` executable without specifying a full path to the binary. We can create our own malicious variant `fdisk` script, and modify the PATH variable so that our `fdisk` get's executed first. 
 
 
 I create the malicious `fdisk` variant in `/dev/shm` as such:
