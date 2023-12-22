@@ -174,7 +174,7 @@ I just use Burp's decoder to URL encode the payload and send it as the argument 
 After getting a shell as the `www-data` user I spwan a TTY shell by running:
 
 ```bash
-python3 -c 'import pty; pty.spawn("/bin/sh")'
+python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
 Then, I try to list any sudo permisisons but I get prompted for credentials. 
