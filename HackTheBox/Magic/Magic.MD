@@ -143,7 +143,7 @@ After the upload, I searched for the file in the gallery at the main page but I 
 ![text-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/text-16.png)
 
 
-As you can see it diplays text. If the server was treating this as an image we would have recevied an error saying there is an issue with the image. Let's try to run a command:
+As you can see it displays text. If the server was treating this as an image we would have recevied an error saying there is an issue with the image. Let's try to run a command:
 
 ![id-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Magic/img/id-17.png)
 
