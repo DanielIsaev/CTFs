@@ -120,7 +120,7 @@ If we list the running processes on the target system with `netstat -ano` we can
 ![port-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/port-10.png)
 
 
-The service must run as adminstrator, otherwise the exploit won't help us escalate privileges. I tried to list the running processes on the system in order to make sure this service is actually running as the administrator, but I was deinded access. Even though I wasn't able to make sure the service is running as the admin, I decided to bet on it. 
+The service must run as adminstrator, otherwise the exploit won't help us escalate privileges. I tried to list the running processes on the system in order to make sure this service is actually running as the administrator, but I was denied access. Even though I wasn't able to make sure the service is running as the admin, I decided to bet on it. 
 
 
 To try and exploit this, we first need to tunnel the service to our attack machine, I decided to use [chisel](https://github.com/jpillora/chisel).
