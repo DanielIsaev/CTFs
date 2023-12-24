@@ -30,7 +30,7 @@ We have the following:
 The nmap probing scripts have identified that the Apache server might have the `CONNECT` HTTP method enabled. This in effect allows the web server to act as a proxy server and make request to other target systems. I tried searching online for possible exploitaion strategies for this method, but I didn't find anything super clear, more theoretical stuff.
 
 
-Based on the namp probing scripts we can also conclude that the Apache is powred by PHP/7.4.6, and that the target is probably running a Windows OS with an x64-bit architechture. 
+Based on the namp probing scripts we can also conclude that the Apache is powered by PHP/7.4.6, and that the target is probably running a Windows OS with an x64-bit architechture. 
 
 
 ### Apache port 8080
