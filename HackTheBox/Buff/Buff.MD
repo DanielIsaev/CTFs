@@ -173,7 +173,7 @@ This will open port 8888 on our Kali, and transfer the traffic from target's loc
 ![client-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/client-13.png)
 
 
-After connecting the client, I receive the connetion on the server:
+After connecting the client, I receive the connection on the server:
 
 ![server-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/server-14.png)
 
