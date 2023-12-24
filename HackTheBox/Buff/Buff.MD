@@ -52,14 +52,10 @@ If click the `Contact` button though, we will get the following text:
 At first I thought this was placed here by the creator of this box as some sort of troll, I didn't think this is an actual CMS. But I searched for this string on Google and I found an Unauthenticated Remote Code Execution exploit [here](https://www.exploit-db.com/exploits/48506). Wow..
 
 
-In short, the `upload.php` doesn't check for a proper user session, which allows unauthiticated users to upload files. By reveiwing the source of `upload.php`, methods were identified for bypassing the MIME type checks, the file extensions checks, and the content-type checks. 
-
-
-I tried to find a way to exploit this manaully, but the file upload requiers a dictionary with specific strucutre and objects for it to be accepted by the server. I decided to use the python exploit script instead of finding a way to pull this off with `curl` from the command-line.
+In short, the `upload.php` doesn't check for a proper user session, which allows unauthiticated users to upload files. By reveiwing the source of `upload.php`, methods were identified for bypassing the MIME type checks, the file extensions checks, and the content-type checks. All in all, the script looks solid. 
 
 
 After downloading the exploit I run and get a shell:
-
 
 ![shell-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/shell-06.png)
 
