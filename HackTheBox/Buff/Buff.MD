@@ -178,7 +178,7 @@ After connecting the client, I receive the connection on the server:
 ![server-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/server-14.png)
 
 
-If we list the open ports on our Kali machine, we can see the cleint/server connection is established on port 8001, and the tunnel for port 8888 is open our Kali machine:
+If we list the open ports on our Kali machine, we can see the client/server connection is established on port 8001, and the tunnel for port 8888 is open our Kali machine:
 
 ![port-14.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Buff/img/netstat-14.5.png)
 
