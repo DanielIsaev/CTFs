@@ -126,10 +126,10 @@ The service must run as adminstrator, otherwise the exploit won't help us escala
 To try and exploit this, we first need to tunnel the service to our attack machine, I decided to use [chisel](https://github.com/jpillora/chisel).
 
 
-I download an x64-bit executable chisel client for Windows using [this link](https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz), I extract it with `gunzip -d <archive>`.
+I download an x64-bit executable chisel client for Windows using [this link](https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_windows_amd64.gz), I extract it in my attack machine using with `gunzip -d <archive>`.
 
 
-Then, I tried to transfer the file using a python web server and downloading it from the target using an `certutil` but I was denied access. I also tried other methods but they all failed. 
+Then, I tried to transfer the file using a python web server and downloading it from the target using `certutil` and `wget` but I was denied access. I also tried other methods but they all failed. 
 
 
 So I deicded to try the SMB method again, but when I connect to my share from the netcat shell there are issues establishing the connection. So I decided to use the previous shell we had, which did mange to get files via SMB.
