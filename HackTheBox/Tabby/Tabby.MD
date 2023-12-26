@@ -48,7 +48,7 @@ The site seems to be offering cloud services for storage and hosting. There are 
 The link redirects to the following URL: `http://megahosting.htb/news.php?file=statement`. 
 
 
-There are a couple of interesting things about this URL. First it intoduces a new domain name of `megahosting.htb`, I added this domain to my `/etc/hosts` file, and mapped it to the external IP of the target. The second thing about the URL is the `file` parameter, this could be a potential target for a file inclusion vulnerability. 
+There are a couple of interesting things about this URL. First it introduces a new domain name of `megahosting.htb`, I added this domain to my `/etc/hosts` file, and mapped it to the external IP of the target. The second thing about the URL is the `file` parameter, this could be a potential target for a file inclusion vulnerability. 
 
 
 If we open this link we see the statement:
@@ -56,15 +56,19 @@ If we open this link we see the statement:
 ![statement-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/statement-05.png)
 
 
-They say that they removed "this tool" due to a previous breach. It's unclear which tool they are reffering to. They also mention that they invested in more secure servers, could they be reffering to the Tomcat server? 
+The statement says that they removed "this tool" due to a previous breach. It's unclear which tool they are reffering to. They also mention that they invested in more secure servers, waht this is referring to is also unclear. 
 
 
-At this point I decided to start testing for file inclusion in the `news.php` script. After several attepmtps I was able to pull `/etc/passwd` with the following payload: `news.php?file=../../../../etc/passwd`
+At this point I decided to start testing for file inclusion in the `news.php` script. After several attempts I was able to pull `/etc/passwd` with the following payload: 
+
+
+`news.php?file=../../../../etc/passwd`
+
 
 ![lfi-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/lfi-06.png)
 
 
-I also tried to pull off RFI but to no avail. The question is how do we exploit this? We can try to manually guess possible filenames at various paths, but this will be the least effeciant mthod in my opinion.
+I also tried to pull off RFI but to no avail. The question is how do we exploit this? We can try to manually guess possible filenames at various paths, but this will be the least efficient method in my opinion.
 
 
 Instead, I decided to run a directory and file scan using:
@@ -76,14 +80,13 @@ ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/dire
 ![ffuf-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/ffuf-07.png)
 
 
-The most interesting entry here is the `files` directory, but we can't directly list it's contents. I ran a directory scan againt it as well, inside it I found the `statement` file and an `archive` directory. 
-I tried to scan for files inside the `archive` directory but to no avail. 
+The most interesting entry here is the `files` directory, but we can't list it's contents. I ran a directory scan againt the `files` subdirectory as well, inside it I found the `statement` file and an `archive` directory. I tried to scan for files inside the `archive` directory as well but to no avail. 
 
 
 The rest of the `ffuf` are not super useful. 
 
 
-At this point we can conclude that we have a LFI vulnerability on this site, but we don't have a clear way of exploiting it. 
+At this point we can conclude that we have an LFI vulnerability on this site, but we don't have a clear way of exploiting it. 
 
 
 Let's check the Tomcat server
@@ -97,16 +100,16 @@ If we browse towards `http://tabby.htb:8080/` we see a default installation page
 ![tomcat-site-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/tomcat-site-08.png)
 
 
-There are a couple of important things to note here. First, the Tomcat version is `Tomcat 9`. Another important piece of inforamtion is the location of the `tomcat-users.xml` file, which serves as the user database to the Tomcat manager application. 
+There are a couple of important things to note here. First, the Tomcat version is `Tomcat 9`. Another important piece of information is the location of the `tomcat-users.xml` file, which serves as the user database to the Tomcat manager application. The page says it's located in `/etc/tomcat-users.xml`, I tried to use the previous LFI vulnerability we found to access this file at this path but it doens't exists.
 
 
-The page says it's located in `/etc/tomcat-users.xml`, we can use the previus LFI vulnerability we found to try and access this file but it doens't exists. I searched online for the exact location of the `tomcat-users.xml` file and found [this](https://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html) official Tomcat page which says that the file is located at `$CATALINA_BASE/conf/tomcat-users.xml`. Based on the installation page we saw earlier it should be at `/var/lib/tomcat9/conf/tomcat-users.xml`, but upon requesting the file via the LFI nothing comes back. 
+I searched online for the exact location of the `tomcat-users.xml` file and found [this](https://tomcat.apache.org/tomcat-9.0-doc/manager-howto.html) official Tomcat page which says that the file is located at `$CATALINA_BASE/conf/tomcat-users.xml`. Based on the installation page we saw earlier it should be at `/var/lib/tomcat9/conf/tomcat-users.xml`, but upon requesting the file via the LFI nothing comes back. 
 
 
 After a bit more googeling I found [this](https://talk.openmrs.org/t/configuring-apache-tomcat-9/32379) artical, that suggests that the file could be located at `usr/share/tomcat9/etc/tomcat-users.xml`. 
 
 
-I used the LFI vulnerability we found in the previous site to get the file using the following request: `http://megahosting.htb/news.php?file=../../../../usr/share/tomcat9/etc/tomcat-users.xml`
+I used the LFI vulnerability to get the file using the following request: `http://megahosting.htb/news.php?file=../../../../usr/share/tomcat9/etc/tomcat-users.xml`
 
 
 ![tomcat-pass-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/tomcat-pass-09.png)
@@ -117,7 +120,6 @@ The credentials are `tomcat : $3cureP4s5w0rd123!`, and we can see this user has 
 
 ### Manager Exploit
  
-
 Based on our user's roles, we only have access to the text based Manager system, so to exploit this we have to use the command line.
 
 
@@ -232,7 +234,7 @@ But if we run `su ash` on the target and supply the password we get a shell as `
 ### Ash
 
 
-If we take a look at the output of the `id` command, we will notice that our user is a part of the `lxc` group, which is used to allow users to create and manage Linux containers. This can exploited by creating a root-level privilege container from the current file system and interacting with it, executing /bin/sh and therefore starting a root shell. Here is the easiest way to exploit this. 
+If we take a look at the output of the `id` command, we will notice that our user is a part of the `lxc` group, which is used to allow users to create and manage Linux containers. This can exploited by creating a root-level privilege container from the current file system and interacting with it, executing `/bin/sh` and therefore starting a root shell. Here is the easiest way to exploit this. 
 
 
 First, on our Kali machine, we need to clone and build an image of the Alpine distro from a repository on Github:
@@ -254,7 +256,7 @@ The next step is to transfer one of them to the target machine, we can do this w
 python3 -m http.server 80
 ```
 
-Then, from the target in `ash`'s home directory, download the file using:
+Then, from the target in `ash`'s home directory, download the archive using:
 
 ```bash
 cd ~
