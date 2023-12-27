@@ -198,7 +198,7 @@ Now we have the archive over on our attack machine:
 ![transfered-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/transfered-16.png)
 
 
-If we try to extarct the archive we get prompted for credntials:
+If we try to extarct the archive we get prompted for credentials:
 
 ![give-pass-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/give-pass-17.png)
 
