@@ -170,7 +170,7 @@ If we run `curl -k https://brainfuck.htb/wp-admin/admin-ajax.php` we can see the
 This proves that the `/wp-admin/admin-ajax.php` file exsits on the target. Though Im not sure what's the meaning of this zero. 
 
 
-If we follow along the exploit notes, to pull this exploit off we need to send a request like this:
+If we follow along the exploit notes, to pull this off we need to send a request like this:
 
 ![request-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/request-14.png)
 
