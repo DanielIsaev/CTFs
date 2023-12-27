@@ -44,7 +44,7 @@ Let's take a look at the email server.
 ### SMTP, POP3 & IMAP Ports 25, 110 & 143
 
 
-If we search online for the term `Dovecot`, we will find that it is an open-source IMAP and POP3 server for Unix-like operating systems. The primary purpose of `Dovecot` is to act as a mail storage server. The mail is delivered to the server using some mail delivery agent (MDA) and is stored for later access with an email client (mail user agent, or MUA).
+If we search online for the term [Dovecot](https://en.wikipedia.org/wiki/Dovecot_(software)), we will find that it is an open-source IMAP and POP3 server for Unix-like operating systems. The primary purpose of `Dovecot` is to act as a mail storage server. The mail is delivered to the server using some mail delivery agent (MDA) and is stored for later access with an email client (mail user agent, or MUA).
 
 
 If we lookup exploits for this software online, we will find a possible [RCE vulnerability](https://www.exploit-db.com/exploits/25297), due to a common misconfiguation when Dovecot is used as the local devlivery agent by the Exim SMTP server. 
