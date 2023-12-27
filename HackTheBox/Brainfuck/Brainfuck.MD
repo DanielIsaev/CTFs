@@ -439,7 +439,7 @@ This file caught my eye, so I decided to have a look at it:
 ![sage-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/sage-39.png)
 
 
-This is clearly a python script based on the syntax, but there is some functions and methods here that I dont recognize, and I dont see any module imports so i'm not sure how its' working exactly. But the more important question is what is it doing? 
+This is looks lik a python script, but it's really [SageMath](https://en.wikipedia.org/wiki/SageMath) script, which is an open source mathematical programming language build on top of Python, so the syntax is similar. The question is what is the script doing? 
 
 
 Here's is the overview of this script. 
@@ -454,7 +454,7 @@ Next, the script generates what seems like two prime numbers, these numbers are 
 With all the variables set, the script computs the `"Encrypted Password"` using `c = pow(m, e, n)` and writes the result to `output.txt`. Finally the prime numbers of `p` and `q`, along with the variable `e` are written into `debug.txt`.
 
 
-So in other words, the script uses the numbers stored at `m`, `n`, and `e` to encrypt the root flag using a `pow()` operation.
+So in other words, the script uses the numbers stored at `m`, `n`, and `e` to encrypt the root flag using a `pow()` operation. This is how [RSA encryption](https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Key_generation) works. 
 
 
 This is obviously a puzzle to get the root flag, and we can definitely solve it! We won't get a shell from this, so the root shell we will get later with the `lxd` escalation. 
