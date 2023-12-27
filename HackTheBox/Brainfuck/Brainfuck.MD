@@ -277,7 +277,7 @@ If we go to the `SSH Access` channel, we see the following exchange:
 ![channel-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/channel-26.png)
 
 
-The message order here is from top to buttom, meaining that the messages at the top are the oldest, and the buttom most messages are the recent ones. 
+The message order here is from top to buttom, meaning that the messages at the top are the oldest, and the buttom most messages are the recent ones. 
 
 
 We are logged in as `orestis`, but there is also an `admin` on this server. 
