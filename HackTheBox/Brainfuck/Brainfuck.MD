@@ -711,7 +711,7 @@ So in the container we need to run the following:
 ```bash
 cd rootfs/sbin
 rm init
-ln -s ../../bin/busybox init
+ln -s ./../bin/busybox init
 ```
 
 ![rm-init-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/rm-init-45.png)
