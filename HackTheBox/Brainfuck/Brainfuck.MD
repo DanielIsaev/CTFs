@@ -521,7 +521,7 @@ So from the operation `c = pow(m, e, n)`, we have all the values execpt for `m` 
 How do we do this? 
 
 
-I did a bit of research online and I found [this perfect StackOverflow](https://stackoverflow.com/questions/49856115/inverse-of-a-powa-b-n-function-in-python-decryption-code?noredirect=1&lq=1) thread, which fites our problem like a glove. 
+I did a bit of research online and I found [this perfect StackOverflow](https://stackoverflow.com/questions/49856115/inverse-of-a-powa-b-n-function-in-python-decryption-code?noredirect=1&lq=1) thread, which fits our problem like a glove. 
 
 
 They say that in order to reverse the `pow(m, e, n)` operarion, we need to use the values of the prime numbers (`q` and `p`) along with the value of `e`, and pass them into an [Extended Euclidian Algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm), in order to calculate a value of `x`.
