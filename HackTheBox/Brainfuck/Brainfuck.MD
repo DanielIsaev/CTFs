@@ -646,7 +646,7 @@ When I solved [Tabby](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/T
 This is actually a method created by `M0NOC` and you can find the action plan [here](https://blog.m0noc.com/2018/10/lxc-container-privilege-escalation-in.html?m=1). Let's try this out!
 
 
-The pull this off, we need to reengineer the [busybox container image](https://hub.docker.com/_/busybox). I decided to do this on a Ubuntu VM I have. To be able to download the container image, and to have all the tools needed for the reengineering, we need to download a couple of command-line tools:
+To pull this off, we need to reengineer the [busybox container image](https://hub.docker.com/_/busybox). I decided to do this on a Ubuntu VM I have. To be able to download the container image, and to have all the tools needed for the reengineering, we need to download a couple of command-line tools:
 
 
 ```bash
