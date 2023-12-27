@@ -337,7 +337,7 @@ If we check for the length of the encrypted domain `zsrivszwm.rfz`, we will find
 So now we have a part of the plain-text message to be encrypted, and it's equivalent cipher text. And we also know that the encryption key should be comprised from some of the charecters in the URL. 
 
 
-At this point I found the [following website](https://www.cachesleuth.com/runningkey.html), which simplies encrypting and decrypting text with running-key encryption.
+At this point I found the [following website](https://www.cachesleuth.com/runningkey.html), which simplifies encrypting and decrypting text with running-key encryption.
 
 
 At first, I started by inputting parts the cipher text, and guessing possible keys based on the equivalent clear-text parts of said cipher text. So for example, we know that `zsrivszwm` in cipher text is `brainfuck` in clear text, so I inputted both:
