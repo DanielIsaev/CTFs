@@ -334,7 +334,7 @@ Well, we know for sure that the following cipher text is a URL: `mnvze://zsrivsz
 If we check for the length of the encrypted domain `zsrivszwm.rfz`, we will find that it matches `brainfuck.htb` exactly. We can also see that the protocol section of the URL, has the length to match `https`, which is what our target is running. 
 
 
-So now we have a part of the plain-text message to be encrypted, and it's equivalent cipher text. And we also know that the encrypion key should be comprised from some of the charecters in the URL. 
+So now we have a part of the plain-text message to be encrypted, and it's equivalent cipher text. And we also know that the encryption key should be comprised from some of the charecters in the URL. 
 
 
 At this point I found the [following website](https://www.cachesleuth.com/runningkey.html), which simplies encrypting and decrypting text with running-key encryption.
