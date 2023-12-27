@@ -741,7 +741,7 @@ ls -l htbFinal.tar.bz2
 ![final-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/final-47.png)
 
 
-My container image ended up being about 1050 bytes instead of 656, maybe busybox changed their contianer image from when `M0NOC` wrote the action plan? Anyway I'll take it! 
+My container image ended up being about 1050 bytes instead of 656, maybe busybox changed their container image from when `M0NOC` wrote the action plan? Anyway I'll take it! 
 
 
 Now it's time to transfer the archive over to the target. To do that we can base64 encode this archive:
