@@ -448,7 +448,7 @@ Here's is the overview of this script.
 The scripts starts by opening the root flag at `/root/root.txt`, changing it to hex, then turnning it into an integer and saving the result as the `m` varaible. The script also opens two files of `debug.txt` and `output.txt`, both are saved in the current working directory. 
 
 
-Next, the script generates what seems like two prime numbers, these numbers are multipled together to give us the variable `n`. Then, the script uses a `ZZ.random_element` method to create the varaible `e`. I'm not sure exactly what this method is doing, but it doesn't really matter, and I will exaplain why in a bit.
+Next, the script generates what seems like two prime numbers, these numbers are multipled together to give us the variable `n`. Then, the script uses a `ZZ.random_element` method to create the varaible `e`. I'm not sure exactly what this method is doing, but it doesn't really matter, and I will explain why in a bit.
 
 
 With all the variables set, the script computs the `"Encrypted Password"` using `c = pow(m, e, n)` and writs the result to `output.txt`. Finally the prime numbers of `p` and `q`, along with the variable `e` are written into `debug.txt`.
