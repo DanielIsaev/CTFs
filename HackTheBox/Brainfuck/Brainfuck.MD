@@ -790,4 +790,4 @@ By the way, here is the proof that the root flag matches what we solved earlier:
 
 From here we can acess the host filesystem at `r/` :
 
-!fs-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/fs-52.png)
+![fs-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/fs-52.png)
