@@ -189,7 +189,7 @@ We are in!
 ### WordPress Admin
 
 
-Once inside the WordPress I tried getting a shell by changing the contents of the `404.php` file for the Twenty Fifteen theme with [pentestmonkeys](https://github.com/pentestmonkey/php-reverse-shell)'s php reverse shell script. This is a common way of exploitng WordPress admin access to get a shell on the target system. Unfortunately we dont have write permissions to edit themes.
+Once inside the WordPress I tried getting a shell by changing the contents of the `404.php` file for the Twenty Fifteen theme with [pentestmonkeys](https://github.com/pentestmonkey/php-reverse-shell) php reverse shell script. This is a common way of exploitng WordPress admin access to get a shell on the target system. Unfortunately we dont have write permissions to edit themes.
 
 
 So instead, I tried to uplaod a malicious plugin that I created, which had a reverse shell payload embedded inside. But the plugin upload feature has been disabled comepletly!  
