@@ -38,7 +38,7 @@ The next interesting service the target is running is HTTPS. Based on the SSL ce
 
 
 
-Let's start with the email server.
+Let's take a look at the email server.
 
 
 ### SMTP, POP3 & IMAP Ports 25, 110 & 143
