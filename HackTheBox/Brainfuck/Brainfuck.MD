@@ -439,7 +439,7 @@ This file caught my eye, so I decided to have a look at it:
 ![sage-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/sage-39.png)
 
 
-This is looks lik a python script, but it's really [SageMath](https://en.wikipedia.org/wiki/SageMath) script, which is an open source mathematical programming language build on top of Python, so the syntax is similar. The question is what is the script doing? 
+This is looks like a python script, but it's really [SageMath](https://en.wikipedia.org/wiki/SageMath) script, which is an open source mathematical programming language build on top of Python, so the syntax is similar. The question is what is the script doing? 
 
 
 Here's is the overview of this script. 
