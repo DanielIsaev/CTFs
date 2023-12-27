@@ -72,7 +72,7 @@ Then, I connect to the SMTP server and send an email as such:
 The `orestis@brainfuck.htb` address I got from the Nginx server which I will show later, but in general this is how you would exploit this. 
 
 
-The main issue is that right at the top, based on the SMTP banner we can tell this is not an Exim SMTP server, but rather a Posfix server. An Exim banner looks somehitng like this `220 host ESMTP Exim 4.72 ...`. 
+The main issue is that right at the top, based on the SMTP banner we can tell this is not an Exim SMTP server, but rather a Postfix server. An Exim banner looks somehitng like this `220 host ESMTP Exim 4.72 ...`. 
 
 
 The other issue is that even though my email was accepted, I dont see any requests to my python server to retrive the `htb.sh` script. 
