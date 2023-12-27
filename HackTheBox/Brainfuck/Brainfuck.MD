@@ -512,7 +512,7 @@ As you can see, we were able to retrive the original text after hexifying it and
 Now let's talk about the latter issue, reversing the `c = pow(m, e, n)` operation to get the value of `m`. First, let's start with what is the `pow()` function in python. 
 
 
-This is very simple, the `pow()` function in python takes two arguments, raising the value of first argument to the power of the second argument and returns the product. For example `pow(2,2)` is: `2**2 = 4`. So far so good. 
+This is very simple, the `pow()` function in python takes two arguments, raising the value of first argument to the power of the second argument and returning the product. For example `pow(2,2)` is: `2**2 = 4`. So far so good. 
 
 
 However, the `pow()` function can also take a third argument, dividing the result of the initial power operation by the value of the third argument and returning the remainder of the devision. For eaxmple, `pow(2,2,3)` is: `(2**2) % 3` which is `4 % 3 = 1`. The `%` operator is called `modulo`, and it returns the remainder of a devision operation. 
