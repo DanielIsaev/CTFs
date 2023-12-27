@@ -477,7 +477,7 @@ If we think about it, we have two main issues we need to solve to get the root f
 Let's start with the latter issue since it's fairly trivial. 
 
 
-Let's open a python interpeter and start by defining a string as our password, hexifying it, then turnning it to integer. We can do this easily with the `binascii` python module
+Let's open a python interpreter and start by defining a string as our password, hexifying it, then turnning it to integer. We can do this easily with the `binascii` python module
 
 ```python
 >>> import binascii
