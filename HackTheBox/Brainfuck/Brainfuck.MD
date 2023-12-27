@@ -703,7 +703,7 @@ cat metadata.yaml
 Now we have a temporary working image, but we want to shrink it as much as possible! 
 
 
-The first thing we are going to do is replace `/sbin/init` (the program lxc will run) with a symbloic link to the host's busybox. 
+The first thing we are going to do is replace `/sbin/init` (the program lxc will run) with a symbolic link to the host's busybox. 
 
 
 So in the container we need to run the following:
