@@ -31,7 +31,7 @@ We have the following:
 + An Nginx/1.10.0 server on port 443.
 
 
-The target seems to be using a common email configuration where it has SMTP acting as the email server, and IMAP/POP3 acting as the email client. It looks like nmap's probing scripts couldn't conenct to the SMTP server on port 25 directly, but they did manage to identify the POP3 and IMAP clients as `Dovecot`. 
+The target seems to be using a common email configuration where it has SMTP acting as the email server, and IMAP/POP3 acting as the email client. It looks like nmap's probing scripts couldn't connect to the SMTP server on port 25 directly, but they did manage to identify the POP3 and IMAP clients as `Dovecot`. 
 
 
 The next interesting service the target is running is HTTPS. Based on the SSL certificate of the server we can identify the commonName as `brainfuck.htb`, this is the domain I added initially to the `/etc/hosts` file which is good. But we also see two new sub-domains of `www.brainfuck.htb` and `sup3rs3cr3t.brainfuck.htb` as alternative names. I mapped both of these new sub-domains to the external IP of the target in my `/etc/hosts` file.  
