@@ -192,7 +192,7 @@ We are in!
 Once inside the WordPress I tried getting a shell by changing the contents of the `404.php` file for the Twenty Fifteen theme with [pentestmonkeys](https://github.com/pentestmonkey/php-reverse-shell) php reverse shell script. This is a common way of exploitng WordPress admin access to get a shell on the target system. Unfortunately we dont have write permissions to edit themes.
 
 
-So instead, I tried to upload a malicious plugin that I created, which had a reverse shell payload embedded inside. But the plugin upload feature has been disabled comepletly!  
+So instead, I tried to upload a malicious plugin that I created, which had a reverse shell payload embedded inside. But the plugin upload feature has been disabled completely!  
 
 
 At this point I wasn't sure what to do, so I started clicking around the admin panel, looking into every page. In the `Settings` tab I found the `Easy WP SMTP` section which had the following:
