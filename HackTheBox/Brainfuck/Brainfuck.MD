@@ -314,7 +314,7 @@ I decided to identify this cipher text, I tried different websites, until [this]
 This site suggested that the cipher text I gave it (extracted from the admin's URL message), is actually a [Running Key](https://en.wikipedia.org/wiki/Running_key_cipher) cipher text. 
 
 
-In short, `Running-Key` is a form of symetric encryption which uses a random string, liek sentences from books as the encryption key. The actual subsitutuion of the characters is achived using the following tableau:
+In short, `Running-Key` is a form of symetric encryption which uses a random string, like sentences from books as the encryption key. The actual subsitutuion of the characters is achived using the following tableau:
 
 ![tableau-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/tableau-29.png)
 
