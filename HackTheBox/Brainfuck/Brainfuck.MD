@@ -366,10 +366,10 @@ Let's try to decrypt the cipher URL with this key:
 Looks like a valid URL! 
 
 
-This must be the correct key, but there seems to be an issue with this running-key decoder, as the numbers from the original cipher text are missing. 
+This must be the correct key, but there seems to be an issue with this running-key decoder, as the numbers and all special characters from the original cipher text are missing. 
 
 
-Running-key only encrypts characters, not numbers, so it makes since why this decoder removed the numbers, but we actually need them in order to get the valid link to the SSH key. 
+Running-key only encrypts characters, so it makes since why this decoder removed the numbers and special characters, but we actually need them in order to get the valid link to the SSH key. 
 
 
 I used [this site](https://www.dcode.fr/vigenere-cipher) to properly decrypt the cipher text using said key:
@@ -377,7 +377,7 @@ I used [this site](https://www.dcode.fr/vigenere-cipher) to properly decrypt the
 ![true-link-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/true-link-34.png)
 
 
-If we curl for this link we get the `orestis` SSH key:
+If we curl for this link we get the SSH key for `orestis`:
 
 ```bash
 curl -k https://brainfuck.htb/8ba5aa10e915218697d1c658cdee0bb8/orestis/id_rsa
