@@ -303,7 +303,7 @@ Insetad, I came to find that there isn't a consistent shift in unicode values, b
 For example, we know that the URL should start with `https`, but in the cipher text we see `mnvze`. Shouldn't the values for the `tt` in `https` also be the same in the cipher? 
 
 
-Another point where this is visible is with `orestis`'s signiture, we know from the previous channel that `orestis` always sings he's message with `Orestis - Hacking for fun and profit`. But the ciher text for this string is different in every message, which means that the key is always different.
+Another point where this is visible is with `orestis`'s signature, we know from the previous channel that `orestis` always sings he's message with `Orestis - Hacking for fun and profit`. But the ciher text for this string is different in every message, which means that the key is always different.
 
 
 I decided to identify this cipher text, I tried different websites, until [this](https://www.cryptool.org/en/cto/ncid) site gave me the correct lead:
