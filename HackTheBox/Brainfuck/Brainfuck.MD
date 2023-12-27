@@ -50,7 +50,7 @@ If we search online for the term [Dovecot](https://en.wikipedia.org/wiki/Dovecot
 If we lookup exploits for this software online, we will find a possible [RCE vulnerability](https://www.exploit-db.com/exploits/25297), due to a common misconfiguation when Dovecot is used as the local delivery agent by the Exim SMTP server. 
 
 
-I'm not going to cover the vulnerability in detail, as the specifics can be found in the above link. But testing for the exploit is fairly trivial. All we have to do is embedd command injection into the `MAIL FROME` field of an email request to a valid recipient on the SMTP server. 
+I'm not going to cover the vulnerability in detail, as the specifics can be found in the above link. But testing for the exploit is fairly trivial. All we have to do is inject commands into the `MAIL FROM` field of an email request to a valid recipient on the SMTP server. If the server is vulnerable the commands should execute.
 
 
 Here is the setup:
