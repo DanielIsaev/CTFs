@@ -56,7 +56,7 @@ If we open this link we see the statement:
 ![statement-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tabby/img/statement-05.png)
 
 
-The statement says that they removed "this tool" due to a previous breach. It's unclear which tool they are reffering to. They also mention that they invested in more secure servers, waht this is referring to is also unclear. 
+The statement says that they removed "this tool" due to a previous breach. It's unclear which tool they are reffering to. They also mention that they invested in more secure servers, what this is referring to is also unclear. 
 
 
 At this point I decided to start testing for file inclusion in the `news.php` script. After several attempts I was able to pull `/etc/passwd` with the following payload: 
