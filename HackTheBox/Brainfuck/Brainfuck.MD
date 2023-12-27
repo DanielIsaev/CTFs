@@ -782,6 +782,9 @@ By the way, here is the proof that the root flag matches what we solved earlier:
 ![matches-51.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/matches-51.5.png)
 
 
-From here we can acess the host filesystem at `r/` :
+From here we can access the host filesystem at `r/` :
 
 ![fs-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/fs-52.png)
+
+
+If we want to get a root shell on the actual host operating system, we can add `orestis` to the `/etc/sudoers` file, and give hom access to run every command as root. Then, from the SSH we can run `sudo su -` as `orestis` and we will get a shell as root on the host operating system. 
