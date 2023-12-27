@@ -232,15 +232,15 @@ From here we can list the numbers of emails in the `orestis`'s queue using the `
 The `orestis` user has three emails. We can read each email by running `RETR <num>`, where `<num>` is the email number. Here is the breakdown of the emails:
 
 
-The first email is an automated email from WordPress after successfully setting up the site at `https://brainfuck.htb`. Nothing to important. 
++ The first email is an automated email from WordPress after successfully setting up the site at `https://brainfuck.htb`. Nothing too important. 
 
 
-The third email is from the initial RCE exploit we tried to pull of in the beginning:
++ The third email is from the initial RCE exploit we tried to pull of in the beginning:
 
 ![third-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/third-21.png)
 
 
-But the second email is from root, and it's the most useful. Here we see credentials for a `secret` forum:
++ But the second email is from root, and it's the most useful. Here we see credentials for a `secret` forum:
 
 ![secret-creds-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/secret-creds-22.png)
 
