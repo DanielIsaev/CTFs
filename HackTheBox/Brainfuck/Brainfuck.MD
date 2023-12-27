@@ -426,7 +426,7 @@ ssh -i orestis_id_rsa orestis@brainfuck.htb
 
 ## Privilege Escalation
 
-If we take a look at the above screenshot, we will notice that `orestis` is a part of the `lxd` group. This gives our user the ability to start, stop and control containers on the system. There is a common way to exploit this privilege, by mounting the host's entier filesystem inside a controlled container. Then, from inside the container since we have complete `root` privileges, we can travers the host filesystem at ease. 
+If we take a look at the above screenshot, we will notice that `orestis` is a part of the `lxd` group. This gives our user the ability to start, stop and control containers on the system. There is a common way to exploit this privilege, by mounting the host's entier filesystem inside a controlled container. Since we have complete `root` privileges inside the container, we can travers the host filesystem at ease. 
 
 
 Before pulling this off, I wanted to have a look at `orestis`'s home folder, that's where I saw the following:
