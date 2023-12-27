@@ -291,7 +291,7 @@ This `admin` user confirms that password based authentication to the SSH server 
 ![key-channel-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/key-channel-27.png)
 
 
-This is definitely ciphe text but one of the messages definitely stands out, as it looks like a URL Intersting. 
+This is definitely cipher text but one of the messages definitely stands out, as it looks like a URL Intersting. 
 
 
 At this point I spent some time playing around with the unicode values of the cipher text in python. I thought that the "encryption" here s a simple unicode shift. So I started brute forcing unicod values to see if I can get a coherent sentence but I didn't. 
