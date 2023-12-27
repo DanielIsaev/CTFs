@@ -224,12 +224,12 @@ Ok... Instead I tried to login to the POP3 server using the found credentials:
 It worked! 
 
 
-From here we can list the numbers of emails in the `orestis`'s queue and list them:
+From here we can list the numbers of emails in the `orestis`'s queue using the `STAT` command:
 
 ![stat-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/stat-20.png)
 
 
-The `orestis` user has three emails. We can read each email by running `RETR <num>`, where <num> is the email number. Here is the breakdown of the emails:
+The `orestis` user has three emails. We can read each email by running `RETR <num>`, where `<num>` is the email number. Here is the breakdown of the emails:
 
 
 The first email is an automated email from WordPress after successfully setting up the site at `https://brainfuck.htb`. Nothing to important. 
