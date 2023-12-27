@@ -334,7 +334,7 @@ So now we have a part of the plain-text message to be encrypted, and it's equiva
 At this point I found the [following website](https://www.cachesleuth.com/runningkey.html), which simplifies encrypting and decrypting text with running-key encryption.
 
 
-At first, I started by inputting parts the cipher text, and guessing possible keys based on the equivalent clear-text parts of said cipher text. So for example, we know that `zsrivszwm` in cipher text is `brainfuck` in clear text, so I inputted both:
+At first, I started by inputting parts of the cipher text, and guessing possible keys based on the equivalent clear-text parts of said cipher text. So for example, we know that `zsrivszwm` in cipher text is `brainfuck` in clear text, so I inputted both:
 
 ![initail-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/initial-30.png)
 
