@@ -108,7 +108,7 @@ As you can see in the above screenshot, there are two more links in this window,
 ![rss-file-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/rss-file-08.png)
 
 
-This looks like a generic informational file from WordPress, but the juciy piece of information here is the WordPRess version which is `4.7.3`. If we search online, we can find a [password reset vulnerability](https://www.exploit-db.com/exploits/41963) for this version.
+This looks like a generic informational file from WordPress, but the juciy piece of information here is the WordPress version which is `4.7.3`. If we search online, we can find a [password reset vulnerability](https://www.exploit-db.com/exploits/41963) for this version.
 
 
 In short, we can abuse the reset password function of the WordPress login form, to make the server send a reset link to an email server we control using the `Host` HTTP header. 
