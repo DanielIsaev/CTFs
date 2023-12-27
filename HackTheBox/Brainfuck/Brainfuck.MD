@@ -294,7 +294,7 @@ This `admin` user confirms that password based authentication to the SSH server 
 This is definitely cipher text but one of the messages definitely stands out, as it looks like a URL. Interesting...
 
 
-At this point I spent some time playing around with the unicode values of the cipher text in python. I thought that the "encryption" here s a simple unicode shift. So I started brute forcing unicod values to see if I can get a coherent sentence but I didn't. 
+At this point I spent some time playing around with the unicode values of the cipher text in python. I thought that the "encryption" here is a simple unicode shift. So I started brute forcing unicod values to see if I can get a coherent sentence but I didn't. 
 
 
 Insetad, I came to find that there isn't a consistent shift in unicode values, but rather a varied one. each character seems to be encoded differently. 
