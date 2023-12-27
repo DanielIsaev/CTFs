@@ -297,16 +297,10 @@ This is definitely cipher text but one of the messages definitely stands out, as
 At this point I spent some time playing around with the unicode values of the cipher text in python. I thought that the "encryption" here is a simple unicode shift. So I started brute forcing unicod values to see if I can get a coherent sentence but I didn't. 
 
 
-Insetad, I came to find that there isn't a consistent shift in unicode values, but rather a varied one. each character seems to be encoded differently. 
+Insetad, I came to find that there isn't a consistent shift in unicode values, but rather a varied one. Each character seems to be encoded differently. Which means that there must be a key. 
 
 
-For example, we know that the URL should start with `https`, but in the cipher text we see `mnvze`. Shouldn't the values for the `tt` in `https` also be the same in the cipher? 
-
-
-Another point where this is visible is with `orestis`'s signature, we know from the previous channel that `orestis` always signs he's message with `Orestis - Hacking for fun and profit`. But the cipher text for this string is different in every message, which means that the key is always different.
-
-
-I decided to identify this cipher text, I tried different websites, until [this](https://www.cryptool.org/en/cto/ncid) site gave me the correct lead:
+I decided to try and identify this cipher text, I tried different websites, until [this](https://www.cryptool.org/en/cto/ncid) site gave me the correct lead:
 
 ![lead-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/lead-28.png)
 
