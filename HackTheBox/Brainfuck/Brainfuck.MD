@@ -328,7 +328,7 @@ This was the confirmation I needed that the chat server is encrypted with runnin
 But how do we decrypt it? 
 
 
-Well, we know for sure that the following cipher text is a URL: `mnvze://zsrivszwm.rfz/8cr5ai10r915218697i1w658enqc0cs8/ozrxnkc/ub_sja`, as it has the exact strucutre of a URL. We can also make an educated guess, that the creator of the box won't link to external resources, and that this in fact the actual target host at `https://brainfuck.htb`. 
+Well, we know for sure that the following cipher text is a URL: `mnvze://zsrivszwm.rfz/8cr5ai10r915218697i1w658enqc0cs8/ozrxnkc/ub_sja`, as it has the exact structure of a URL. We can also make an educated guess, that the creator of the box won't link to external resources, and that this in fact the actual target host at `https://brainfuck.htb`. 
 
 
 If we check for the length of the encrypted domain `zsrivszwm.rfz`, we will find that it matches `brainfuck.htb` exactly. We can also see that the protocol section of the URL, has the length to match `https`, which is what our target is running. 
