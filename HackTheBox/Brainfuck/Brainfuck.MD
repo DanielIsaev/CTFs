@@ -509,7 +509,7 @@ Now let's talk about the latter issue, reversing the `c = pow(m, e, n)` operatio
 This is very simple, the `pow()` function in python takes two arguments, raising the value of first argument to the power of the second argument and returning the product. For example `pow(2,2)` is: `2**2 = 4`. So far so good. 
 
 
-However, the `pow()` function can also take a third argument, dividing the result of the initial power operation by the value of the third argument and returning the remainder of the devision. For eaxmple, `pow(2,2,3)` is: `(2**2) % 3` which is `4 % 3 = 1`. The `%` operator is called `modulo`, and it returns the remainder of a devision operation. 
+However, the `pow()` function can also take a third argument, dividing the result of the initial power operation by the value of the third argument and returning the remainder of the devision. For example, `pow(2,2,3)` is: `(2**2) % 3` which is `4 % 3 = 1`. The `%` operator is called `modulo`, and it returns the remainder of a devision operation. 
 
 
 This is how the `encrypt.sage` script "encrypts" the root flag. The issue with this script is that it saves the values of all of the varaibles used in the calculation! The values of the prime numbers, `p` and `q` are saved into `debug.txt`, along with the value of `e`. Then, the result of `c`, which is the final product is saved into the `result.txt` file. 
