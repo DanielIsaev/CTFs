@@ -286,7 +286,7 @@ We are logged in as `orestis`, but there is also an `admin` on this server.
 This `admin` user confirms that password based authentication to the SSH server has been disabled for the benefit of using key based authintication. The `orestis` user complains that he lost he's SSH key, and starts another "encrypted" channel. 
 
 
-`orestis` is referring the `Key` channel, and if we take a look at it we see the following:
+`orestis` is referring to the `Key` channel, and if we take a look at it we see the following:
 
 ![key-channel-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/key-channel-27.png)
 
