@@ -175,7 +175,7 @@ If we follow along the exploit notes, to pull this exploit off we need to send a
 ![request-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/request-14.png)
 
 
-Note that I've changed the useername from `administrator` to `admin`, as this was the noted user account in the site's main page. And as you can see in the response, we got a cookie of `wordpress_logged_in` for the admin user! 
+Note that I've changed the username from `administrator` to `admin`, as this was the noted user account in the site's main page. And as you can see in the response, we got a cookie of `wordpress_logged_in` for the admin user! 
 
 
 So if we browse towards `https://brainfuck.htb/wp-admin/` we should get access to the admin panel:
