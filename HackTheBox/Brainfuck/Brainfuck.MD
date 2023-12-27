@@ -353,7 +353,7 @@ Then I added the suffix of the domain which is `htb` in clear text, and `rfz` in
 ![step-two-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/step-two-31.png)
 
 
-I think I'm on the right track, the result from the decrpyion is starting to form a sentence.
+I think I'm on the right track, the result from the decryption is starting to form a sentence.
 
 
 Next, I added the protocol section of the URL, which is `https` in clear text and `mnvze` is cipher:
