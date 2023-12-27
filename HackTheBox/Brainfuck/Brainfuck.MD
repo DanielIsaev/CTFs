@@ -319,7 +319,7 @@ In short, `Running-Key` is a form of symetric encryption which uses a random str
 ![tableau-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Brainfuck/img/tableau-29.png)
 
 
-There is another very important aspect to the running-key encrpyion, which is that the encryption key could also be derived from parts of the clear-text message to be encrypted! [source](https://sites.google.com/site/cryptocrackprogram/user-guide/cipher-types/substitution/running-key). 
+There is another very important aspect to the running-key encryption, which is that the encryption key could also be derived from parts of the clear-text message to be encrypted! [source](https://sites.google.com/site/cryptocrackprogram/user-guide/cipher-types/substitution/running-key). 
 
 
 This was the confirmation I needed that the chat server is encrypted with running key encryption. 
