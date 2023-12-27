@@ -563,7 +563,7 @@ pow(c, x, n)
 Let's try this out! 
 
 
-Firt, we need to transfer the files `debug.txt` and `output.txt` to our attack machine. To do this, I setup a simple netcat listener on my attack machine, which redirects the input into a file:
+First, we need to transfer the files `debug.txt` and `output.txt` to our attack machine. To do this, I setup a simple netcat listener on my attack machine, which redirects the input into a file:
 
 ```bash
 nc -lnvp 23 > debug.txt
