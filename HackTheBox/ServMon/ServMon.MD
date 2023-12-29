@@ -104,7 +104,7 @@ If we browse towards `http://servmon.htb/` we will be see the NVMS login form:
 ![nvms-login-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/ServMon/img/nvms-login-11.png)
 
 
-I tried to use a couple of weak generic passwords but they all faild. 
+I tried to use a couple of weak generic passwords but they all failed. 
 
 
 Instead, I looked up exploits for `NVMS 1000` online and I found [this directory traversal](https://www.exploit-db.com/exploits/48311) vulnerability on ExploitDB.
