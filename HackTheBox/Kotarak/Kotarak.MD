@@ -748,7 +748,7 @@ Less then a minute afterwards, I receive the second request:
 ![second-http-54](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/second-http-54.png)
 
 
-Our HTTP server caught the request and redirected back to the FTP. Which this time, served the malicious cronjob we created. 
+Our HTTP server caught the POST request and replayed with our malicious cronjob.
 
 
 Then after a few seconds I got a connection from root on my netcat listener:
