@@ -336,7 +336,7 @@ The `/home/tomcat` direcotry has the following directory tree: `to_archive/pente
 One of the files here has a `.dit` extension. The `dit` acronym stands for `Directory Information Tree`, and this type of file is used in Active Directory to store the hierarchy of the domain including information about user objects, groups and group membership, as well as password hashes for all users in the domain.
 
 
-The file has the string `psexec.ntdsgrab` in it, which is actually a metasploit module used to extract the `ntds.dit` file along with the SYSTEM hive file and store them locally, the `.bin` is actually the SYSTEM hive file. These two files can be used by certain tools to parse out the password hashes of the domain users. 
+The file has the string `psexec.ntdsgrab` in it, which is actually a metasploit module used to extract the `ntds.dit` file along with the SYSTEM hive file and store them locally, with the `.bin` file being the SYSTEM hive. These two files can be used by certain tools to parse out the password hashes of the domain users. 
 
 
 Let's try to do that! 
