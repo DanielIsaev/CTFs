@@ -251,7 +251,7 @@ Let's try to get that backup file. If we request it via the `SSRF` site we will 
 ![backup-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/backup-23.png)
 
 
-Here we see the usernmae and password for the `admin` user. We can also see this user has the `manager`, `manager-gui`, `admin-gui` & `manager-script` Tomcat roles, which should give us complete control over the web-based GUI manager application. 
+Here we see the username and password for the `admin` user. We can also see this user has the `manager`, `manager-gui`, `admin-gui` & `manager-script` Tomcat roles, which should give us complete control over the web-based GUI manager application. 
 
 
 
