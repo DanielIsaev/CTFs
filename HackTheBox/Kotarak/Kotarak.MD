@@ -427,7 +427,7 @@ We can see the root filesystem is actully mounted on the logical volume group `K
 Let's exploit this! 
 
 
-### `Disk` Group Escalation
+### Disk Group Escalation
 
 
 To perfrom the exploit, all we have to do is start a local listener on our Kali machine that will intercept the data coming from the target and write it into a file:
