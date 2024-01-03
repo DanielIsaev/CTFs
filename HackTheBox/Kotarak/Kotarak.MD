@@ -635,7 +635,7 @@ Although I didn't find any new capabilities, I did saw the following:
 ![peas-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Kotarak/img/peas-46.png)
 
  
-A quick Google search teels me that this program is desinged to allow low-privilge users to bind sockets to high-privileged ports :D
+A quick Google search teels me that this program is desinged to allow low-privilege users to bind sockets to high-privileged ports :D
 
 
 If we check the permissions to this program we can see it's only accessible by our user `atanas`:
