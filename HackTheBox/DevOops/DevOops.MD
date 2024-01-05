@@ -322,7 +322,7 @@ We can see that it uses the `pickle` python module to unserialize a base64 encod
 The `pickle` module is used to serialize and unserialize objects transmitted across the network. And just like most serialization processes in other languages, it could be susceptible to [insecure deserialization attacks](https://portswigger.net/web-security/deserialization) if an atacker controls the serialized object passed to the trusting application. This is exactly what goes on here. 
 
 
-When `pickle` serializes or unserializes an object, it tries to run the `__reduce__` method of the object. This method tells `pickle` how to handle properties in hthe object that dont serialize well. You can read more about this process [here](https://stackoverflow.com/questions/19855156/whats-the-exact-usage-of-reduce-in-pickler)
+When `pickle` serializes or unserializes an object, it tries to run the `__reduce__` method of the object. This method tells `pickle` how to handle properties in the object that dont serialize well. You can read more about this process [here](https://stackoverflow.com/questions/19855156/whats-the-exact-usage-of-reduce-in-pickler)
 
 
 We can exploit this by creating a custom object and defining a `__reduce__` method that has a command injection inside of it which will be executed when `pickle` unserializes the object. 
