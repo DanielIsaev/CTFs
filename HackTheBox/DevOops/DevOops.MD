@@ -80,7 +80,7 @@ This in theory should return the contents of the `/etc/passwd` file once the XML
 ![internal-err-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/internal-err-07.png)
 
 
-I wasn't sure what to make of this error, as it's unclear if the target is actually vulnerable to XXE or the application encountered some other non-related XML runtime error. So I decided to try and verify an XXE vulnerability using a blind SSRF XXE payload. 
+I wasn't sure what to make of this error, as it's unclear if the target is actually vulnerable to XXE or the application encountered some other non-related runtime error. So I decided to try and verify an XXE vulnerability using a blind SSRF XXE payload. 
 
 
 In short, we can craft an XML entity which forces the target application to load a DTD file from an external server we control, thus proving it is vulnerable. The malicious DTD file can look like this:
