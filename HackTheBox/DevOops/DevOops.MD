@@ -109,7 +109,7 @@ After uploading this XML file to the target I receive a connection to my python 
 ![requests-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/requests-08.png)
 
 
-This proves that the target application is vulnerable to XXE, but we didn't manage to exligftrate any sensetive data. 
+This proves that the target application is vulnerable to XXE, but we didn't manage to exfiltrate any sensetive data. 
 
 
 Then I went back to the `/upload` directory. We can see that it says `XML elements: Author, Subject, Content`, maybe we need to send an XML document containing these elements?
