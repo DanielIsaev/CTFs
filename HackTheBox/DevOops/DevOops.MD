@@ -203,10 +203,10 @@ git log --name-only --oneline
 ![history-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/history-15.png)
 
 
-There are two back to back commits which modified the same file of `resources/integration/authcredentials.key`. The comment of the `33e87c3` commit says `reverted accidental commit with proper key`, this tells me that a wrong key was accidentally leaked in the first commit, then reverted back in the subsequent commit. 
+There are two back to back commits which modified the same file of `resources/integration/authcredentials.key`. The comment of the `33e87c3` commit says `reverted accidental commit with proper key`, this tells me that a wrong key was accidentally leaked in the previous commit, then reverted back in the subsequent commit. 
 
 
-We can actually compare the difference between the first and the subsequent commits, to try and retrieve the original compromised key:
+We can actually compare the difference between the first and the thirs commits, to try and retrieve the original compromised key at the time of the second commit:
 
 ```bash
 git diff 1422e5a d387abf
@@ -228,7 +228,7 @@ The main source code for the application is located at `/home/roosa/deploy/src/f
 + The script starts by importing necessary modules, primarly the `Flask` module to drive the website, and the `xml.sax` module for the XML parser, but there some other module imports as well.
 
 
-The first interesting function is the `allowed_file(filename)` function which looks like this:
++ The first interesting function is the `allowed_file(filename)` function which looks like this:
 
 ```python
 def allowed_file(filename):                                                                              
