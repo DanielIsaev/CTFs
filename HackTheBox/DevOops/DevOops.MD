@@ -115,7 +115,7 @@ This proves that the target application is vulnerable to XXE, but we didn't mana
 Then I went back to the `/upload` directory. We can see that it says `XML elements: Author, Subject, Content`, maybe we need to send an XML document containing these elements?
 
 
-So I made the following XML document which contained all three elements:
+So I made the following XML document:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
