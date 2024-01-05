@@ -1,5 +1,5 @@
 # DevOops [HTB](https://app.hackthebox.com/machines/140)
-![devoops-01]()
+![devoops-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/devoops-01.png)
 
 ## Recon 
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 devoops.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/ports-02.png)
 
 
 From here I run a software and version detection scan againts these two portts:
@@ -18,7 +18,7 @@ From here I run a software and version detection scan againts these two portts:
 nmap -p 22,5000 -sCV devoops.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/nmap-res-03.png)
 
 
 We have the following:
@@ -41,7 +41,7 @@ Finally, based on `nmap` SSH probing scripts we can identify the target OS to be
 
 If we browse towards `http://devoops.htb:5000` we get the following page:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/site-04.png)
 
 
 The page says this site is "under construction", and that the feed should be replaced with the `dev.sofia.fi` backend. 
@@ -56,12 +56,12 @@ I wasn't sure what to make of this information, So I decided to run a directory 
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://devoops.htb:5000/FUZZ -e .txt,.xml,.html,.py
 ```
 
-![ffuf-05]()
+![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/ffuf-05.png)
 
 
 The most relevant entry here in my opinion is the `/upload` directory which returns the following:
 
-![upload-06]()
+![upload-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/upload-06.png)
 
 
 We can see an XML file upload feature. My mind immediately starts thinking about [XXE](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity) attacks. 
@@ -77,7 +77,7 @@ At first, I tried to upload a very simple XML file that had a single entity of `
 
 This in theory should return the contents of the `/etc/passwd` file once the XML parser of the application gets to our `&example` entity. But after uploading this file to the target I got an internal server error:
 
-![internal-err-07]()
+![internal-err-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/internal-err-07.png)
 
 
 I wasn't sure what to make of this error, as it's unclear if the target is actually vulnerable to XXE or the application encountered some other non-related XML runtime error. So I decided to try and verify an XXE vulnerability using a blind SSRF XXE payload. 
@@ -106,7 +106,7 @@ Then, we can trigger the target application to fetch this file via the following
 
 After uploading this XML file to the target I receive a connection to my python server:
 
-![requests-08]()
+![requests-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/requests-08.png)
 
 
 This proves that the target application is vulnerable to XXE, but we didn't manage to exligftrate any sensetive data. 
@@ -144,17 +144,17 @@ It's a slightly bigger XML file, but the XXE attack here is exactly the same as 
 
 If we upload this XML document we get the contents of `/etc/passwd`:
 
-![xxe-09]()
+![xxe-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/xxe-09.png)
 
 
 Based on the contents of the `/etc/passwd` file, it looks like there are four user accounts (uid >= 1000) on the system: `osboxes`, `git`, `roosa` & `blogfeed`. And based on the last two lines, it looks like the web application is being deployed from `roosa`'s home directory at `/home/roosa/deploy/src`:
 
-![users-10]()
+![users-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/users-10.png)
 
 
 This means that the application should have access to the rest of the files in `roosa`'s home directory. So I modified the `xxe` entity to point towards `/home/roosa/.ssh/id_rsa` to try and capture `roosa`'s private SSH key so we can login with it to the system:
 
-![key-11]()
+![key-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/key-11.png)
 
 
 Here it is! 
@@ -167,7 +167,7 @@ chmod 600 roosa_id_rsa
 ssh -i roosa_id_rsa roosa@devoops.htb
 ```
 
-![roosa-12]()
+![roosa-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/roosa-12.png)
 
 
 ## Privilege Escalation
@@ -177,7 +177,7 @@ Based on the output from the `id` command in the above screenshot, we can see th
 
 So I start analyzing `roosa`'s home directory:
 
-![home-13]()
+![home-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/home-dir-13.png)
 
 
 First I looked at the `service.sh` script, which is a basic bash tameplate for creating a service on a Linux system. Allowing you to start, stop & restart the service using this script. Not super useful.
@@ -191,7 +191,7 @@ In general, both the `work` and the `deploy` directories have a similar layout, 
 
 Inside `/home/roosa/work/blogfeed/` we can see a git repository:
 
-![git-14]()
+![git-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/git-14.png)
 
 
 If we check the commit history we can see something juicy:
@@ -200,7 +200,7 @@ If we check the commit history we can see something juicy:
 git log --name-only --oneline
 ```
 
-![history-15]()
+![history-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/history-15.png)
 
 
 There are two back to back commits which modified the same file of `resources/integration/authcredentials.key`. The comment of the `33e87c3` commit says `reverted accidental commit with proper key`, this tells me that a wrong key was accidentally leaked in the first commit, then reverted back in the subsequent commit. 
@@ -212,12 +212,12 @@ We can actually compare the difference between the first and the subsequent comm
 git diff 1422e5a d387abf
 ```
 
-![diff-16]()
+![diff-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/diff-16.png)
 
 
 I copy this new SSH key over to my attack machine and start logging in as every user on the system. Eventually I try the `root` user and I get a shell:
 
-![root-17]()
+![root-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/root-17.png)
 
 
 ## Beyond Root
@@ -261,8 +261,9 @@ class FeedParse(xml.sax.handler.ContentHandler):
     self.chars = ""                                                                                      
     print name,attrs                                                                                     
                                                                                                          
-  def endElement(self, name):                                                                                if name in set(['Author','Subject','Content']):                                                      
-      self.obj[name] = self.chars                                                                        
+  def endElement(self, name):
+      if name in set(['Author','Subject','Content']):
+        self.obj[name] = self.chars                                                                        
                                                                                                          
   def characters(self, content):                                                                         
     self.chars += content                                                                                
@@ -273,7 +274,9 @@ def process_xml(filename, path):
   handler = FeedParse(object)                                                                            
   parser.setContentHandler(handler)                                                                      
   parser.parse(open(filename))                                                                           
-#  print object                                                                                            return " PROCESSED BLOGPOST: \r\n " + \                                                                         " Author: " + object["Author"] + "\r\n" + \ 
+#  print object
+  return " PROCESSED BLOGPOST: \r\n " + \
+         " Author: " + object["Author"] + "\r\n" + \ 
          " Subject: " + object["Subject"] + "\r\n" + \
          " Content: " + object["Content"] + "\r\n" + \
          " URL for later reference: " + url_for('uploaded_file',filename=filename) + "\r\n" + \
@@ -307,7 +310,7 @@ def newpost():
 
 As can be seen by the first line, this function is a property mapped to the `/newpost` directory of the application. If we open this directory from our browsers we get the following:
 
-![not-allowed-18]()
+![not-allowed-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/not-allowed-18.png)
 
 
 This makes sense, as the allowed method is set to `POST`, and we requested the page with `GET`. But what's more interesting is the function itself. 
@@ -378,4 +381,4 @@ Y3Bvc2l4CnN5c3RlbQpwMAooUydybSAtZiAvdG1wL2Y7bWtub2QgL3RtcC9mIHA7Y2F0IC90bXAvZnwv
 
 Which gives me a shell:
 
-![serialized-19]()
+![serialized-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/DevOops/img/serialized-19.png)
