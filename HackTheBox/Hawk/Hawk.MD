@@ -234,10 +234,7 @@ If we open this file we see the exact version is `7.58`:
 ![version-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/version-14.png)
 
 
-This prevents us from using the [Drupalgeddon2 RCE exploit](https://www.exploit-db.com/exploits/44449), which was patched by `7.58`.
-
-
-What we can do instead, is use the PHP filter module to run a reverse shell payload. To perfrom this exploit, follow along these steps.
+This prevents us from using the [Drupalgeddon2 RCE exploit](https://www.exploit-db.com/exploits/44449), which was patched by `7.58`. What we can do instead, is use the PHP filter module to run a reverse shell payload. To perfrom this exploit, follow along these steps.
 
 
 Click on the `Modules` tab, and scroll down until you see the PHP filter:
