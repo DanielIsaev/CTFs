@@ -149,7 +149,7 @@ ls *.enc | xargs wc -c | grep '176 '
 This is only a part of the result, as it's quite long, too long for sure. But if you pay attention, there are encryption algorithms which endded up with a final cipher-file size of `176` bytes even againts different clear-text files with varied lengths. 
 
 
-For example, take a look at `aes-128-cbc`, with a clear-text of `144` bytes, as well `152` bytes, it endded up with a cipher text length of `176`. This makes this it a strong candidate. 
+For example, take a look at `aes-128-cbc`, with a clear-text of `144` bytes, as well `152` bytes, it endded up with a cipher text length of `176`. This makes `aes-128-cbc` a strong candidate. 
 
 
 I take all such algorithms who gave a cipher text length of `176` with more then one input clear-text file length, and I reach the final list:
