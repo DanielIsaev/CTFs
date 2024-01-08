@@ -182,7 +182,7 @@ I take all such algorithms who gave a cipher text length of `176` from more then
 It's not as short as I hoped it will be (one line :D), but it's still better then the original 100+ list of `openssl`. Now it's time to start cracking! 
 
 
-For this, I use the [bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl) tool from `glv2`. For some reason, I had issues with the `make` file when I was trying to compile it myself, so I endded up downloading it from an apt repository with `https://github.com/glv2/bruteforce-salted-openssl`.
+For this, I use the [bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl) tool from `glv2`. For some reason, I had issues with the `make` file when I was trying to compile it myself, so I endded up downloading it from an apt repository with `apt install bruteforce-salted-openssl`.
 
 
 Once I have the tool installed on my attack machine, I go through each and every encryption algorithm in my list, and try to crack the encrypted file againts `rockyou.txt`. I make sure to add the `-d sha256` switch, since it's needed by the tool and it's the default message digest of `openssl`, [source](https://www.openssl.org/docs/man1.1.1/man1/dgst.html).
