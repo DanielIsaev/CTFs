@@ -36,7 +36,7 @@ We have the following:
 Based on `nmap`'s HTTP probing scripts, we can see the presence of a `robots.txt` file which restricts web crawlers from accessing several interesting directories and files on the website. The website itself seems to be powered by `Drupal 7`. 
 
 
-Then, we have what looks like a database web-console on port 8082. A quick google search reveals that [H2](https://en.wikipedia.org/wiki/H2_(database)) is a relational database system written in Java. We will take a look at this servie later on.
+Then, we have what looks like a database web-console on port 8082. A quick google search reveals that [H2](https://en.wikipedia.org/wiki/H2_(database)) is a relational database system written in Java. We will take a look at this service later on.
 
 
 Next, we have the "tcpwrapper" service on port 5432, and the unidentified servcie of `XmlIpcRegSvc` running on port 9092. I got conflicting results based on my google searches of these two ports, most sites say that port `5432` is related to `postgresql`, and that port `9092` could be realted to Citrix. But at the end, they are both related to the `H2` system (I came to find that after solving this box). 
