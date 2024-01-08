@@ -88,7 +88,7 @@ base64 -d .drupal.txt.enc > drupal.enc | tee | wc -c
 ![wc-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/wc-08.png)
 
 
-The actual cipher text is `176` bytes long. 176 divides by 8 with no remainder, which suggest that it may have been encrypted using some sort of block cipher technique, [source](https://en.wikipedia.org/wiki/Block_size_(cryptography).
+The actual cipher text is `176` bytes long. 176 divides by 8 with no remainder, which suggest that it may have been encrypted using some sort of block cipher technique, [source](https://en.wikipedia.org/wiki/Block_size_(cryptography)).
 
 
 If we list out the possible encryption algorithms supported by openssl using `openssl enc -ciphers`, we get a fairly long list, with three entries per line. We first need to get a list of the encryption algorithms one per line before starting to reduce them. I use the following command to achieve that:
