@@ -52,7 +52,7 @@ If we login to the FTP server we will find a single directory of `messages` whic
 ![ftp-empty-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/ftp-empty-05.png)
 
 
-Trying to write a file onto the FTP server resultss in insufficient permissions error:
+Trying to write a file onto the FTP server results in insufficient permissions error:
 
 ![ftp-denied-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/ftp-denied-06.png)
 
