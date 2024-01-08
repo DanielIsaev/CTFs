@@ -416,12 +416,12 @@ Nice! Now we should be able to access the `H2` service by browsing towards `http
 I did a bit of google searching, and I found the [following RCE exploit](https://gist.github.com/h4ckninja/22b8e2d2f4c29e94121718a43ba97eed) againts the H2 database system. But in order to pull it off we need to connect to a database supplying valid credentials. 
 
 
-We already have credentials to the `drupal` database from the previous steps, so I try to connect to this database here:
+We already have credentials to the `drupal` database from the previous steps, so I try to connect to this database here and It worked:
 
 ![connected-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/connected-32.png)
 
 
-It worked!! 
+
 
 
 Next, I download the exploit to my attack machine and add the correct passwrod for the authintication: 
