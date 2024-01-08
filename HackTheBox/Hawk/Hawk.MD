@@ -397,7 +397,7 @@ ssh -N -L 8082:localhost:8082 daniel@hawk.htb
 ![tunnel-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Hawk/img/tunnel-29.png)
 
 
-This stalls the shell which is a good sing that the tunnel has been established. However, it's best to verify it by listing the open ports on our attack machine:
+This stalls the shell which is a good sign that the tunnel has been established. However, it's best to verify it by listing the open ports on our attack machine:
 
 ```bash
 netstat -nlt | grep 8082
