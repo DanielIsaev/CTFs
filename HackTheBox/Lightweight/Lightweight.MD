@@ -1,6 +1,5 @@
 # Lightweight [HTB](https://app.hackthebox.com/machines/166)
-![lightweight-01]()
-
+![lightweight-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/lightweight-01.png)
 
 ## Recon
 
@@ -10,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 lightweight.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/ports-02.png)
 
 
 From here I run a software and version detection scan againts the found ports:
@@ -19,7 +18,7 @@ From here I run a software and version detection scan againts the found ports:
 nmap -p 22,80,389 -sCV lightweight.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/nmap-res-03.png)
 
 We have the following:
 
@@ -60,8 +59,8 @@ The connection was accepted as indicated by the `True` in the output. Now that w
 >>> connection.entries
 ```
 
-![entries-04]()
-![entries-05]()
+![entries-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/entries-04.png)
+![entries-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/entries-05.png)
 
 
 We can see there are two user accounts on the system of `ldapuser1` & `ldapuser2`. Along with these two users, there are also two groups with matching names (as per the Linux convention). We can also the user's password hashes, which starts with `$6`, indicating it's a `sha512` hash. I tried cracking them both againts `rockyou.txt` with `hashcat` but to no avail. 
@@ -78,12 +77,12 @@ At this point I decided to check the Apache server on port 80.
 
 If we browse towards `http://lightweight.htb/index.php` we see the following:
 
-![site-06]()
+![site-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/site-06.png)
 
 
 I start by clicking on the `Info` button which redirects me to `/info.php`:
 
-![info-07]()
+![info-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/info-07.png)
 
 
 The first two sentences are not reallt helpfull. The third sentence does give an interesting hint to avoid using directory fuzzing, as it will lead to a temporary ban. They also supply a link to view any blocked IP's, and at the very end, they give a link to the user page in case you `"want to get in the box"`.
@@ -91,17 +90,17 @@ The first two sentences are not reallt helpfull. The third sentence does give an
 
 Following this link brings me to `/user.php`:
 
-![user-08]()
+![user-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/user-08.png)
 
 
 This page says that we should be able to connect to the SSH server using our IP as the username and password. I follow the instructions and connect to the box:
 
-![box-09]()
+![box-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/box-09.png)
 
 
 At first, I started looking around the filesystem, I wanted to see who else is on this server so I read `/etc/passwd`:
 
-![users-10]()
+![users-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/users-10.png)
 
 
 We can see the two ldap users, and then we also see two more IP's. One is from the localhost, and the other is from a `10.10.14.2` host. At first, I wasn't sure what to do with this information. I tried to dig around the filesystem some more, but it lead nowhere. I knew that I needed to get access as one of the ldap users but I wasn't sure how. 
@@ -116,7 +115,7 @@ I tried this out with the following command, but it didn't work:
 >>> connection = ldap3.Connection(server, 'uid="10.10.14.89",ou=People,dc=lightweight,dc=htb', '10.10.14.89', auto_bind=True)
 ```
 
-![ldap-err-11]()
+![ldap-err-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/ldap-ee-11.png)
 
 
 So I decide to dump out the LDAP entires same as before, and I dont see my user of `10.10.14.89`. So it was only added as a user on the target system, not the LDAP database. 
@@ -134,7 +133,7 @@ tcpdump -i lo -nXs 0
 
 I wait a couple of minutes but nothing happens, so I start cliking around the website. Once I click on the `status` button I see the following packet:
 
-![packet-12]()
+![packet-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/packet-12.png)
 
 
 This looks like an LDAP authintication packet. I wasn't sure why this was happeninng, but it got me the clear-text password of `ldapuser2`. 
@@ -142,14 +141,14 @@ This looks like an LDAP authintication packet. I wasn't sure why this was happen
 
 Which we can now `su` into:
 
-![ldapuser2-13]()
+![ldapuser2-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/ldapuser2-13.png)
 
 
 ## Privilege Escalation
 
 If we list the contents of `ldapuser2`'s home directory we can see a `7z` archive:
 
-![archive-14]()
+![archive-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/archive-14.png)
 
 
 It's also owned by `root` which makes it an even more interesting target. Though copying this archive over to my target was a struggle. 
@@ -185,12 +184,12 @@ wget http://localhost:8000/backup.7z
 
 Here it is on my attack machine:
 
-![copied-15]()
+![copied-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/copied-15.png)
 
 
 If we list the contents of the archive using `7za l backup.7z` we can see the source code for the website:
 
-![list-7z-16]()
+![list-7z-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/list-7z-16.png)
 
 
 Currently, we can't navigate towards `/var/www/html`, and read the files there because they are woned by the `apache` service account and we font have permissions. So it could be worth extracting these files nad having a look.
@@ -198,7 +197,7 @@ Currently, we can't navigate towards `/var/www/html`, and read the files there b
 
 But when we try to extract the archvie we get prompted for credentials:
 
-![7z-err-17]()
+![7z-err-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/7z-err-17.png)
 
 
 So I crack the hash with `john` as such:
@@ -208,12 +207,12 @@ So I crack the hash with `john` as such:
 john backup.hash --wordlist=/usr/share/wordlists/rockyou.txt
 ```
 
-![cracked-18]()
+![cracked-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/cracked-18.png)
 
 
 I extract the archive using `7za x backup.7z`, and I start going over the files. In the `status.php` file I can see the password for `ldapuser1`:
 
-![pass-19]()
+![pass-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/pass-19.png)
 
 
 That's weird... 
@@ -221,14 +220,14 @@ That's weird...
 
 After clickling on the `status` button in the website we got the password of `ldapuser2`, but at any case, the password does work to `su` into `ldapuser1`:
 
-![ldapuser1-20]()
+![ldapuser1-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/ldapuser1-20.png)
 
 
 ### ldapuser1
 
 If we list the contents of `ldapuser1` home directory we can see the following:
 
-![home-dir-21]()
+![home-dir-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/home-dir-21.png)
 
 
 There are a few interesting files here. The `ldapTLS.php` script has `ldapuser1`'s credentials to what seems like a test script for LDAP over TLS, not super useful. Then we have the `capture.pcap` file, which has an LDAP bind request with `ldapuser2`'s credentials, and some encrypted LDAP traffic. Again, not super interesting. 
@@ -236,12 +235,12 @@ There are a few interesting files here. The `ldapTLS.php` script has `ldapuser1`
 
 But then we have two binaries of `tcpdump` and `openssl`, not something you see in most home folders. If we compare the md5 digest of the files with the original binaries on the system, we can see they are in fact the same:
 
-![same-22]()
+![same-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/same-22.png)
 
 
 But checking the capabilities, we can see that for `tcpdump`, they are the same. But for the `openssl` binary in `ldapuser1`'s home folder there is a new capability added:
 
-![cap-23]()
+![cap-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/cap-23.png)
 
 
 We can abuse this privilege to read the root flag as such:
@@ -250,4 +249,4 @@ We can abuse this privilege to read the root flag as such:
 ./openssl base64 -in /root/root.txt | base64 -d
 ```
 
-![root-24]()
+![root-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/root-24.png)
