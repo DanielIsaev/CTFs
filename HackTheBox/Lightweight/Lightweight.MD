@@ -136,7 +136,7 @@ I wait a couple of minutes but nothing happens, so I start cliking around the we
 ![packet-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/packet-12.png)
 
 
-This looks like an LDAP authintication packet. I wasn't sure why this was happeninng, but it got me the clear-text password of `ldapuser2`. 
+This looks like an LDAP authentication packet. I wasn't sure why this was happeninng, but it got me the clear-text password of `ldapuser2`. 
 
 
 Which we can now `su` into:
