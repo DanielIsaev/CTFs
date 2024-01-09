@@ -63,7 +63,7 @@ The connection was accepted as indicated by the `True` in the output. Now that w
 ![entries-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/entries-05.png)
 
 
-We can see there are two user accounts on the system of `ldapuser1` & `ldapuser2`. Along with these two users, there are also two groups with matching names (as per the Linux convention). We can also the user's password hashes, which starts with `$6`, indicating it's a `sha512` hash. I tried cracking them both againts `rockyou.txt` with `hashcat` but to no avail. 
+We can see there are two user accounts on the system of `ldapuser1` & `ldapuser2`. Along with these two users, there are also two groups with matching names (as per the Linux convention). We can also see the user's password hashes, which starts with `$6`, indicating it's a `sha512` hash. I tried cracking them both againts `rockyou.txt` with `hashcat` but to no avail. 
 
 
 At this point I got a bit stuck, I wasn't sure how to furthur enumerate the LDAP server. I tried using `ldapsearch` with several different options, but it gave me similier results. 
