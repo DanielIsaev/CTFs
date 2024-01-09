@@ -192,7 +192,7 @@ If we list the contents of the archive using `7za l backup.7z` we can see the so
 ![list-7z-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/list-7z-16.png)
 
 
-Currently, we can't navigate towards `/var/www/html`, and read the files there because they are woned by the `apache` service account and we dont have permissions. So it could be worth extracting these files nad having a look.
+Currently, we can't navigate towards `/var/www/html`, and read the files there because they are woned by the `apache` service account and we dont have permissions. So it could be worth extracting these files and having a look.
 
 
 But when we try to extract the archvie we get prompted for credentials:
