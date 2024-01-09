@@ -85,7 +85,7 @@ I start by clicking on the `Info` button which redirects me to `/info.php`:
 ![info-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/info-07.png)
 
 
-The first two sentences are not reallt helpfull. The third sentence does give an interesting hint to avoid using directory fuzzing, as it will lead to a temporary ban. They also supply a link to view any blocked IP's, and at the very end, they give a link to the user page in case you `"want to get in the box"`.
+The first two sentences are not really helpfull. The third sentence does give an interesting hint to avoid using directory fuzzing, as it will lead to a temporary ban. They also supply a link to view any blocked IP's, and at the very end, they give a link to the user page in case you `"want to get in the box"`.
 
 
 Following this link brings me to `/user.php`:
