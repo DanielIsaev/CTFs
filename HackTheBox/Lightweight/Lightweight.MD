@@ -157,7 +157,7 @@ It's also owned by `root` which makes it an even more interesting target. Though
 At first I tried to `cat` the archive to a netcat listener running on my attack machine, but the target doesn't have `nc` installed. Then I start a local FTP server on my attack machine and try to connect from the target, but it doens't have `ftp` installed either.
 
 
-Then I tried to start a python web server on the tarrget, but I couldn't connect to it from my machine using `wget`, I got a `No route to host` error. I ran `nmap` on the port running the python server and it returned filtered, so maybe a firewall is blocking the connection? I also tried `scp` which faild as well. 
+Then I tried to start a python web server on the target, but I couldn't connect to it from my machine using `wget`, I got a `No route to host` error. I ran `nmap` on the port running the python server and it returned filtered, so maybe a firewall is blocking the connection? I also tried `scp` which faild as well. 
 
 
 At the end I decided to forward the python server to my attack machine using an SSH tunnel. 
