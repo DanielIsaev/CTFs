@@ -195,12 +195,12 @@ If we list the contents of the archive using `7za l backup.7z` we can see the so
 Currently, we can't navigate towards `/var/www/html`, and read the files there because they are woned by the `apache` service account and we dont have permissions. So it could be worth extracting these files and having a look.
 
 
-But when we try to extract the archvie we get prompted for credentials:
+But when we try to extract the archvie, we see it's password protected:
 
 ![7z-err-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Lightweight/img/7z-err-17.png)
 
 
-So I crack the hash with `john` as such:
+So I crack the password with `john` as such:
 
 ```bash
 7z2john backup.7z > backup.hash
