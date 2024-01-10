@@ -57,7 +57,7 @@ If we browse towards `https://lacasadepapel.htb/` we see the following:
 ![site-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/site-05.png)
 
 
-The message says that we need a client certificate to get into this site. I did a bit of research and I found [this great artical](https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326) on medium which explains how HTTPS certificate based authentication work in Node.js applications. 
+The message says that we need a client certificate to get into this site. I did a bit of research and I found [this great artical](https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326) on medium which explains how HTTPS certificate based authentication works in Node.js applications. 
 
 
 In short, we can generate our own client certificate and present it to the server. However, we need a CA to sign the certificate for us. Trying to self-sign our certificate is possible, and I tried it. But it was rejected by the server, and returned the same message. 
