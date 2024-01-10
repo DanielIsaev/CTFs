@@ -207,7 +207,7 @@ Once I have my Burp set up, I intercept a request and send it to Repeater. At fi
 We can see the application is running from `berlin`'s home directory. The application is taking the argument from the `path` parameter and searches inside `/home/berlin/downloads`. However, we get an error from the `scandir` function, complaining that our input is not a directory. So we can't retrieve files directly using this parameter, we can only list the contents of directories. 
 
 
-But There was an option to download episodes, so there must be a file inclusion function somwhere in the application. 
+But There was an option to download episodes, so there must be a file inclusion function somewhere in the application. 
 
 
 I try to download an episode while intercepting the traffic in Burp proxy and I see the following:
