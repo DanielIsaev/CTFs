@@ -196,7 +196,7 @@ Once inside, I click on Season-1, since it was the best season... And I get this
 ![season-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/season-20.png)
 
 
-But what's more interesting is the `path` parameter in the URL. This immediately gets my attention, and I start thinking about LFI. But before I start messing around with this, I want to intercept the tarffic in Burp suite. To do that, we need to import the P12 certificate to Burp as well. You can follow along [these instruction](https://portswigger.net/burp/documentation/desktop/settings/network/tls) to do so.
+But what's more interesting is the `path` parameter in the URL. This immediately gets my attention, and I start thinking about LFI. But before I start messing around with this, I want to intercept the tarffic in Burp suite. To do that, we need to import the PKC#12 certificate to Burp as well. You can follow along [these instruction](https://portswigger.net/burp/documentation/desktop/settings/network/tls) to do so.
 
 
 Once I have my Burp set up, I intercept a request and send it to Repeater. At first, I start with the following request:
@@ -204,7 +204,7 @@ Once I have my Burp set up, I intercept a request and send it to Repeater. At fi
 ![initial-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/initial-21.png)
 
 
-We can see the application is running from `berlin`'s home directory. The application is taking the argument from the `path` paramter and searches inside `/home/berlin/downloads`. However, we get an error from the `scandir` function, complaining that our input is not a directory. So we can't retrieve files directly using this parameter, we can only list the contents of directories. 
+We can see the application is running from `berlin`'s home directory. The application is taking the argument from the `path` parameter and searches inside `/home/berlin/downloads`. However, we get an error from the `scandir` function, complaining that our input is not a directory. So we can't retrieve files directly using this parameter, we can only list the contents of directories. 
 
 
 But There was an option to download episodes, so there must be a file inclusion function somwhere in the application. 
