@@ -63,7 +63,7 @@ The message says that we need a client certificate to get into this site. I did 
 In short, we can generate our own client certificate and present it to the server. However, we need a CA to sign the certificate for us. Trying to self-sign our certificate is possible, and I tried it. But it was rejected by the server, and returned the same message. 
 
 
-What's proably going on, is that the target server acts as it's own CA, and trusts only certificates who have been sign by himself. So in order to generate a valid certificate, we need to find the key which the server's CA uses to sign certificates. 
+What's proably going on, is that the target server acts as it's own CA, and trusts only certificates who have been sign by himself. So in order to generate a valid certificate, we need to find the server's CA key. 
 
 
 At this point I got a bit stuck, as I wasn't sure form where we can get the CA's key. So I decided to take a look at the other services running on this target.
