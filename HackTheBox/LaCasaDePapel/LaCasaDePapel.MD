@@ -255,7 +255,7 @@ The file reads as such:
 ![config-file-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/config-file-28.png)
 
 
-We can see that `memcached.js`, (a general-purpose distributed memory-caching system, [source](https://en.wikipedia.org/wiki/Memcached), is being executed as the `nobody` service account via `sudo`. 
+We can see that `memcached.js`, (a general-purpose distributed memory-caching system, [source](https://en.wikipedia.org/wiki/Memcached)) is being executed as the `nobody` service account via `sudo`. 
 
 This to me looks like a cronjob, and I wanted to see who might be running it. So I listed the running processes on the system using `ps auxww`. This didn't reveal the true user who is running the cronjob, but it reveal something else:
 
