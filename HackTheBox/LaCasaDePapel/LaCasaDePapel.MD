@@ -1,5 +1,5 @@
 # LaCasaDePapel [HTB](https://app.hackthebox.com/machines/181)
-![pepel-01]()
+![pepel-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/pepel-01.png)
 
 
 ## Recon
@@ -10,13 +10,16 @@ After adding the target to my `/etc/hosts` fie I start scanning for open ports:
 nmap -p- --min-rate 10000 lacasadepapel.htb
 ```
 
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/ports-02.png)
+
+
 From here I run a software and version detection scan agants the found ports:
 
 ```bash
 nmap -p 21,22,80,443,6200 -sCV lacasadepapel.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/nmap-res-03.png)
 
 We have the following:
 
@@ -34,7 +37,7 @@ The most interesting entry on the list is the Node.js server running both an HTT
 
 If we open the HTTP site at `http://lacasadepapel.htb/` we see the following:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/site-04.png)
 
 
 This QR-code is for the Google Authenticator app, which is a common application used for 2FA. Scanning this QR-code results in a new `Token` entry in my authenticator app, which generates a 6-digit passcode, though I wasn't sure what to do with this code. I tired supplying it into the `one password` filed, adding an arbitrary email and hiiting the `Get Free Trail` button, but it did nothing. 
@@ -51,7 +54,7 @@ At this point I decided to check the HTTPS site.
 
 If we browse towards `https://lacasadepapel.htb/` we see the following:
 
-![site-05]()
+![site-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/site-05.png)
 
 
 The message says that we need a client certificate to get into this site. I did a bit of research and I found [this great](https://medium.com/@sevcsik/authentication-using-https-client-certificates-3c9d270e8326) artical on medium which explains how client certificate based authentication work in Node.js applications. 
@@ -79,12 +82,12 @@ From our `nmap` scan, our target had port `6200` falgged as filtered, so this ma
 
 First, I opened a telnet connection to the FTP server and authenticated using the credentials from the exploit:
 
-![telnet-ftp-06]()
+![telnet-ftp-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/telnet-ftp-06.png)
 
 
 Then, I started another telnet connection to port 6200 and I get a Psy shell:
 
-![telnet-shell-07]()
+![telnet-shell-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/telnet-shell-07.png)
 
 
 ### Psy Shell
@@ -94,17 +97,17 @@ Based on the banner it looks like we are in some sort of a PHP shell, though it'
 
 So I start inputting some PHP functions and I get results:
 
-![functions-08]()
+![functions-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/functions-08.png)
 
 
 But running system commands didn't work:
 
-![no-exec-09]()
+![no-exec-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/no-exec-09.png)
 
 
 So instead, I decided to look around the filesystem. First, I start with the `/home` directory:
 
-![users-10]()
+![users-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/users-10.png)
 
 
 Looks like we have all of the members from the heist crew as users on the system. I start digging through each user's home directory. 
@@ -112,13 +115,12 @@ Looks like we have all of the members from the heist crew as users on the system
 
 In `berlin`'s home directory, I can see the `.ssh` dir, and the `user.txt` flag. I try to read both objects but I get deined:
 
-![denied-11]()
-
+![denied-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/denied-11.png)
 
 
 So I continue looking into the other user's home folders. When I get to `nairobi`, I see the `ca.key` I was looking for and I retrieve it:
 
-![ca-key-12]()
+![ca-key-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/ca-key-12.png)
 
 
 After I copy and save the CA key to a file on my attack machine, I download the server certificate from my firefox browser. 
@@ -126,17 +128,17 @@ After I copy and save the CA key to a file on my attack machine, I download the 
 
 On the HTTPS site, I click on the lock icon, and then I click on the `connection is not secure` button which brings up this window:
 
-![more-info-13]()
+![more-info-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/more-info-13.png)
 
 
 I click on the `More Information` button which brings up a new window. In it, I select the `View Certificates` button:
 
-![view-14]()
+![view-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/view-14.png)
 
 
 This opens a new tab in my borwser. I scroll down until I see a link to download the certificate:
 
-![cert-15]()
+![cert-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/cert-15.png)
 
 
 I download, and I move it to my working directory. Now we should have everything we need in order to generate a valid client certificate. 
@@ -165,12 +167,12 @@ It will ask you for a password in order to protect the certificate. After which 
 
 The final step is to import this certificate into firefox. For that, open the firefox settings tab and saerch for the term `cert`. Which should bring you the `View Certificates` button:
 
-![view-certs-16]()
+![view-certs-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/view-certs-16.png)
 
 
 After clicking on this button, you should see the `Certificate Manager` window. Once there, click on the `Import` button and select the newly created `alice.p12` file. After supplying the password you chose, you should see the certificate has been successfully imported into your browser:
 
-![imported-17]()
+![imported-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/imported-17.png)
 
 
 Click on `Ok`, and we should be good to go.
@@ -178,12 +180,12 @@ Click on `Ok`, and we should be good to go.
 
 Now after we refresh the HTTPS site, we can see the authentication taking place:
 
-![auth-18]()
+![auth-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/auth-18.png)
 
 
 I click on Ok, and I get to the private area:
 
-![private-area-19]()
+![private-area-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/private-area-19.png)
 
 
 ### Private Area
@@ -191,7 +193,7 @@ I click on Ok, and I get to the private area:
 
 Once inside, I click on Season-1, since it was the best season... And I get this page allowing me to download all the episodes:
 
-![season-20]()
+![season-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/season-20.png)
 
 
 But what's more interesting is the `path` parameter in the URL. This immediately gets my attention, and I start thinking about LFI. But before I start messing around with this, I want to intercept the tarffic in Burp suite. To do that, we need to import the P12 certificate to Burp as well. You can follow along [these instruction](https://portswigger.net/burp/documentation/desktop/settings/network/tls) to do so.
@@ -199,7 +201,7 @@ But what's more interesting is the `path` parameter in the URL. This immediately
 
 Once I have my Burp set up, I intercept a request and send it to Repeater. At first, I start with the following request:
 
-![initial-21]()
+![initial-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/initial-21.png)
 
 
 We can see the application is running from `berlin`'s home directory. The application is taking the argument from the `path` paramter and searches inside `/home/berlin/downloads`. However, we get an error from the `scandir` function, complaining that our input is not a directory. So we can't retrieve files directly using this parameter, we can only list the contents of directories. 
@@ -210,12 +212,12 @@ But There was an option to download episodes, so there must be a file inclusion 
 
 I try to download an episode while intercepting the traffic in Burp proxy and I see the following:
 
-![file-22]()
+![file-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/file-22.png)
 
 
 This looks like a base64 encoded string. Decoding it results in the following:
 
-![decode-23]()
+![decode-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/decode-23.png)
 
 
 So in order to read `berlin`'s private SSH key we can run something like this:
@@ -224,12 +226,12 @@ So in order to read `berlin`'s private SSH key we can run something like this:
 curl -k https://lacasadepapel.htb/file/$(echo -n "../.ssh/id_rsa" | base64) > berlin_id_rsa
 ```
 
-![key-24]()
+![key-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/emcode-24.png)
 
 
 From here, I try to log in to the SSH as `berlin` but it prompts me for a password:
 
-![prompt-25]()
+![prompt-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/prompt-25.png)
 
 
 This means that the key authentication failed! Why? 
@@ -237,7 +239,7 @@ This means that the key authentication failed! Why?
 
 So I try to use the SSH key to login as other users. Eventually, I found that the key works to login as `professor`:
 
-![professor-26]()
+![professor-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/professor-26.png)
 
 
 ## Privilege Escalation
@@ -245,24 +247,24 @@ So I try to use the SSH key to login as other users. Eventually, I found that th
 
 If we list the contents of `professor`'s home directory we can see the following config file:
 
-![home-dir-27]()
+![home-dir-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/home-dir-27.png)
 
 
 The file reads as such:
 
-![config-file-28]()
+![config-file-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/config-file-28.png)
 
 
 We can see that `memcached.js`, which is is a general-purpose distributed memory-caching system ([source](https://en.wikipedia.org/wiki/Memcached)), is being executed as the `nobody` service account via `sudo`. 
 
 This to me looks like a cronjob, and I wanted to see who might be running it. So I listed the running processes on the system using `ps auxww`. This didn't reveal the true user who is running the cronjob, but it reveal something else:
 
-![ps-aux-29]()
+![ps-aux-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/ps-aux-29.png)
 
 
 We can see that `root` is running whatever cronjobs might be in `/etc/crontabs`. And if we list this directory we can see only one directory belonging to `root`:
 
-![crontabs-30]()
+![crontabs-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/crontabs-30.png)
 
 
 Therefore the cronjobs must be running as `root`. 
@@ -288,7 +290,6 @@ Next I started my local listener using:
 rlwrap nc -lnvp 443
 ```
 
-
 And after a couple of seconds I receive the connection from `root`:
 
-![root-31]()
+![root-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/root-31.png)
