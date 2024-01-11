@@ -40,7 +40,7 @@ If we open the HTTP site at `http://lacasadepapel.htb/` we see the following:
 ![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/site-04.png)
 
 
-This QR-code is for the Google Authenticator app, which is a common application used for 2FA. Scanning this QR-code results in a new `Token` entry in my authenticator app, which generates a 6-digit passcode, though I wasn't sure what to do with this code. I tired supplying it to the `one password` field, adding an arbitrary email and hiiting the `Get Free Trial` button, but it did nothing. 
+This QR-code is for the Google Authenticator app, which is a common application used for 2FA. Scanning this QR-code results in a new `Token` entry in my authenticator app, which generates a 6-digit passcode, though I wasn't sure what to do with this code. I tried supplying it to the `one password` field, adding an arbitrary email and hiiting the `Get Free Trial` button, but it did nothing. 
 
 
 I intercepted this transaction in my Burp proxy, trying to find interesting HTTP headers, and understand the logic of the application, but I found nothing of substance. I kept getting redirected to the main page no matter what I did. I also ran a directory and file scan which came out empty. 
