@@ -71,7 +71,7 @@ At this point I got a bit stuck, as I wasn't sure form where we can get the CA's
 
 ## FTP Port 21
 
-Based on the `nmap` scan, we know that the target is running a `vsftpd 2.3.4` server. If we search for pulic exploits for this server we can find [this backdoor RCE exploit](https://www.exploit-db.com/exploits/49757) from ExploitDB. 
+Based on the `nmap` scan, we know that the target is running a `vsftpd 2.3.4` server. If we search for public exploits for this server we can find [this backdoor RCE exploit](https://www.exploit-db.com/exploits/49757) from ExploitDB. 
 
 
 The exploit seems to be using the `telnetlib` python module to open a connection to the FTP server on port 21 and authenticate to it. Then, the exploit opens another connection, this time to port 6200 and starts some sort of shell. 
