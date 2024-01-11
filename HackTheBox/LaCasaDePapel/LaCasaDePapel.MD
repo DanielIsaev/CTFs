@@ -77,7 +77,7 @@ Based on the `nmap` scan, we know that the target is running a `vsftpd 2.3.4` se
 The exploit seems to be using the `telnetlib` python module to open a connection to the FTP server on port 21 and authenticate to it. Then, the exploit opens another connection, this time to port 6200 and starts some sort of shell. 
 
 
-From our `nmap` scan, our target had port `6200` falgged as filtered, so this makes this exploit very interesting. I decided to try it out manually. 
+Based on the `nmap` scan, our target had port `6200` falgged as filtered, so this makes this exploit very interesting. I decided to try it out manually. 
 
 
 First, I opened a telnet connection to the FTP server and authenticated using the credentials from the exploit:
