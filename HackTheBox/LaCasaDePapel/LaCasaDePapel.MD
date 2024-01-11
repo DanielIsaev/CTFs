@@ -92,15 +92,15 @@ Then, I started another telnet connection to port 6200 and I get a Psy shell:
 
 ### Psy Shell
 
-Based on the banner it looks like we are in some sort of a PHP shell, though it's not entirely clear how we should interact with this shell. 
+Based on the banner it looks like we are in some sort of a PHP shell, though it's not entirely clear how we should interact with it. 
 
 
-So I start inputting some PHP functions and I get results:
+So I start inputting some PHP functions and I saw the following:
 
 ![functions-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/functions-08.png)
 
 
-But running system commands didn't work:
+But running system commands doesn't work:
 
 ![no-exec-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/no-exec-09.png)
 
@@ -110,7 +110,7 @@ So instead, I decided to look around the filesystem. First, I start with the `/h
 ![users-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/users-10.png)
 
 
-Looks like we have all of the members from the heist crew as users on the system. I start digging through each user's home directory. 
+Looks like we have some of the members from the heist crew as users on the system. I start digging through each user's home directory. 
 
 
 In `berlin`'s home directory, I can see the `.ssh` dir, and the `user.txt` flag. I try to read both objects but I get deined:
