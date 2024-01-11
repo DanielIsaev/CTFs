@@ -262,12 +262,12 @@ This to me looks like a cronjob, and I wanted to see who might be running it. So
 ![ps-aux-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/ps-aux-29.png)
 
 
-We can see that `root` is running whatever cronjobs might be in `/etc/crontabs`. And if we list this directory we can see only one directory belonging to `root`:
+We can see that `root` is running whatever cronjobs might be in `/etc/crontabs`. And if we list this directory we can see a single directory belonging to `root`:
 
 ![crontabs-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/LaCasaDePapel/img/crontabs-30.png)
 
 
-Therefore the cronjobs must be running as `root`. 
+Therefore the cronjob must be running as `root`. 
 
 
 To exploit this, we need to overwrite the `memcached.ini` file, but it's owned by root and we don't have permissions to it. So what I did instead, was to rename the original file using the following command:
