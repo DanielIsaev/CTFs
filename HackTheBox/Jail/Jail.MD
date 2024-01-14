@@ -1,5 +1,5 @@
 # Jail [HTB](https://app.hackthebox.com/machines/45)
-![jail-01]()
+![jail-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/jail-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 jail.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/ports-02.png)
 
 
 From here I start probing the found ports:
@@ -18,9 +18,9 @@ From here I start probing the found ports:
 nmap -p 22,80,111,2049,7411,20048 -sCV jail.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
-![nmap-res-04]()
-![nmap-res-05]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nmap-res-03.png)
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nmap-res-04.png)
+![nmap-res-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nmap-res-05.png)
 
 
 We have the following:
@@ -52,7 +52,7 @@ I start by listing the possible shares on the target using:
 showmount -e jail.htb
 ```
 
-![shares-06]()
+![shares-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/shares-06.png)
 
 
 The target is hosting two shares, so I decide to mount them. To do that, I create a dedicated directory, and mount a share as such:
@@ -64,12 +64,12 @@ mount -t nfs jail.htb:/var/nfsshare /mnt/jail -o nolock
 
 The mount is successful, though we cant read the share's contents:
 
-![nfs-fail-07]()
+![nfs-fail-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nfs-fail-07.png)
 
 
 But writing to the share is successful:
 
-![nsf-write-07.5]()
+![nsf-write-07.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nfs-write-07.5.png)
 
 
 This will be useful later on. But if you noticed, I used a low-privilege user from my system. This user account is mapped to GID of 1000 on my Kali VM, and only he, has write permissions to the share. 
@@ -77,7 +77,7 @@ This will be useful later on. But if you noticed, I used a low-privilege user fr
 
 If we list the permissions of the `/mnt/jail` directory with numeric UID/GID values we can see something confusing:
 
-![nfs-perms-08]()
+![nfs-perms-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nfs-perms-08.png)
 
 
 The UID/GID permissions of the share are mapped to `0/1000`, the owner of the share is the only one who can read it's contents, and anyone with a GID of 1000 can write to the share. Therefore, based on these permissions we should have full access to this share as `root`, but we don't. Only a user with a GID mapped to 1000 can we have write access to the share. 
@@ -93,7 +93,7 @@ But for now, the key takeaway from all of this, is that we have write access to 
 
 If we browse towards `http://jail.htb/index.html` we see the following page:
 
-![index-09]()
+![index-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/index-09.png)
 
 
 Not much to see or do here, so I ran a directory and file scan using the following command:
@@ -102,14 +102,14 @@ Not much to see or do here, so I ran a directory and file scan using the followi
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://jail.htb/FUZZ -e .txt,.xml,.html,.js,.php
 ```
 
-![ffuf-10]()
+![ffuf-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/ffuf-10.png)
 
 
 + `/prisoner.html` 
 
 The page returns:
 
-![prisoner-11]()
+![prisoner-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/prisoner-11.png)
 
 
 Not much we can do here either. The only thing I noted is the `S12356S` string in the cell bar, maybe it's a password? 
@@ -119,12 +119,12 @@ Not much we can do here either. The only thing I noted is the `S12356S` string i
 
 This directory has another directory of `/dev` inside it:
 
-![jailuser-12]()
+![jailuser-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/jailuser-12.png)
 
 
 Opening the `dev` directory results in the following:
 
-![dev-dir-13]()
+![dev-dir-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/dev-dir-13.png)
 
 
 We can see the source code for a "jail" application written in C, along with a bash compilation script and what could be a compiled version?
@@ -199,7 +199,26 @@ The function reads as such:
 int handle(int sock) 
     int n;              
     int gotuser = 0;
-    int gotpass = 0;                                                                                         char buffer[1024];                                                                                       char strchr[2] = "\n\x00";                                                                               char *token;                                                                                             char username[256];                                                                                      char password[256];                                                                                      debugmode = 0;                                                                                           memset(buffer, 0, 256);                                                                                  dup2(sock, STDOUT_FILENO);                                                                               dup2(sock, STDERR_FILENO);                                                                               printf("OK Ready. Send USER command.\n");                                                                fflush(stdout);                                                                                          while(1) {                                                                                                   n = read(sock, buffer, 1024);                                                                            if (n < 0) {                                                                                                 perror("ERROR reading from socket");                                                                     return 0;                                                                                            }                                                                                                        token = strtok(buffer, strchr);                                                                          while (token != NULL) {                                
+    int gotpass = 0;
+    char buffer[1024];
+    char strchr[2] = "\n\x00";
+    char *token;
+    char username[256];
+    char password[256];
+    debugmode = 0;
+    memset(buffer, 0, 256);
+    dup2(sock, STDOUT_FILENO);
+    dup2(sock, STDERR_FILENO);
+    printf("OK Ready. Send USER command.\n");
+    fflush(stdout);
+    while(1) {
+        n = read(sock, buffer, 1024);
+        if (n < 0) {
+            perror("ERROR reading from socket");
+            return 0;
+        }
+        token = strtok(buffer, strchr);
+        while (token != NULL) {                                
             if (gotuser == 1 && gotpass == 1) {                
                 break;         
             }                      
@@ -383,7 +402,7 @@ There were also two more files included in the `/jailuser/dev` directory, which 
 
 The former is just the compiled version of the `jail.c` source code, and we will use it while crafting our exploit. We can run `readelf` on it to get more information:
 
-![readelf-14]()
+![readelf-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/readelf-14.png)
 
 
 We can see it's a 32-bit executable file in [little endian](https://en.wikipedia.org/wiki/Endianness) format. Meaning, the bytes are stored in reversed. This will be important as we develop our exploit. 
@@ -391,7 +410,7 @@ We can see it's a 32-bit executable file in [little endian](https://en.wikipedia
 
 The `compile.sh` script shows how the `jail.c` has been compiled by our target system:
 
-![compile-15]()
+![compile-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/compile-15.png)
 
 
 The most important thing about this file is the compilation process with the `gcc` command. Here is the breakdown:
@@ -409,10 +428,9 @@ With that said, we've covered everything, let's start crafting our exploit.
 
 ### Exploit Development
 
-
 I spawn a new shell on my local machine in which I run the `jail` binary, and I grep to see that port `7411` is now open:
 
-![running-16]()
+![running-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/running-16.png)
 
 
 Looks good. 
@@ -438,7 +456,7 @@ python -c "print('A'*256)"
 
 Once I have this printed in my terminal, I connect to the application running on my localhost using `nc localhost 7411`, I send the correct username command of `USER admin`, and the long password we generated:
 
-![initial-17]()
+![initial-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/initial-17.png)
 
 
 It looks like nothing happned and the application is still running, this is becasue it's a multi-process application. The child process who handled our connection did crash, but the parent process didn't. Therfore it looks like nothing happned, but if we take a look at the running processes on our system we will find the child process who handled our connection is now a zombie process waiting for it's parent to terminate so it can die.  
@@ -446,7 +464,7 @@ It looks like nothing happned and the application is still running, this is beca
 
 At any case, we can list the contents of the directory in which `jail` is running and see a new `core `file:
 
-![core-18]()
+![core-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/core-18.png)
 
 
 Let's analyze this core dump in the `gdb` debugger:
@@ -455,7 +473,7 @@ Let's analyze this core dump in the `gdb` debugger:
 gdb -q -core core
 ```
 
-![gdb-19]()
+![gdb-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/gdb-19.png)
 
 
 We did manage to provoke a segmentation fault error. In the last line of the output, We can see the value of `0x41414141`, this is a part of our password value ('A' in hex is 41). Why is `gdb` showing it here? 
@@ -466,7 +484,7 @@ Because it's the root cause of the crash. This is the value of the EIP register,
 
 To understand this better, take a look at the following diagrm:
 
-![stack-20]()
+![stack-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/srack-20.png)
 
 
 Our `password` and `userpass` variables are placed in the `local variables` section when the `auth` function is executed. This is, in essence, the buffer. Because `strcpy` doesn't validate variable bounds, supplying a large input to the `password` variable will cause `strcpy` to overwrite the entire buffer all the way from the ESP register, up past the EBP register (stack based pointer), and up until the retrun address, i.e the EIP register. 
@@ -474,7 +492,7 @@ Our `password` and `userpass` variables are placed in the `local variables` sect
 
 We can list out the values in the registers in the `gdb` instance of our core dump with the `info registers` command:
 
-![registers-21]()
+![registers-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/registers-21.png)
 
 
 We can see that we managed to surpass the EBP register and reach the EIP register. Now we need to find the offset of the EIP regiter from the start of the stack. This will tell us the exact length of the payload we need to send in order to successfully overwrite the return address with an instruciton we control.
@@ -495,13 +513,13 @@ Let's use it to generate a unique string that we'll send as the password value:
 pattern_create -l 256
 ```
 
-![pattern-create-22]()
+![pattern-create-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/pattern-create-22.png)
 
 
 Now, I connect to the target application at my localhost, supply the password and cause a core dump. I open the core dump in `gdb` same as before, and I list the registers:
 
 
-![list-registers-23]()
+![list-registers-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/list-registers-23.png)
 
 
 We can see that the EIP's value is `0x62413961`, but this is in hex, we need to translate it into ASCII. 
@@ -527,7 +545,7 @@ end
 
 Now we can print the value of the EIP register by running our function:
 
-![ascii-24]()
+![ascii-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/ascii-24.png)
 
 
 We can see that the ASCII value of the EIP register is `a9Ab`. We need to supply this value to another tool called `pattern_offset`, for which I create an alias as well:
@@ -538,8 +556,7 @@ alias pattern_offset=/usr/share/metasploit-framework/tools/exploit/pattern_offse
 
 From there, I get the offset of 28-bytes to the EIP register:
 
-![offset-25]()
-
+![offset-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/offset-25.png)
 
 
 We can verify that the offset is indeed 28 bytes by sending exactly 28 "A" characters followed by 4 "B" characters. This should result in the EIP register storing a value of `0x42424242`, which are the four B's in HEX. 
@@ -550,7 +567,7 @@ I create the payload with the following command: `python -c "print('A'*28 + 'B'*
 
 I open the core dump in `gdb` and see this:
 
-![bees-26]()
+![bees-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/bees-26.png)
 
 
 Perfect! This validates that the EIP register is found exactly 28 bytes after the `"PASS "` command. 
@@ -573,7 +590,7 @@ This is simple, we know that in order to overflow the buffer and reach the EIP r
 
 When we retrieve the memory address of the `userpass` variable using the DEBUG command, we will find that it's always the same address (but it will be different on the target):
 
-![location-27]()
+![location-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/location-27.png)
 
 
 This eases the process of developing a reliable exploit for us, as we only need to point the EIP register to the memory address which sits 32 bytes after the `userpass` variable address. 
@@ -624,7 +641,7 @@ The actual payload starts with the 28 A's needed to reach the EIP. Then, the EIP
 
 Executing this script results in a new core dump, and when I open it, I see a new error:
 
-![new-err-28]()
+![new-err-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/new-err-28.png)
 
 
 No longer did the program crash due to a `segmentation fault` caused by an invalid memory address in the EIP. This time, the program crashed becasue the instructions pointed to by the EIP were `Illegal`. 
@@ -632,12 +649,12 @@ No longer did the program crash due to a `segmentation fault` caused by an inval
 
 If we list the registers we can see the following:
 
-![regsiters-29]()
+![regsiters-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/registers-29.png)
 
 
 If we look at the 33 bytes of data prior to the EIP, we can see our payload:
 
-![payload-30]()
+![payload-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/payload-30.png)
 
 
 We can see all of our A's, and then the highlighted EIP register which actually jumped one address forwards after the interrupt. Following the EIP we can see our `\xFF` bytes, which caused the crash. 
@@ -680,7 +697,7 @@ The rest of the exploit it the same.
 
 Running this exploit worked, and the program remained in tact without causing any core dumps. When looking in `htop`, I can see that a child process of `jail` spwaned `/bin/sh`:
 
-![spwaned-31]()
+![spwaned-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/spawnd-31.png)
 
 
 This is great, but at the moment, we can't interact with this shell. To solve this issue, we need to incorporate a conecept called `socket reuse`. 
@@ -747,7 +764,7 @@ except Exception as e:
 
 When I run this againts my localhost I get a working shell:
 
-![home-shell-32]()
+![home-shell-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/home-shell-32.png)
 
 
 Looks good. 
@@ -758,7 +775,7 @@ Now all we need to do, is connect to the target system and retrieve the address 
 
 After the modifications, I run the exploit and get a shell:
 
-![first-shell-33]()
+![first-shell-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/first-shell-33.png)
 
 
 The shell is a bit clunky, but it will do for now. 
@@ -771,22 +788,22 @@ As can be seen from the above screenshot of the `id` command, it appears that we
 
 If we list our `sudo` permissions we can see something intersting:
 
-![sudo-34]()
+![sudo-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/sudo-34.png)
 
 
 We are able to run the `/opt/logreader/logreader.sh` script as the user `frank`, which is the only user account on the system:
 
-![users-35]()
+![users-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/users-35.png)
 
 
 But, we dont have any permissions to read the script, nor do we have permission to enter the `/opt/logreadedr` directory:
 
-![no-perms-36]()
+![no-perms-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/no-perms-36.png)
 
 
 Trying to execute the script results in a somewhat cryptic output:
 
-![logreader-output-37]()
+![logreader-output-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/logreader-output-37.png)
 
 
 I tried searching the term `checkproc` online, but I found nothing substantial that can help us move forward. I tried running `strace` on this script but to no avail. Eventually I decided to have a look around the filesystem a bit. 
@@ -794,7 +811,7 @@ I tried searching the term `checkproc` online, but I found nothing substantial t
 
 In the `/var` directory there is `nfsshare` share from before:
 
-![nfs-owned-38]()
+![nfs-owned-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/nfs-share-38.png)
 
 
 We can see that the NFS share has the GID of `frank`. When I mounted this share on my attack machine earlier, the GID was translated to the local user matching this GID on my local machine, `ice`. 
@@ -802,7 +819,7 @@ We can see that the NFS share has the GID of `frank`. When I mounted this share 
 
 If we take a look at the export rules in `/etc/exports` we can see why:
 
-![exports-39]()
+![exports-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/exports-39.png)
 
 
 Here is the breakdown:
@@ -862,12 +879,12 @@ cp frank -o /mnt/jail/frank
 chmod 4777 /mnt/jail/frank
 ```
 
-![cp-40]()
+![cp-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/cp-40.png)
+
 
 Now, I execute this file from `jail` and I spwan a shell as `frank`:
 
-
-![frank-41]()
+![frank-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/frank-41.png)
 
 
 Now as frank, I will navigate towards `/home/frank/.ssh`, and write an SSH key for my user `ice`, so I can connect via ssh:
@@ -876,36 +893,36 @@ Now as frank, I will navigate towards `/home/frank/.ssh`, and write an SSH key f
 echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFz/1ClT3bpKK912+SHK2hvTIgYAk5rf42UEN06WoQbC nobody@anything' >> authorized_key
 ```
 
-![write-ssh-42]
+![write-ssh-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/write-ssh-42.png)
 
 
 Now I can connect to the SSH as `frank`:
 
-![frank-ssh-43]()
+![frank-ssh-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/frank-ssh-43.png)
 
 
 ### Frank
 
 If we take a look at `frank`'s home directory, we can see the presence of a `bin` directory, inside of which, we can find a `logreader.sh` script:
 
-![bin-dir-43]()
+![bin-dir-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/bin-dir-43.png)
 
 
 The script reads as such:
 
-![checkproc-script-44]()
+![checkproc-script-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/checkproc-script-44.png)
 
 It simply counts the number of processes on the system and prints them out to a log file at `/home/frank/logs/checkproc.log`. The output format is identical to the `/opt/logreader/logreader.sh` script that the `nobody` user can run as `frank` via `sudo`.
 
 
 If we take a look at the `/opt/logreader/logreader.sh` script, we can see that it simply reads the contents of the `/home/frank/logs/checkproc.log` log file:
 
-![checkproc-script-45]()
+![checkproc-script-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/checkproc-script-45.png)
 
 
 If we list `frank`'s cronjobs, we can see the `checkproc.sh` scripts runs every few seconds, filling up `/home/frank/logs/checkproc.log`. Then another cronjob runs once a day at 12:00 PM to clean up the log file:
 
-![frank-crons-46]()
+![frank-crons-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/frank-crons-46.png)
 
 
 This doesn't really tell us much, the `checkproc.sh` script isn't really useful, It's probably a rabbit-hole. 
@@ -913,12 +930,12 @@ This doesn't really tell us much, the `checkproc.sh` script isn't really useful,
 
 Instead, if we list out `frank`'s `sudo` permissions we can see the following:
 
-![frank-sudo-47]()
+![frank-sudo-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/frank-sudo-47.png)
 
 
 We are able to run `/usr/bin/rvim` (restricted VIM) binary on the source file of jail at `/var/www/html/jailuser/dev/jail.c`. [GTFObins](https://gtfobins.github.io/gtfobins/rvim/) has a few techniques to leverage `rvim` to get a shell. 
 
-![gtfo-48]()
+![gtfo-48](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/gtfo-48.png)
 
 
 We can't run these commands directly because we are restricted to a specific sudo command. But we can try to run them from within the `rvim` interface. 
@@ -938,24 +955,24 @@ Which gets me into a very clunky and annoying VIM interface. From which I type t
 
 I hit Enter and it then asks me for a terminal type, I enter `screen` and I get a shell:
 
-![adm-49]()
+![adm-49](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/adm-49.png)
 
 
 ### Adm
 
 Now as the `adm` user, I immediately go to `/var/adm`, and I find the following:
 
-![keys-50]()
+![keys-50](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/keys-50.png)
 
 
 This is an extremely unusual directory to be placed in `/var/adm`, which reads as such:
 
-![keys-dir-51]()
+![keys-dir-51](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/keys-dir-51.png)
 
 
 The `note.txt` file says the following:
 
-![note-52]()
+![note-52](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/note-52.png)
 
 
 This doens't tell us much at the moment, but it might be useful if we need to guess a password. 
@@ -963,7 +980,7 @@ This doens't tell us much at the moment, but it might be useful if we need to gu
 
 The `key.rar` archive has root's public ssh key:
 
-![archive-53]()
+![archive-53](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/archive-53.png)
 
 
 But it's password protected. 
@@ -971,12 +988,12 @@ But it's password protected.
 
 There was also another cipher file from frank:
 
-![enc-file-54]()
+![enc-file-54](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/enc-file-54.png)
 
 
 I use [this](https://www.quipqiup.com/) site to get the clear text of the cipher:
 
-![clear-55]()
+![clear-55](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/clear-55.png)
 
 
 Which translates the file into:
@@ -1027,12 +1044,12 @@ rar2john keys.rar > keys.hash
 john keys.hash --wordlist=frank-passwords
 ```
 
-![crack-56]()
+![crack-56](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/crack-56.png)
 
 
 I extract the archive:
 
-![extract-57]()
+![extract-57](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/extract-57.png)
 
 
 The issue is that it's a public SSH key, we want the private key so we can login via SSH. There is actually a tool called [RsaCtfTool](https://github.com/RsaCtfTool/RsaCtfTool) that will try to brute force the public key in order to try and derive the private key from it. 
@@ -1046,7 +1063,7 @@ I follow the installation instructions from the Github page, and after the tools
 
 Which manages to crack the private key:
 
-![private-key-58]()
+![private-key-58](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/private-key-58.png)
 
 
 I save the key to a file, give it proper permissions with `chmod 400 <key>`, and connect as root:
@@ -1055,4 +1072,4 @@ I save the key to a file, give it proper permissions with `chmod 400 <key>`, and
 ssh -o PubkeyAcceptedKeyTypes=ssh-rsa -i root_key root@jail.htb
 ```
 
-![root-59]()
+![root-59](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/root-59.png)
