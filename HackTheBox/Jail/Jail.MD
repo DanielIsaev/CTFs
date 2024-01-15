@@ -394,7 +394,7 @@ Once the server is up and running, it waits for connections indefinitely. When a
 The main purpose of the application is to handle authentication, after we supply the correct credentials not much will happen. It's through the password value where a buffer-overflow attack will happen. 
 
 
-If you are a keen observer, you probably noticed that there was an additional command we can supply to the application, which is the `DEBUG` command. Supplying this command will result in the application diplying the memory address of the vulnerable `userpass` varialbe. This will come in handy later on, as it will be the base location of our payload. 
+If you are a keen observer, you probably noticed that there was an additional command we can supply to the application, which is the `DEBUG` command. Supplying this command will result in the application displaying the memory address of the vulnerable `userpass` varialbe. This will come in handy later on, as it will be the base location of our payload. 
 
 
 There were also two more files included in the `/jailuser/dev` directory, which were `jail` and `compile.sh`.
