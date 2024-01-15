@@ -890,7 +890,7 @@ Now, I execute this file from `jail` and I spwan a shell as `frank`:
 Now as frank, I will navigate towards `/home/frank/.ssh`, and write an SSH key for my user `ice`, so I can connect via ssh:
 
 ```bash
-echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFz/1ClT3bpKK912+SHK2hvTIgYAk5rf42UEN06WoQbC nobody@anything' >> authorized_key
+echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFz/1ClT3bpKK912+SHK2hvTIgYAk5rf42UEN06WoQbC nobody@anything' >> authorized_keys
 ```
 
 ![write-ssh-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/write-ssh-42.png)
