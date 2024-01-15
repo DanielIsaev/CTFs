@@ -599,7 +599,7 @@ This eases the process of developing a reliable exploit for us, as we only need 
 To do that I've created a simple script, which will later become the exploit:
 
 ```python
-!/usr/bin/python3
+#!/usr/bin/python3
 import socket
 
 username = b'USER admin'
