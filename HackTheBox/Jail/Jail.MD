@@ -875,7 +875,7 @@ chown ice:ice frank
 At this point, I mount the `/mnt/nfsshare` same as before, and I run `su ice`. Now as `ice`, I copy the file over to the share and set the proper permissions to it so that everyone could execute it on `jail`:
 
 ```bash
-cp frank -o /mnt/jail/frank
+cp frank /mnt/jail/frank
 chmod 4777 /mnt/jail/frank
 ```
 
