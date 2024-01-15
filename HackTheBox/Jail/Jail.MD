@@ -1055,7 +1055,7 @@ I extract the archive:
 The issue is that it's a public SSH key, we want the private key so we can login via SSH. There is actually a tool called [RsaCtfTool](https://github.com/RsaCtfTool/RsaCtfTool) that will try to brute force the public key in order to try and derive the private key from it. 
 
 
-I follow the installation instructions from the Github page, and after the tools is successfully installed, I run it as such:
+I follow the installation instructions from the Github page, and after the tool ihas been successfully installed, I run it as such:
 
 ```bash
 ./RsaCtfTool.py --publickey rootauthorizedsshkey.pub --private
