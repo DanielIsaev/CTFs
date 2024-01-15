@@ -495,7 +495,7 @@ We can list out the values in the registers in the `gdb` instance of our core du
 ![registers-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/registers-21.png)
 
 
-We can see that we managed to surpass the EBP register and reach the EIP register. Now we need to find the offset of the EIP regiter from the start of the stack. This will tell us the exact length of the payload we need to send in order to successfully overwrite the return address with an instruciton we control.
+We can see that we managed to surpass the EBP register and reach the EIP register. Now we need to find the offset of the EIP register from the start of the stack. This will tell us the exact length of the payload we need to send in order to successfully overwrite the return address with an instruciton we control.
 
 
 We can find the EIP offset using a tool called `pattern_create`. In my Kali, I create an alias for it as such:
