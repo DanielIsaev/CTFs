@@ -143,7 +143,7 @@ Let's start with the most important file, the source code.
 
 ### Source Code Review
 
-I will divide the file based on the three main functions defined in it, and cover each function separately. Then, I will quickly summarize the file and bring everything together, so bare with me on this. 
+I will divide the `jail.c` file based on the three main functions defined in it, and cover each function separately. Then, I will quickly summarize the file and bring everything together, so bare with me on this. 
 
 
 + `auth` 
