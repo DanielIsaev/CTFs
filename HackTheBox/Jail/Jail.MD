@@ -33,7 +33,7 @@ We have the following:
 + Mountd on port 20048.
 
 
-Looking through the list, the service that jumps out the most to me is NFS on port 2049. The NFS protocol is an old client/server protocol that allows users to mount filesystems across the network, though it has no real mechanism for authentication or authorization. Rahter, older versions of NFS rely on the UID/GID of the shared filesystem to authorize access. While newer versions of NFS support ACL based authorization as well.
+Looking through the list, the service that jumps out the most to me is NFS on port 2049. The NFS protocol is an old client/server protocol that allows users to mount filesystems across the network, though it has no real mechanism for authentication or authorization. Rather, older versions of NFS rely on the UID/GID of the shared filesystem to authorize access. While newer versions of NFS support ACL based authorization as well.
 
 
 Along with that, we have RCPbind running on port 111. It's failry common to see NFS running with an RPCbind endpoint-mapper, but I doubt that it will give us anything super useful. We also have what `nmap` thinks to be `mountd` on port 20048, though based on my searches, I've seen conflicting evidence as to what this service/port is meant to be.
