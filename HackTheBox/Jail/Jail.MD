@@ -1005,7 +1005,7 @@ Hahaha! Nobody will guess my new password! Only a few lucky souls have Escaped f
 If we try to [identify the cipher](https://www.dcode.fr/cipher-identifier) we will find that it's a [Atbash Cipher](https://en.wikipedia.org/wiki/Atbash#:~:text=The%20Atbash%20cipher%20is%20a,last%20letter%2C%20and%20so%20on.) Where `A` -> `Z`, `B` -> `Y`, etc. 
 
 
-If we search for [people who have escaped from Alcatraz](https://en.wikipedia.org/wiki/List_of_Alcatraz_escape_attempts#:~:text=Frank%20Morris%2C%20John%20Anglin%20and,0.91%20m)%20wide%20utility%20corridor.) we will find three people:
+If we search online for people who have escaped from Alcatraz, we will find three people:
 
 1) Frank Morris
 2) John Anglin
