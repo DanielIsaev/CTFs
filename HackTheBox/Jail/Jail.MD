@@ -420,7 +420,7 @@ The most important thing about this file is the compilation process with the `gc
 + `-z execstack`: *Make both the heap and stack of the application executable* 
 
 
-The last option will make it much easier to develop a reliable exploit, but I will exaplin why when w get there. 
+The last option will make it much easier to develop a reliable exploit, but I will exaplin why when we get there. 
 
 
 With that said, we've covered everything, let's start crafting our exploit. 
