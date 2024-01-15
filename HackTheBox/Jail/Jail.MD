@@ -459,7 +459,7 @@ Once I have this printed in my terminal, I connect to the application running on
 ![initial-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/initial-17.png)
 
 
-It looks like nothing happned and the application is still running, this is becasue it's a multi-process application. The child process who handled our connection did crash, but the parent process didn't. Therfore it looks like nothing happned, but if we take a look at the running processes on our system we will find the child process who handled our connection is now a zombie process waiting for it's parent to terminate so it can die.  
+It looks like nothing happned and the application is still running, this is becasue it's a multi-process application. The child process who handled our connection did crash, but the parent process didn't. Therefore it looks like nothing happned, but if we take a look at the running processes on our system we will find the child process who handled our connection is now a zombie process waiting for it's parent to terminate so it can die.  
 
 
 At any case, we can list the contents of the directory in which `jail` is running and see a new `core `file:
