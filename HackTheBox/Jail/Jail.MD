@@ -1037,7 +1037,7 @@ Then, we can use `scp` from our attack machine as such:
 scp -i /home/ice/.ssh/id_ed25519 frank@jail.htb:/tmp/keys.rar .
 ```
 
-Now we can crack it with `john` pn our attack machine with:
+Now we can crack it with `john` on our attack machine with:
 
 ```bash
 rar2john keys.rar > keys.hash
