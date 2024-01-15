@@ -73,7 +73,7 @@ We can abuse this service to enumerate valid usernames on the system. We can use
 After downloading the script I run it againts a username wordlist as such:
 
 ```bash
-erl finger-user-enum.pl -U /usr/share/seclists/SecLists-master/Usernames/Names/names.txt -t 10.129.90.31
+perl finger-user-enum.pl -U /usr/share/seclists/SecLists-master/Usernames/Names/names.txt -t 10.129.90.31
 ```
 
 ![usernames-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sunday/img/usernames-06.png)
