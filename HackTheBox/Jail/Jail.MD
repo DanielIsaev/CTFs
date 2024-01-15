@@ -920,7 +920,7 @@ If we take a look at the `/opt/logreader/logreader.sh` script, we can see that i
 ![checkproc-script-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/checkproc-script-45.png)
 
 
-If we list `frank`'s cronjobs, we can see the `checkproc.sh` scripts runs every few seconds, filling up `/home/frank/logs/checkproc.log`. Then another cronjob runs once a day at 12:00 PM to clean up the log file:
+If we list `frank`'s cronjobs, we can see the `checkproc.sh` scripts runs every few seconds, filling up `/home/frank/logs/checkproc.log`. Then another cronjob runs once a day at 12:00 AM to clean up the log file:
 
 ![frank-crons-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Jail/img/frank-crons-46.png)
 
