@@ -302,7 +302,7 @@ The command parsing can be split into two parts:
 2) This is the most important aspect of the function so read carefully. The function uses the [strncpy](https://www.w3resource.com/c-programming/string/c-strncpy.php) function to copy whatever is supplied after the `"USER"` command into the `username` variable. For example, a supplied input of "USER admin", will result in `username="admin"`. The same logic applies for the `PASS` command for storing the supplied password value.
 
 
-Unlike the `strcpy` function though, `strncpy` copies at an mexplicit aximum amount of bytes from variable `A` into variable `B`. In this case, variable `A` is whatever we supply as the user, and `variable `B` is a 256-long byte array. The maximum amount of bytes copied by `strncpy` is set to length of `username/password` variables, which are both 256-long byte arrays. 
+Unlike the `strcpy` function though, `strncpy` copies at an explicit maximum amount of bytes from variable `A` into variable `B`. In this case, variable `A` is whatever we supply as the user, and `variable `B` is a 256-long byte array. The maximum amount of bytes copied by `strncpy` is set to length of `username/password` variables, which are both 256-long byte arrays. 
 
 
 So in other words, *our supplied credentials are stored as a 256-long byte array* in the application. This piece of information is huge, so keep it in mind. 
