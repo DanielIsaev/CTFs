@@ -1,5 +1,5 @@
 # Bankrobber [HTB](https://app.hackthebox.com/machines/209)
-![bankrobber-01]()
+![bankrobber-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/bankrobber-01.png)
 
 ## Recon 
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 bankrobber.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/ports-02.png)
 
 
 From here, I send `nmap` to start probing the found ports for more information:
@@ -18,7 +18,7 @@ From here, I send `nmap` to start probing the found ports for more information:
 nmap -p 80,443,445,3306 -sCV bankrobber.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/nmap-res-03.png)
 
 
 We have the following:
@@ -38,7 +38,7 @@ Let's have a look at this Apache server.
 
 Browsing towards `http://bankrobber.htb/` returns the following page:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/site-04.png)
 
 
 The HTTPS version of the site seems to be identical. 
@@ -53,9 +53,9 @@ Before playing around with the authentication mechanism of the system, I decided
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://bankrobber.htb/FUZZ -e .txt,.xml,.html,.php,.conf
 ```
 
-![ffuf-05]()
+![ffuf-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/ffuf-05.png)
 
-![ffuf-06]()
+![ffuf-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/ffuf-06.png)
 
 
 The most interesting entries on the list in my opinion are the `notes.txt` file, and the directories `phpmyadmin` & `admin`. 
@@ -65,7 +65,7 @@ The most interesting entries on the list in my opinion are the `notes.txt` file,
 
 We can see based on the `ffuf` scan that the status code for this directory was a `403` forbidden response, but opening this page does reveal something interesting:
 
-![phpmyadmin-err-07]()
+![phpmyadmin-err-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/phpmyadmin-err-07.png)
 
 
 The error message mentions [Xampp](https://en.wikipedia.org/wiki/XAMPP), which is a free and open-source cross-platform web server solution developed by Apache, consisting mainly of the Apache HTTP Server, MariaDB database, and interpreters for scripts written in the PHP and Perl. This fits our target perfectly. 
@@ -81,7 +81,7 @@ So I deicded to leave this piece of inforamtion alone for now and check the othe
 
 The file reads as such:
 
-![notes-08]()
+![notes-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/notes-08.png)
 
 
 THe first ntoe says that they need to move files from the default Xampp folder. The second note mentioned that, an encoding takes place on comments not originating from the localhost. I wasn't sure what these messages meant exactly, as they are a bit cryptic.  
@@ -95,7 +95,7 @@ To start test the authentication, I tried a few generic credentials, like `admin
 
 So I created a user account of `htb : htb`, which was accepted and logged in to my account. While logging in, I intercepted the transaction in my Burp proxy and saw the following:
 
-![set-cookies-09]()
+![set-cookies-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/set-cookies-09.png)
 
 
 The target website assigns three cookies of: `id`, `username` & `password`. The contents of the latter two seem to be a base64 encoded string. This immediately gets my attention, because if we get these cookies, then so do other users, which gets me thinking about [XSS](https://owasp.org/www-community/attacks/xss/). 
@@ -103,7 +103,7 @@ The target website assigns three cookies of: `id`, `username` & `password`. The 
 
 At any case, after I log in, I get redirected to the `/user` page. At the top we can see our `E-Coin` balance:
 
-![user-dir-top-10]()
+![user-dir-top-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/user-dir-top-10.png)
 
 
 We have 990 E-coins. With an E-coin being worth 1337$ a pop, this gives us a balance of about 1.3 million dollers, not too bad...
@@ -111,7 +111,7 @@ We have 990 E-coins. With an E-coin being worth 1337$ a pop, this gives us a bal
 
 If we scroll to the buttom, we can see another form, this time for a E-coin transfer feature:
 
-![user-dir-buttom-11]()
+![user-dir-buttom-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/user-dir-buttom-11.png)
 
 
 There is a fields for amount, ID of recipient (probably the same from the cookie), and a comment to the recipient. This comment field immediately gets me thinking about the note, could these be the mentioned comments? 
@@ -119,7 +119,7 @@ There is a fields for amount, ID of recipient (probably the same from the cookie
 
 I wanted to see if I can get another user's profile page by changing my `id` cookie value from 3 to 2 which resulted in the following:
 
-![hijacking-id-12]()
+![hijacking-id-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/hijacking-id-12.png)
 
 
 We can see that our balance is now changed. This is a [Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/) vulnerability, which is #1 on OWASP top 10 web-vulnerabilities for 2021. But besides stealing useres E-coins, I dont see a clear way to get access to the system from this at the moment, I just thought it was wirth mentioning. 
@@ -127,12 +127,12 @@ We can see that our balance is now changed. This is a [Broken Access Control](ht
 
 At this point I deicded to make a dummy transfer from the hijcked ID 2 to my account at ID 3, just to see if it would work. So I sent the following details:
 
-![details-13]()
+![details-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/details-13.png)
 
 
 Which resulted in the following pop up:
 
-![alert-14]()
+![alert-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/alert-14.png)
 
 
 What? the transfer is on hold to be reviewed by the admin? 
@@ -161,7 +161,7 @@ If the target is vulnerable, the admin should contact my server to fetch for `ho
 
 After sending the transfer reqeust I wait a sec, then get a connection to my server:
 
-![get-15]()
+![get-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/get-15.png)
 
 
 The target is vulnerable! 
@@ -175,19 +175,19 @@ From here, I modify my payload to get the contents of the admin's cookies using:
 
 Which works:
 
-![loot-16]()
+![loot-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/loot-16.png)
 
 
 Base64 decoding the cookies returns `admin : Hopelessromantic`. I use the creds and login to the admin panel:
 
-![admin-panel-17]()
+![admin-panel-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/admin-panel-17.png)
 
 
 ### Admin Panel
 
 In the admin panel we can see the transfer request queue:
 
-![queue-18]()
+![queue-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/queue018.png)
 
 
 The fact that the comment section is displayed in this manner on the admin panel, is what allowed us to perform the blind XSS and steal the cookies. 
@@ -195,7 +195,7 @@ The fact that the comment section is displayed in this manner on the admin panel
 
 Scrolling down a bit, we can see a feature to lookup users based on thier ID's:
 
-![feature-19]()
+![feature-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/feature-19.png)
 
 
 This feature probably utilaizes the SQL database in order to fetch the username associtaed with the supplied ID from the correct table. This makes it an interesting target for SQLi which we'll explore later. 
@@ -203,7 +203,7 @@ This feature probably utilaizes the SQL database in order to fetch the username 
 
 Then down at the buttom we see another feature:
 
-![backdoor-20]()
+![backdoor-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/backdoor-20.png)
 
 
 The feature essentially allows us to execute commands on the underlaying OS, which makes it an very attractive target to gain access to the system. But using this featrue is restricted to the localhost interface only. So I decide to test for SQLi first, and see if I can find a way to access the localhost to execute a reverse shell payload. 
@@ -211,7 +211,7 @@ The feature essentially allows us to execute commands on the underlaying OS, whi
 
 I start by intercepting a user lookup request in my Burp proxy and send it to Repeater so I can play around with inputs easiy. Then, I try to break the SQL query with a payload like this `2'`:
 
-![broke-21]()
+![broke-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/broke-21.png)
 
 
 Something definitely happend. So I try to use the `ORDER BY` technique to enumerating columns in an attempt to find a payload that fits the structure of the current table. This is needed in order to perform more complex queries later. 
@@ -219,22 +219,22 @@ Something definitely happend. So I try to use the `ORDER BY` technique to enumer
 
 For example, the following query seems to work `5' ORDER BY 1;--`:
 
-![works-22]()
+![works-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/works-22.png)
 
 
 So now I start increamening the values, with `ORDER BY 1,2;--`, etc. When I get to 4, the application breaks again:
 
-![breaks-23]()
+![breaks-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/breaks-23.png)
 
 
 This broke at four because there is probably only thee columns in the current table. Now I want to see if I can add the `UNION` statement in order to query information from other tables later on. I use the following payload: `5' UNION SELECT 1,2,3;--`
 
-![union-24]()
+![union-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/union-24.png)
 
 
 Looks good. Let's try to pull the name of the database as one of the parameters to the statement with something like this: `5' UNION SELECT 1,database(),3;--`
 
-![db-name-25]()
+![db-name-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/db-name-25.png)
 
 
 We can see we are able to pull information from deep inside the SQL server. At this point I enumerated the entire `bankrobber` database, I pulled all the tables and dumped evey column from evey table. Unfortunately, this didn't lead to any new revelations. 
@@ -245,7 +245,7 @@ For example, the most interesting table was `users`, which had information we al
 
 Instead, I decided to list any other databases present on the server with: `5' UNION SELECT 1,schema_name,3 FROM information_schema.schemata;--`:
 
-![databases-26]()
+![databases-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/databases-26.png)
 
 
 This is just some of the databases, but I enumerated all of them and found nothing of substance. 
@@ -259,12 +259,12 @@ I searched online for a default file that will be included in an Xampp server an
 
 I try to read the file and see the following:
 
-![server-root-28]()
+![server-root-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/server-root-28.png)
 
 
 We are able to read files! This file also configures the root directory to the web server, which should be at `C:/xampp/apache`. To verify this, I try to pull a file that I know is present in the root directory like `notes.txt`:
 
-![verify-29]()
+![verify-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/verify-29.png)
 
 
 Here it is! 
@@ -293,22 +293,22 @@ if(strtolower(substr(PHP_OS,0,3)) == "win"){
 
 if($username == "admin" && $password == "Hopelessromantic"){
 	if(isset($_POST['cmd'])){
-			// FILTER ESCAPE CHARS
-			foreach($bad as $char){
-				if(strpos($_POST['cmd'],$char) !== false){
-					die("You're not allowed to do that.");
-				}
+		// FILTER ESCAPE CHARS
+		foreach($bad as $char){
+			if(strpos($_POST['cmd'],$char) !== false){
+				die("You're not allowed to do that.");
 			}
-			// CHECK IF THE FIRST 2 CHARS ARE LS
-			if(substr($_POST['cmd'], 0,strlen($good)) != $good){
-				die("It's only allowed to use the $good command");
-			}
+		}
+		// CHECK IF THE FIRST 2 CHARS ARE LS
+		if(substr($_POST['cmd'], 0,strlen($good)) != $good){
+			die("It's only allowed to use the $good command");
+		}
 
-			if($_SERVER['REMOTE_ADDR'] == "::1"){
-				system($_POST['cmd']);
-			} else{
-				echo "It's only allowed to access this function from localhost (::1).<br> This is due to the recent hack attempts on our server.";
-			}
+		if($_SERVER['REMOTE_ADDR'] == "::1"){
+			system($_POST['cmd']);
+		} else{
+			echo "It's only allowed to access this function from localhost (::1).<br> This is due to the recent hack attempts on our server.";
+		}
 	}
 } else{
 	echo "You are not allowed to use this function!";
@@ -316,12 +316,10 @@ if($username == "admin" && $password == "Hopelessromantic"){
 ?>
 ```
 
-
 The script performs a basic authentication check for admin's credentials. Then, it checks if the supplied command starts with `dir`. It also tries to prevent command injection by filtering characters like `$(` and `&`, but we can also use `|` & `;` to chain commands. 
 
 
 The real question is how can we execute commands through the localhost interface? The only possible way I see of doing this, is through the use of the XSS vulnerability we found earlier.
-
 
 
 Instead of stealing the admin's cookies, this time, we will make him make a POST request to the `backdoorchecker.php` script with a reverse shell payload added. We will then host this script via a python web server and send another trasnfer request. 
@@ -337,20 +335,17 @@ request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 request.send(params);
 ```
 
-
 I save this script to a file in my working directory. Then I grab a copy of `nc64.exe` to my working directory as well, and I host both files via a python server:
 
 ```bash
 python3 -m http.server 80
 ```
 
-
 Then, I start my local listener with:
 
 ```bash
 rlwrap nc -lnvp 443
 ```
-
 
 And finally, I create another transfer request, with the following comment:
 
@@ -360,12 +355,12 @@ And finally, I create another transfer request, with the following comment:
 
 After a couple of seconds I get the connections to my python server:
 
-![conns-30]()
+![conns-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/conns-30.png)
 
 
 And on my netcat listener I get a shell:
 
-![shell-31]()
+![shell-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/shell-31.png)
 
 
 ## Privilege Escalation
@@ -375,7 +370,7 @@ After landing on the box, I try to hunt down for quick wins, I start by looking 
 
 Then I try to list any stored credentials using `cmdkey /list` and I see this:
 
-![cmdkey-32]()
+![cmdkey-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/cmdkey-32.png)
 
 
 I search online and I found [this post](https://superuser.com/questions/234537/what-is-virtualapp-didlogical) on Stack Exchange. In short, it's not going ot help us root this box. 
@@ -383,7 +378,7 @@ I search online and I found [this post](https://superuser.com/questions/234537/w
 
 While looking through the filesystem of this box, i've noticed that the language here is set to dutch:
 
-![dutch-33]()
+![dutch-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/dutch-33.png)
 
 
 `Toegang geweigerd` in dutch is `access denied` in english. 
@@ -391,12 +386,12 @@ While looking through the filesystem of this box, i've noticed that the language
 
 After searching around the filesystem a bit, I found an unusual custom binary in the C drive:
 
-![bankv2-34]()
+![bankv2-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/bankv2-34.png)
 
 
 Though trying to read the permissions to the file using `icacls` fails with `access denied` error. So instead, I decided to look at the open ports on the system using `netstat -ano`:
 
-![netstat-35]()
+![netstat-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/netstat-35.png)
 
 
 Port 910 jumped out the most to me, since it didn't appear in our initial `nmap` scan. I tried to identify this binary in the running process list, but listing processes with `wmic service list`, or `sc query state=all` fails with access denied as well.
@@ -404,11 +399,10 @@ Port 910 jumped out the most to me, since it didn't appear in our initial `nmap`
 
 Trying to connect to this port from our attack machine works, but nothing is printed to the screen. But connecting to it from the target seems to work:
 
-![connect-36]()
+![connect-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/connect-36.png)
 
 
 After I connect, the shell stalls until I hit enter and then I get prompted for a pin. Typing an invalid pin terminates the connection. 
-
 
 
 Trying to brute force this pin shouldn't be an issue, but we need to do this from our attack machine. For that, we need to tunnel this port over to our attack machine. To accomplish this, I will [chisel](https://github.com/jpillora/chisel).
@@ -437,7 +431,7 @@ And connect from the target using:
 
 On my server I recive the connection and the tunnel is established:
 
-![established-37]()
+![established-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/established-37.png)
 
 
 Now that we have the service on our local host we can start brute forcing the pin. For that, we can use this simple python script:
@@ -462,12 +456,12 @@ for i in range(10000):
 
 Which results in the following:
 
-![found-pin-38]()
+![found-pin-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/found-pin-38.png)
 
 
 After supplying the correct pin, we are asked to enter an amount of E-coins to transfer:
 
-![amount-39]()
+![amount-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/amount-39.png)
 
 
 After I enter an amount, the program notifies me it's executing a different binary at `C:\Users\admin\Documents\transfer.exe` and terminates. Supplying an arbitrary amount value like `abcd` also seems to result in the following output. 
@@ -477,7 +471,7 @@ After I enter an amount, the program notifies me it's executing a different bina
 
 At this point I started to suspect a buffer-overflow situation, so I generated a large input with `python3 -c "print('A'*50)"` and supplied it to the program which resulted in:
 
-![overflown-40]()
+![overflown-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/overflown-40.png)
 
 
 We can see that we've overflown the value of the executable it's running. This means that the value for whatever this binary executes next, is stored on the stack itself and we've successfully overflown it.
@@ -485,12 +479,12 @@ We can see that we've overflown the value of the executable it's running. This m
 
 To get the correct offset to the EIP I will use `pattern_create`:
 
-![create-41]()
+![create-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/create-41.png)
 
 
 I supply this to the program and get the value that the program tries to exceute:
 
-![value-42]()
+![value-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/value-42.png)
 
 
 I take the first four bytes and supply them to `pattern_offset`:
@@ -512,9 +506,9 @@ nc -lnvp 9001
 
 And send the payload to the target:
 
-![send-44]()
+![send-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/send-44.png)
 
 
 Which gives me shell as the SYSTEM:
 
-![root-45]()
+![root-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/root-45.png)
