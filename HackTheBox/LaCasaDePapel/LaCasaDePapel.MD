@@ -162,7 +162,7 @@ The next step is to bundle our key and singed certificate to a PKC#12 format. Th
 openssl pkcs12 -export -clcerts -in alice_cert.pem -inkey alice_key.pem -out alice.p12
 ```
 
-It will ask you for a password in order to protect the certificate. After which you should have the final PKC#12 certificate in your working directory.
+It will ask you for a password in order to protect the certificate. After which you should have the final PKCS#12 certificate in your working directory.
 
 
 The final step is to import this certificate into firefox. For that, open the firefox settings tab and saerch for the term `cert`. Which should bring you the `View Certificates` button:
