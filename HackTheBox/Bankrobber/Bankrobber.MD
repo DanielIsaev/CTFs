@@ -489,7 +489,7 @@ I supply this to the program and get the value that the program tries to exceute
 
 I take the first four bytes and supply them to `pattern_offset`:
 
-![offset-43]()
+![offset-43](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Bankrobber/img/offset-43.png)
 
 
 The return address sits 32 bytes form the start of the buffer. From here, we can try to execute the `nc` file which we uploaded to the target in order to get a shell from this, using something like this:
