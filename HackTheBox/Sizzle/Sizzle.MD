@@ -177,8 +177,9 @@ This is the only share we have read access to and it looks as such:
 
 ![department-share-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/department-share-12.png)
 
+At first I was drown to the `ZZ_ARCHIVE` directory, which had a bunch of random files. I copied a couple of the files to my attack machine and had a look at them. I came to find that they were all filled with null bytes, so I decided to leave this directory alone for now.  
 
-Most of the files here are completely empty, but from the `Users` directory we can get a list of potential users on the domain:
+Next I turned to the `Users` directory which looks like this:
 
 ![users-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/users-13.png)
 
