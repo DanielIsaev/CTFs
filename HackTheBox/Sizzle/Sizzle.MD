@@ -238,7 +238,7 @@ hashcat -m 5600 -a 0 "<entire_hash>" rockyou.txt
 ![cracked-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/cracked-16.png)
 
 
-And now we get creds of `amanda : Ashare1972`, nice! 
+And now we got creds of `amanda : Ashare1972`, nice! 
 
 
 This now opens up the operatunity to enumerate the DC with user privileges, which could potentially reveal new information. 
