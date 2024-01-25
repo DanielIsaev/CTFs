@@ -184,10 +184,7 @@ Next I turned to the `Users` directory which looks like this:
 ![users-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/users-13.png)
 
 
-All of the user directories are empty and we can't write to any of them, except one. We can write to the `Public` directory. 
-
-
-The `ZZ_ARCHIVE` was generally useless, it had a bunch of files which seemed to be filled with null bytes. But writing to the `Users\Public` directory resulted in an interesting behaviour:
+All of the user directories are empty and we can't write to any of them, except one, the `Public` directory:
 
 ![smb-write-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/smb-write-14.png)
 
