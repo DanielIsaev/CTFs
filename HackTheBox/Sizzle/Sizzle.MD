@@ -225,7 +225,7 @@ After a few seconds I catch `amanda`'s NTLM hash in responder:
 ![amanda-ntlm-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/amanda-ntlm-15.png)
 
 
-After reading other people's writeup for this box, I came to find that the attack worked due to the Windows Explorer Shell Command file (.scf). In short, we can force anyone who enters a directory containing a `.scf` file to fetch a desktop icon image from an SMB server we control. You can read more about it [here](http://www.defensecode.com/whitepapers/Stealing-Windows-Credentials-Using-Google-Chrome.pdf).
+After reading other people's writeup for this box, I came to find that the attack worked due to the Windows Explorer Shell Command file (.scf). In short, we can force anyone who enters a directory containing a `.scf` file to fetch a desktop icon image from an SMB server we control. You can read more about it [here](https://pentestlab.blog/2017/12/13/smb-share-scf-file-attacks/).
 
 
 
