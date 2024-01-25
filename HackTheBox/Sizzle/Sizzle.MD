@@ -310,7 +310,7 @@ This resulted in a couple of vulnerabilities, primarly `certipy` found an ESC4 v
 What can we do instead? 
 
 
-The certificate web enrollment is primarly used to give end-users the option to request a certificates from the domain's CA, to then be used to as an authorization mechanism to get access to network resources. That's the AD CS's intended use case, and we can leverage that to get access to the system through PSRemoting. 
+The certificate web enrollment is primarly used to give end-users the option to request a certificates from the domain's CA, to then be used as an authorization mechanism to get access to network resources. That's the AD CS's intended use case, and we can leverage that to get access to the system through PSRemoting. 
 
 
 Based on [this post](https://learn.microsoft.com/en-us/powershell/scripting/learn/remoting/winrmsecurity?view=powershell-7.4) from Microsoft, PSRemoting or WinRM, which runs on `HTTP: 5985` & `HTTPS: 5986`, can support certificate based authentication in SSL based connections. We know both these ports are open on our target based on our initial `nmap` scan, and the fact that we also have the AD CS installed tells me there is a reason, and it's probably to allow users to get certificates so they can login through PSRemoting. 
