@@ -279,7 +279,7 @@ Instead, I decided to get back to the certificate web enrollment feature we foun
 ![certenroll-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/certenroll-19.png)
 
 
-The real question is where the AD CS web enrollment is located. Based on [this post](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/retrieve-base-and-delta-crl) from Microsoft, the AD CS web enrollment endpoint should be located at `http://<servername>/certsrv`
+The real question is where the AD CS web enrollment is located. Based on [this post](https://learn.microsoft.com/en-us/windows-server/identity/ad-cs/retrieve-base-and-delta-crl#retrieve-a-certificate-revocation-list-by-using-a-web-browser) from Microsoft, the AD CS web enrollment endpoint should be located at `http://<servername>/certsrv`
 
 
 Browsing towards `http://sizzle.htb.local/certsrv`, does in fact prompt me for credentials:
