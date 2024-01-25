@@ -358,7 +358,7 @@ I then `cat` out the contents of our newly created `my.csr` file, and paste it t
 ![submit-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/submit-26.png)
 
 
-I hit the the `Submit` button, and my request is accepted immediately. I then get the option to download my newaly signed certificate:
+I hit the the `Submit` button, and my request is accepted immediately. I then get the option to download my newly signed certificate:
 
 ![cert-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/cert-27.png)
 
