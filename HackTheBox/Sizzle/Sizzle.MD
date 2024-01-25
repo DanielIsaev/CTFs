@@ -287,7 +287,7 @@ Browsing towards `http://sizzle.htb.local/certsrv`, does in fact prompt me for c
 ![certsrv-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/certsrv-20.png)
 
 
-After suppling `amanda`'s creds, I get inside:
+After supplying `amanda`'s creds, I get inside:
 
 ![logged-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/logged-21.png)
 
