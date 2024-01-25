@@ -35,7 +35,7 @@ We have the following:
 + An LDAP server on ports 389, 636 & 3628. 
 + An SMB server on port 445.
 + Kerberos on port 464. 
-+ WinRM on port 5985, 5986. 
++ WinRM on ports 5985 & 5986. 
 
 
 Scrolling through the list, it's pretty obvious that we are dealing with a Domain Controller, based on services like DNS, LDAP, kerberos, etc. We can also see that the domain name is `htb.local`. 
