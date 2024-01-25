@@ -435,7 +435,7 @@ We can list the AppLocker policies with:
 Get-AppLockerPolicy -Effective | Select-Object -ExpandProperty RuleCollections
 ```
 
-![policy-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/execute-33.png)
+![policy-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sizzle/img/policy-33.png)
 
 
 The Description and Name are a bit deseptive, as the policy dosn't really effect `C:\\Program Files`. Instead, `%OSDRIVE%\tmp\*` refers to `C:\\Windows\Temp`. Therefore, we can place the `PsBypassCLM.exe` binary at `C:\\Windows\Temp` and execute it from there. 
