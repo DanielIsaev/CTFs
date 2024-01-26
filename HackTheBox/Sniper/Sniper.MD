@@ -225,7 +225,7 @@ We can see the connection string, with the creds to the database. There were als
 ![user-dir-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/user-dir-22.png)
 
 
-At first, I looked at the two registration files present, as there is an old one and a new one. I copied files over to my attack machine through the SMB server as such:
+At first, I looked at the two registration files present, as there is an old one and a new one. I copied both files over to my attack machine through the SMB server as such:
 
 ```cmd
 net use \\10.10.14.63\s
