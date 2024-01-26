@@ -243,7 +243,7 @@ We can see the new registration file added a few lines of input validation meant
 ![registration-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/registration-24.png)
 
 
-There is quite a lot of input validation from the application, but after solving the box I've seen people break this filter with a username like this `a<?php echo `whoami` ?>b`. Which can be chained with the LFI vulnerability to get command execution via retrieving the `C:\\windows\temp\sess_<id>` PHP session file:
+There is quite a lot of input validation from the application, but after solving the box I've seen people break this filter with a username like this `a<?php echo \`whoami\` ?>b`. Which can be chained with the LFI vulnerability to get command execution via retrieving the `C:\\windows\temp\sess_<id>` PHP session file:
 
 ![rce-24.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/rce-24.5.png)
 
