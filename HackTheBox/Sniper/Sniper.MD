@@ -212,7 +212,7 @@ We can see we have the `Impersonate` privilege enabled, as it's often the case w
 ![sysinfo-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/sysinfo-20.png)
 
 
-We can use something like [Rouge Potato](https://jlajara.gitlab.io/Potatoes_Windows_Privesc#roguePotato) to get escalate to `NY AUTHORITY`. But this is not fun, it's too easy.
+We can use something like [Rouge Potato](https://jlajara.gitlab.io/Potatoes_Windows_Privesc#roguePotato) to escalate to `NY AUTHORITY`. But this is not fun, it's too easy.
 
 
 Instead, I want to go check the `/user/db.php` script from earlier:
