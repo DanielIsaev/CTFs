@@ -238,7 +238,7 @@ Then, I compared the two files with `diff`:
 ![diff-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/diff-23.png)
 
 
-We can see the new registration file added a few lines of input validation meant to remove the following characters `-$[(_.;&"\` from the supplied username. The genreal registration script looks like this:
+We can see the new registration file added a few lines of input validation meant to remove the a few characters from the supplied username. The genreal registration script looks like this:
 
 ![registration-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/registration-24.png)
 
