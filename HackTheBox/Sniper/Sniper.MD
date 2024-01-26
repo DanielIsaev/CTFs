@@ -220,7 +220,7 @@ Instead, I want to go check the `/user/db.php` script from earlier:
 ![db-script-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/db-script-21.png)
 
 
-We can see the connection string, with the creds to the database. There where also other interesting files in the `user` directory:
+We can see the connection string, with the creds to the database. There were also other interesting files in the `user` directory:
 
 ![user-dir-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/user-dir-22.png)
 
