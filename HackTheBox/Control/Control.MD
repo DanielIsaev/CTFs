@@ -171,14 +171,7 @@ hector	0E178792E8FC304A2E3133D535D38CAF1DA3CD9D  Y  Y  Y
 We can see that `hector` and `root` are two privileged users. If we [identify](https://hashes.com/en/tools/hash_identifier) the hashes we will find that they are SHA1. 
 
 
-I tried to crack all three hahses with hashcat but it failed:
-
-```bash
-hashcat -m 100 -a 0 <hash> rockyou.txt
-```
-
-
-But looking up the hashes in [crackstation](https://crackstation.net/), I manged to find the password for the `manager` which is `l3tm3!n`:
+I looked up the hashes in [crackstation](https://crackstation.net/), I manged to find the password for the `manager` which is `l3tm3!n`:
 
 ![manager-pass-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Control/img/manager-pass-19.png)
 
