@@ -362,7 +362,7 @@ To list the ACL of the `Services` key, we can use the `Get-Acl` cmdlet, and conv
 
 ```powershell
 $acl = get-acl HKLM:\SYSTEM\CurrentControlSet\Services
-ConvertFrom-SddlString -Sddl $acl.Sddl | Foreach-Object {$_.DiscretionaryAcl}
+ConvertFrom-SddlString -Sddl $acl.Sddl | Foreach-Object {$_.DiscretionaryAcl} | findstr Hector
 ```
 
 ![convert-39](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/Control/img/convert-39.png)
