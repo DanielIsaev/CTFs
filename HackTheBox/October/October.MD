@@ -254,7 +254,7 @@ Which should launch `system(/bin/sh)`.
 But because ASLR is enabled, the memory address space of the binary is different each time it executes. So we can't reliably predict the correct memory addresses of said gadgets, thus making it more difficult to develop an exploit. This however, can be somewhat circumvented againts 32-bit binaries. 
 
 
-Since memory addresses are sammler on a 32-bit binary, it's possible to use one base `libc` address, and calculate all gadgets addresses againts this base `libc` address as if ASLR was disabled. Then, we can execute our exploit in an endless loop, until eventually the `libc` address in the program's runtime will match with our exploit, thus all other gadgets addresses match as well, and we will get a shell.
+Since memory addresses are smaller on a 32-bit binary, it's possible to use one base `libc` address, and calculate all gadgets addresses againts this base `libc` address as if ASLR was disabled. Then, we can execute our exploit in an endless loop, until eventually the `libc` address in the program's runtime will match with our exploit, thus all other gadgets addresses match as well, and we will get a shell.
 
 
 This approach on a 32-bit binary is plausible, as the memory address space layout is small enough for a brute force attack of this sorts to pay out after a reasonable amount of iterations. Compared to a 64-bit binary, where memory address layout is much larger, thus rendering this sorts of attack counterintuitive.
