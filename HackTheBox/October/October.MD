@@ -58,7 +58,7 @@ We can see a JSON object with the keys: `iv`, `value` & `mac`. The first two key
 At this point I started interacting with the website itself, I went over the Github of the October CMS, and started digging into every directory and file, trying to find something useful. And while I did managed to find a couple of interesting files, for example in the `/config` directory, trying to access thoes resources from the target faild. Running a directory and file scan didn't help shed additional light on the subject either. 
 
 
-Then, I started checking the resources availble on the main page of the site. I found that the `/blog` & `/forum` pages are fairly empty. The `/account` page has a login and a sign up form:
+Then, I started checking the resources available on the main page of the site. I found that the `/blog` & `/forum` pages are fairly empty. The `/account` page has a login and a sign up form:
 
 ![account-page-07](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/account-page-07.png)
 
