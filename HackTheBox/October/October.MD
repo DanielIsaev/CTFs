@@ -134,7 +134,7 @@ Then I start going through the October CMS installation files. I know that there
 ![database-creds-14](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/database-creds-14.png)
 
 
-We can see the credentials to a MySQL database. Lcukliy, the target has the `mysql` command installed so we connect to the database using: 
+We can see the credentials to a MySQL database. Luckily, the target has the `mysql` command installed so we connect to the database using: 
 
 ```bash
 mysql -h 127.0.0.1 -u "october" -D "october" -p
