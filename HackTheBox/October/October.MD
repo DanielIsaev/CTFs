@@ -52,7 +52,7 @@ The `october_session` cookie is a base64 encoded string. Decoding it results in 
 ![decode-06](https://github.com/DanielIsaev/CTFs/blob/main/HackTheBox/October/img/decode-06.png)
 
 
-We can see a JSON object with the keys: `iv`, `value` & `mac`. The first two keys hold another base64 encoded string, though decoding them returns waht looks like cipher text. The `mac` value is actually a SHA256 digest, though trying to crack it with hashcat or looking it up at [crackstation](https://crackstation.net/) fails. So it's unclear at the moment if we can exploit this cookie. 
+We can see a JSON object with the keys: `iv`, `value` & `mac`. The first two keys hold another base64 encoded string, though decoding them returns what looks like cipher text. The `mac` value is actually a SHA256 digest, though trying to crack it with hashcat or looking it up at [crackstation](https://crackstation.net/) fails. So it's unclear at the moment if we can exploit this cookie. 
 
 
 At this point I started interacting with the website itself, I went over the Github of the October CMS, and started digging into every directory and file, trying to find something useful. And while I did managed to find a couple of interesting files, for example in the `/config` directory, trying to access thoes resources from the target faild. Running a directory and file scan didn't help shed additional light on the subject either. 
