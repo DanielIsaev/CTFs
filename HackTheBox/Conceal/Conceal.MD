@@ -82,7 +82,7 @@ Let's check the IKE service.
 ### IPSec/IKE Port udp/500
 
 
-The first step in enumerating this service is finding the possible valid IPSec transformations. Each transform contains a number of attributes like the encryption algorithm, the integrety algorithm, a pre-shared key for authintication, distribution algorithmrand the tunnel lifetime. All of these attributes are used to establish the VPN tunnel. 
+The first step in enumerating this service is finding the possible valid IPSec transformations. Each transform contains a number of attributes like the encryption algorithm, the integrety algorithm, a pre-shared key for authintication, distribution algorithm and the tunnel lifetime. All of these attributes are used to establish the VPN tunnel. 
 
 
 To do this, we can use a tool called `ike-scan` as such:
