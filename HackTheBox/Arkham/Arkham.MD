@@ -204,7 +204,7 @@ PATH=/usr/lib/jvm/java-11-openjdk-amd64/bin:$PATH
 And now we can run the `ysoserial` tool with:
 
 ```bash
-java -jat ysoserial-all.jar <payload> <command>
+java -jar ysoserial-all.jar <payload> <command>
 ```
 
 In order to generate a serialized java object with `ysoserial` we need to select a payload type. Not to get to deep into it, but Java serialized objects are comprised from different classes, and these classes have to exist on our target applciation in order for the deserializaion attack to work. These classes are the different payload types we can choose with `ysoserial`.
